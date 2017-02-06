@@ -1,0 +1,15 @@
+﻿<Window x:Class="Wix_Studio.Card_GUI.CardUpdater"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wix_Studio.Card_GUI"
+        mc:Ignorable="d"
+        Title="Card Updater" Height="158.263" Width="393.432" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False">
+    <Grid>
+        <TextBlock x:Name="setBlock" HorizontalAlignment="Left" Height="21" Margin="18,10,0,0" TextWrapping="WrapWithOverflow" Text="Sets 1 / X" TextAlignment="Center" VerticalAlignment="Top" Width="347"/>
+        <TextBlock x:Name="cardBlock" HorizontalAlignment="Left" Height="21" Margin="18,63,0,0" TextWrapping="WrapWithOverflow" Text="Cards 1 / X" TextAlignment="Center" VerticalAlignment="Top" Width="347"/>
+        <ProgressBar HorizontalAlignment="Left" x:Name="setsProgressBar" Height="22" Margin="18,36,0,0" VerticalAlignment="Top" Width="347" Minimum="0" Maximum="100"/>
+        <ProgressBar HorizontalAlignment="Left" x:Name="cardsProgressBar" Height="22" Margin="18,89,0,0" VerticalAlignment="Top" Width="347" Minimum="0" Maximum="100"/>
+    </Grid>
+</Window>
