@@ -7,7 +7,7 @@ using Assets.Utils;
 public class CardViewerLogic : MonoBehaviour {
 
 	public GameObject cardIamge, cardName, cardPower, cardLevel, cardClass, cardColor, cardTiming, cardLifeBurst, cardCost, cardType, cardEffects;
-    public Text textIamge, textName, textPower, textLevel, textClass, textColor, textTiming, textLifeBurst, textCost, textType, textEffects;
+	public Text textIamge, textName, textPower, textLevel, textClass, textColor, textTiming, textLifeBurst, textCost, textType, textEffects;
 	// Use this for initialization
 	void Start () {
 		textName = cardName.GetComponent<Text>();
@@ -26,7 +26,7 @@ public class CardViewerLogic : MonoBehaviour {
 		RectTransform rect = cardIamge.GetComponent<RectTransform>();
 		rect.sizeDelta = new Vector2(265 , 390);
 
-		rend.sprite = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
+		//rend.sprite = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
 	}
 	
 	// Update is called once per frame
@@ -44,12 +44,12 @@ public class CardViewerLogic : MonoBehaviour {
 		textPower.text += card.PowerBoost >= 0 ? " ( + " + card.PowerBoost + " )" : " ( " + card.PowerBoost + " )";
 		textLevel.text = "Level: " + card.Level;
 		textClass.text = "Class: " + card.getClassStr();
-        textColor.text = "Color: " + card.getColorStr();
-        textTiming.text = "Timing: " + card.getTimingStr();
-        textLifeBurst.text = "LifeBurst: " + card.LifeBurst;
-        textCost.text = "Cost: " + card.getCostStr();
-        textType.text = "Type: " + card.Type;
-        textEffects.text = "Effect: " + card.CardEffect;
+		textColor.text = "Color: " + card.getColorStr();
+		textTiming.text = "Timing: " + card.getTimingStr();
+		textLifeBurst.text = "LifeBurst: " + card.LifeBurst;
+		textCost.text = "Cost: " + card.getCostStr();
+		textType.text = "Type: " + card.Type;
+		textEffects.text = "Effect: " + card.CardEffect;
 
 		WWW www = new WWW("file://" + WixossCard.GetImagePath(card));
 		Image rend = cardIamge.GetComponent<Image>();
