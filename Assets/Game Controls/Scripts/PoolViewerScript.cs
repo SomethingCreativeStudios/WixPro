@@ -17,7 +17,6 @@ public class PoolViewerScript : PunBehaviour{
     public CardController cardController;
     public Location location;
 
-    [HideInInspector]
     public string[] menuItems = new string[] { "Send To Waiting Room", "Send To" };
 
     public bool isOp = false;

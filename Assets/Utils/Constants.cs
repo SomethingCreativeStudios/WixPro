@@ -100,4 +100,5 @@ namespace Assets.Utils
         /***********************END TURN CONSTANTS*************/
         #endregion
     }
+
 }

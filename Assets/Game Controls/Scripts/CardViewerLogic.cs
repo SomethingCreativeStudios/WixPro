@@ -26,7 +26,7 @@ public class CardViewerLogic : MonoBehaviour {
 		RectTransform rect = cardIamge.GetComponent<RectTransform>();
 		rect.sizeDelta = new Vector2(265 , 390);
 
-		//rend.sprite = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
+		rend.sprite = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
 	}
 	
 	// Update is called once per frame
@@ -36,9 +36,6 @@ public class CardViewerLogic : MonoBehaviour {
 
 	public void setCardData(WixossCard card)
 	{
-		string pathTemp = "sets/setimages/" + card.CardSet + "/" + card.CardNumberInSet;
-		
-
 		textName.text = card.CardName;
 		textPower.text = "Power: " + card.Power;
 		textPower.text += card.PowerBoost >= 0 ? " ( + " + card.PowerBoost + " )" : " ( " + card.PowerBoost + " )";
