@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -23,7 +24,7 @@ namespace Wix_Studio
         CardCollection cardCollection;
 
         List<WixossCard> currentSetCards = new List<WixossCard>();
-        List<WixossCard> searchResults = new List<WixossCard>();
+        private Point LastMousePos = new Point(-1 , -1);
 
         public DeckViewer()
         {
@@ -38,7 +39,12 @@ namespace Wix_Studio
             if ( ImageList.SelectedIndex == -1 )
                 return;
 
-            WixossCard selectedCard = (WixossCard)ImageList.Items[ImageList.SelectedIndex];
+            selectCard(ImageList.SelectedIndex);
+        }
+
+        private void selectCard(int selectedIndex)
+        {
+            WixossCard selectedCard = (WixossCard)ImageList.Items[selectedIndex];
             try
             {
                 Uri uriImage = new Uri(CardCollection.basePath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
@@ -103,6 +109,48 @@ namespace Wix_Studio
             }
 
             ImageList.ItemsSource = currentSetCards.Where(item => item.CardName.ToLower().Contains(currentSearchTerm.ToLower())).ToList();
+        }
+
+        private void ImageList_MouseMove(object sender , System.Windows.Input.MouseEventArgs e)
+        {
+            int selectedIdex = this.GetCurrentIndex(e.GetPosition);
+            if ( selectedIdex == -1 )
+                return;
+
+            selectCard(selectedIdex);
+
+        }
+
+        private int GetCurrentIndex(GetPositionDelegate getPosition)
+        {
+            int index = -1;
+            for ( int i = 0; i < ImageList.Items.Count; ++i )
+            {
+                System.Windows.Controls.ListViewItem item = GetListViewItem(i);
+                if ( this.IsMouseOverTarget(item , getPosition) )
+                {
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        }
+
+        private bool IsMouseOverTarget(Visual target , GetPositionDelegate getPosition)
+        {
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
+            Point mousePos = getPosition((IInputElement)target);
+            return bounds.Contains(mousePos);
+        }
+
+        delegate Point GetPositionDelegate(IInputElement element);
+
+        System.Windows.Controls.ListViewItem GetListViewItem(int index)
+        {
+            if ( ImageList.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated )
+                return null;
+
+            return ImageList.ItemContainerGenerator.ContainerFromIndex(index) as System.Windows.Controls.ListViewItem;
         }
     }
 }
