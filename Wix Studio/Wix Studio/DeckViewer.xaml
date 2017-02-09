@@ -74,7 +74,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
+                    <Border Padding="50,0,50,0">
+                        <TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
+                    </Border>
                 </Grid>
                 <Grid Grid.Row="1">
                     <ListView Name="ImageList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0">
