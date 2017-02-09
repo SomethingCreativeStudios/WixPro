@@ -42,6 +42,59 @@ namespace Wix_Studio
         public String CardSet { get; set; }
         public String CardNumberInSet { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if ((obj.GetType() != typeof(WixossCard)))
+                return false;
+
+            WixossCard tempCard = (WixossCard)obj;
+            return (CardSet + "/" + CardNumberInSet).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
+        }
+
+        public override int GetHashCode()
+        {
+            return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
+        }
+        public String CostStr
+        {
+            get
+            {
+                String cardCostStr = "";
+
+                foreach ( var cardCost in Cost )
+                {
+                    cardCostStr += "{"+cardCost.color + ": " + cardCost.numberPerColor + "} ";
+                }
+
+                if ( cardCostStr == "" )
+                {
+                    cardCostStr = "No Cost";
+                }
+
+                return cardCostStr;
+            }
+
+        }
+
+        public String TimingStr
+        {
+            get
+            {
+                String cardCostTimingStr = "";
+               
+                foreach ( var cardTiming in Timing )
+                {
+                    cardCostTimingStr += "{" + cardTiming + "} ";
+                }
+                if(cardCostTimingStr == "" )
+                {
+                    cardCostTimingStr = "No Timing";
+                }
+                return cardCostTimingStr;
+            }
+
+        }
+
         public WixossCard()
         {
             Color = new List<CardColor>();

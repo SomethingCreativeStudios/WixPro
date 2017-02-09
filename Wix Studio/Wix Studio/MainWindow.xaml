@@ -17,6 +17,8 @@
 				<Button Content="Update Cards" Name="normalUpdateBtn" FontSize="16" Click="button_Click"/>
 				<Separator></Separator>
 				<Button Content="Update Cards(Clean)" Name="cleanUpdateBtn" FontSize="16" Click="button_Click"/>
+				<Separator></Separator>
+                <Button Content="Deck Viewer" Name="deckViewerButton" FontSize="16" Click="ViewDeckViewer" VerticalAlignment="Bottom"/>
 			</ToolBar>
 		</Grid>
 		<Grid Grid.Row="1">
@@ -75,7 +77,7 @@
 						<ColumnDefinition Width="75*"/>
 					</Grid.ColumnDefinitions>
 					<Grid Grid.Column="1">
-						<Image x:Name="cardImageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="D:\WS PRO\Assets\Card Images\Resources\sets\setimages\general\spawned.jpg" Stretch="Fill"/>
+						<Image x:Name="cardImageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
 					</Grid>
 				</Grid>
 				<Grid Grid.Row="2"/>

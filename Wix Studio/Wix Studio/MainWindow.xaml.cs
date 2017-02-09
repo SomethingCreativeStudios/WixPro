@@ -164,5 +164,11 @@ namespace Wix_Studio
             CardUpdater cardUpdater = new CardUpdater(true, cardCollection);
             cardUpdater.Show();
         }
+
+        private void ViewDeckViewer(object sender , RoutedEventArgs e)
+        {
+            DeckViewer deckViewer = new DeckViewer();
+            deckViewer.Show();
+        }
     }
 }
