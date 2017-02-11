@@ -14,7 +14,7 @@
 		</Grid.RowDefinitions>
 		<Grid>
 			<ToolBar x:Name="toolBar">
-		    </ToolBar>
+			</ToolBar>
 		</Grid>
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
@@ -41,100 +41,147 @@
 				<ColumnDefinition Width="400"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="350"/>
-                    <RowDefinition Height="100*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <TextBlock Name="CardNameBox" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="Card Name" FontSize="25">
-                    </TextBlock>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="400*"/>
-                        <ColumnDefinition Width="75*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="1">
-                        <Image x:Name="cardImageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="2"/>
-                <Grid Grid.Row="3">
-                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-                        <TextBlock x:Name="cardEffectBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="This is some text to play around with I hope this is long enough" FontSize="16" TextWrapping="Wrap" Padding="10"/>
-                    </ScrollViewer>
-                </Grid>
-            </Grid>
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Border Padding="50,0,50,0">
-                        <TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="60"/>
+					<RowDefinition Height="350"/>
+					<RowDefinition Height="100*"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
+					<TextBlock Name="CardNameBox" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="Card Name" FontSize="25">
+					</TextBlock>
+				</Grid>
+				<Grid Grid.Row="1">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="75*"/>
+						<ColumnDefinition Width="400*"/>
+						<ColumnDefinition Width="75*"/>
+					</Grid.ColumnDefinitions>
+					<Grid Grid.Column="1">
+						<Image x:Name="cardImageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
+					</Grid>
+				</Grid>
+				<Grid Grid.Row="2"/>
+				<Grid Grid.Row="3">
+					<ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+						<TextBlock x:Name="cardEffectBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="This is some text to play around with I hope this is long enough" FontSize="16" TextWrapping="Wrap" Padding="10"/>
+					</ScrollViewer>
+				</Grid>
+			</Grid>
+			<Grid Grid.Column="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="20"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
+                    <Border Padding="100,0,100,0">
+					<TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
                     </Border>
                 </Grid>
-                <Grid Grid.Row="1">
-                    <ListView Name="ImageList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+				<Grid Grid.Row="1">
+					<ListView Name="ImageList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0" MouseMove="ImageList_MouseMove">
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <UniformGrid Columns="1">
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="Level: {0}">
+                                                        <Binding Path="Level"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="Cost: {0}">
+                                                        <Binding Path="CostStr"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="Timing: {0}">
+                                                        <Binding Path="TimingStr"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </UniformGrid>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
-                        </ListView.ItemContainerStyle>
+						</ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), 
+                RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                ItemWidth="{Binding (ListView.View).ItemWidth, 
+                RelativeSource={RelativeSource AncestorType=ListView}}"
+                MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                ItemHeight="{Binding (ListView.View).ItemHeight, 
+                RelativeSource={RelativeSource AncestorType=ListView}}" />  
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderThickness="0,0,0,1" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Grid Width="192" Height="110">
-                                            <Image Source="{Binding ImageUrl}"/>
-                                        </Grid>
+								<Border BorderThickness="0,0,0,0" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+									<StackPanel Orientation="Horizontal">
                                         <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Border BorderThickness="0,0,0,0" BorderBrush="#FFD0D1D7" Padding="5">
-                                                <StackPanel Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
-                                                    <TextBlock Name="ImageName" Margin="1" Foreground="#FF787878" Text="{Binding CardName}"/>
-                                                    <TextBlock Name="ImageType" Margin="1" Foreground="#FF787878">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="Level: {0}">
-                                                                <Binding Path="Level"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </Border>
-                                            <Border BorderThickness="1,0,0,0" BorderBrush="#FFD0D1D7" Padding="5" Grid.Column="2">
-                                                <StackPanel Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
-                                                    <TextBlock  Margin="1" Foreground="#FF787878">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="Cost: {0}">
-                                                                <Binding Path="CostStr"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                    <TextBlock  Margin="1" Foreground="#FF787878">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="Timing: {0}">
-                                                                <Binding Path="TimingStr"/>
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                </StackPanel>
-                                            </Border>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <TextBlock Name="ImageName" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="{Binding CardName}"/>
+                                            </Grid>
+                                            <Grid Width="220" Height="170" Grid.Row="1">
+                                                <Image Source="{Binding ImageUrl}"/>
+                                            </Grid>
                                         </Grid>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
-            </Grid>
-        </Grid>
+                                        <!--<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*"/>
+												<ColumnDefinition Width="*"/>
+											</Grid.ColumnDefinitions>
+											<Border BorderThickness="0,0,0,0" BorderBrush="#FFD0D1D7" Padding="5">
+												<StackPanel Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
+													<TextBlock Name="ImageName" Margin="1" Foreground="#FF787878" Text="{Binding CardName}"/>
+													<TextBlock Name="ImageType" Margin="1" Foreground="#FF787878">
+														<TextBlock.Text>
+															<MultiBinding StringFormat="Level: {0}">
+																<Binding Path="Level"/>
+															</MultiBinding>
+														</TextBlock.Text>
+													</TextBlock>
+												</StackPanel>
+											</Border>
+											<Border BorderThickness="1,0,0,0" BorderBrush="#FFD0D1D7" Padding="5" Grid.Column="2">
+												<StackPanel Orientation="Vertical" Margin="5,0,0,0" VerticalAlignment="Center">
+													<TextBlock  Margin="1" Foreground="#FF787878">
+														<TextBlock.Text>
+															<MultiBinding StringFormat="Cost: {0}">
+																<Binding Path="CostStr"/>
+															</MultiBinding>
+														</TextBlock.Text>
+													</TextBlock>
+													<TextBlock  Margin="1" Foreground="#FF787878">
+														<TextBlock.Text>
+															<MultiBinding StringFormat="Timing: {0}">
+																<Binding Path="TimingStr"/>
+															</MultiBinding>
+														</TextBlock.Text>
+													</TextBlock>
+												</StackPanel>
+											</Border>
+										</Grid>-->
+									</StackPanel>
+								</Border>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</Grid>
+			</Grid>
+		</Grid>
 	</Grid>
 </Window>
