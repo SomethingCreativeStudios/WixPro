@@ -74,6 +74,7 @@
       <DependentUpon>DeckViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="WixossCard.cs" />
+    <Compile Include="WixCardSearchService.cs" />
     <Page Include="Card GUI\CardUpdater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
