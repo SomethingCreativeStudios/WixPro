@@ -111,7 +111,8 @@ namespace Wix_Studio
         Red,
         Blue,
         White,
-        Colorless
+        Colorless,
+        NoColor
     }
 
     public enum CardType
@@ -120,7 +121,8 @@ namespace Wix_Studio
         LRIG,
         SIGNI,
         Resona,
-        Spell
+        Spell,
+        NoType
     }
 
     public class CardCost
@@ -133,6 +135,7 @@ namespace Wix_Studio
     {
         MainPhase,
         AttackPhase,
-        SpellCutIn
+        SpellCutIn,
+        NoTiming
     }
 }

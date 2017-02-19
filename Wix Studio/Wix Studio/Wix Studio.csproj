@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\..\..\Downloads\Compressed\HtmlAgilityPack.1.4.6\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>D:\Card Game Stuff\Wix Pro\WixPro\Wix Studio\Wix Studio\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -73,8 +73,10 @@
     <Compile Include="DeckViewer.xaml.cs">
       <DependentUpon>DeckViewer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WixossCard.cs" />
-    <Compile Include="WixCardSearchService.cs" />
+    <Compile Include="WixCardFiles\WixCardSearchModel.cs" />
+    <Compile Include="WixCardFiles\WixossCard.cs" />
+    <Compile Include="WixCardFiles\WixCardSearchService.cs" />
+    <Compile Include="WixCardFiles\WixSortable.cs" />
     <Page Include="Card GUI\CardUpdater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
