@@ -18,7 +18,7 @@
 				<Separator></Separator>
 				<Button Content="Update Cards(Clean)" Name="cleanUpdateBtn" FontSize="16" Click="button_Click"/>
 				<Separator></Separator>
-                <Button Content="Deck Viewer" Name="deckViewerButton" FontSize="16" Click="ViewDeckViewer" VerticalAlignment="Bottom"/>
+                <Button Content="Deck Viewer" Name="deckViewerButton" FontSize="16" Click="ViewDeckViewer" VerticalAlignment="Top"/>
 			</ToolBar>
 		</Grid>
 		<Grid Grid.Row="1">

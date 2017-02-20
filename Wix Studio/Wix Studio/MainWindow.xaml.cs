@@ -167,8 +167,10 @@ namespace Wix_Studio
 
         private void ViewDeckViewer(object sender , RoutedEventArgs e)
         {
-            DeckViewer deckViewer = new DeckViewer();
-            deckViewer.Show();
+            /* DeckViewer deckViewer = new DeckViewer();
+             deckViewer.Show();*/
+            Deck_Builder.DeckBuilderGUI deck = new Deck_Builder.DeckBuilderGUI();
+            deck.Show();
         }
     }
 }

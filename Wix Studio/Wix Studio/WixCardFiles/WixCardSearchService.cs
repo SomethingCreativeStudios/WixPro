@@ -14,36 +14,42 @@ namespace Wix_Studio
             List<WixossCard> resultCards = new List<WixossCard>();
             foreach ( var wixCard in CardCollection.cardCollection.Values )
             {
-                if ( FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
-                    resultCards.Add(wixCard);
+                Boolean addCard = searchCard.isEmpty();
+                if ( !addCard )
+                {
+                    if ( FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
+                        addCard = true;
 
-                else if ( FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
-                    resultCards.Add(wixCard);
+                    else if ( FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
+                        addCard = true;
 
-                else if ( CheckBoolean(searchCard.Guard , wixCard.Guard) )
-                    resultCards.Add(wixCard);
+                    else if ( CheckBoolean(searchCard.Guard , wixCard.Guard) )
+                        addCard = true;
 
-                else if ( CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
-                    resultCards.Add(wixCard);
+                    else if ( CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
+                        addCard = true;
 
-                else if ( CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
-                    resultCards.Add(wixCard);
+                    else if ( CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
+                        addCard = true;
 
-                else if ( CheckEnum<CardColor>(searchCard.Color , wixCard.Color) )
-                    resultCards.Add(wixCard);
+                    else if ( CheckEnum<CardColor>(searchCard.Color , wixCard.Color) )
+                        addCard = true;
 
-                else if ( CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing) )
-                    resultCards.Add(wixCard);
+                    else if ( CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing) )
+                        addCard = true;
 
-                else if ( searchCard.Type != null && searchCard.Type.Value == wixCard.Type )
-                    resultCards.Add(wixCard);
+                    else if ( searchCard.Type != null && searchCard.Type.Value == wixCard.Type )
+                        addCard = true;
 
-                else if ( searchCard.cardEffect != "" && wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
-                    resultCards.Add(wixCard);
+                    else if ( searchCard.cardEffect != "" && wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
+                        addCard = true;
 
-                else if ( searchCard.cardName != "" && wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
-                    resultCards.Add(wixCard);
+                    else if ( searchCard.cardName != "" && wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
+                        addCard = true;
+                }
 
+                if ( addCard )
+                    resultCards.Add(wixCard);
             }
 
             return resultCards;
@@ -63,14 +69,14 @@ namespace Wix_Studio
                         break;
                     }
                 }
-            } else
-                cardMatches = true;
+            }
 
             return cardMatches;
         }
+
         public static Boolean CheckBoolean(Boolean? searchBool, Boolean cardBool)
         {
-            bool cardMatches = true;
+            bool cardMatches = false;
 
             if(searchBool != null )
             {
@@ -82,9 +88,8 @@ namespace Wix_Studio
         public static Boolean FallsInRange(int min , int max , int target)
         {
             bool inRange = false;
-
-            if ( min == 0 && max == 0 ) //ignore range
-                inRange = true;
+            if ( min == 0 && max == 0 )
+                inRange = false;
             else if ( min == 0 && target <= max )
                 inRange = true;
             else if ( max == 0 && target >= min )

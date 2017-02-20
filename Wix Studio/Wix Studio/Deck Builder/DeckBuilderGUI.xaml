@@ -1,0 +1,221 @@
+﻿<Window x:Class="Wix_Studio.Deck_Builder.DeckBuilderGUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wix_Studio.Deck_Builder"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:WixStudio="clr-namespace:Wix_Studio"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1200">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="cardColorVals" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="WixStudio:CardColor"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="cardTypeVals" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="WixStudio:CardType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="cardTimingVals" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="WixStudio:CardTiming"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <ToolBar x:Name="toolBar">
+            </ToolBar>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Content="Decks:" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                FontFamily="B Nazanin" 
+                FontSize="20" 
+                Grid.Column="1"/>
+            <ComboBox x:Name="setComboBox"
+                HorizontalAlignment="Stretch"
+                Grid.Row="1" 
+                VerticalAlignment="Center" 
+                MinWidth="300" 
+                Width="504"
+                IsTextSearchEnabled="True"
+                UseLayoutRounding="False" FontWeight="Bold" SelectionChanged="setComboBox_SelectionChanged"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="350"/>
+                    <RowDefinition Height="100*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Name="CardNameBox" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="Card Name" FontSize="25">
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="400*"/>
+                        <ColumnDefinition Width="75*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Image x:Name="cardImageBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2"/>
+                <Grid Grid.Row="3">
+                    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                        <TextBlock x:Name="cardEffectBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="This is some text to play around with I hope this is long enough" FontSize="16" TextWrapping="Wrap" Padding="10"/>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border Padding="100,0,100,0">
+                        <TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75*"/>
+                        <ColumnDefinition Width="25*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <ListView Name="ImageList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0" MouseMove="ImageList_MouseMove">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <UniformGrid Columns="1">
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="Level: {0}">
+                                                            <Binding Path="Level"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="Cost: {0}">
+                                                            <Binding Path="CostStr"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="Timing: {0}">
+                                                            <Binding Path="TimingStr"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </UniformGrid>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), 
+                RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                ItemWidth="{Binding (ListView.View).ItemWidth, 
+                RelativeSource={RelativeSource AncestorType=ListView}}"
+                MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                ItemHeight="{Binding (ListView.View).ItemHeight, 
+                RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="0,0,0,0" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="20"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid>
+                                                    <TextBlock Name="ImageName" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="{Binding CardName}"/>
+                                                </Grid>
+                                                <Grid Width="220" Height="170" Grid.Row="1">
+                                                    <Image Source="{Binding CardSet}"/>
+                                                    
+                                                </Grid>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="60*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <UniformGrid Columns="2">
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Min Level" x:Name="MinLevel" BoxType="Number"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Max Level" x:Name="MaxLevel" BoxType="Number"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Min Power" x:Name="MinPower" BoxType="Number"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Max Power" x:Name="MaxPower" BoxType="Number"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Card Name" x:Name="CardName" BoxType="Text"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledTextBox Label="Card Effect" x:Name="CardEffect" BoxType="Text"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledComboBox Label="Card Color" x:Name="CardColor" ItemsSource="{Binding Source={StaticResource cardColorVals}}"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledComboBox Label="Card Timing" x:Name="CardTiming" ItemsSource="{Binding Source={StaticResource cardTimingVals}}"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <local:LabelledComboBox Label="Card Type" x:Name="CardType" ItemsSource="{Binding Source={StaticResource cardTypeVals}}"/>
+                                </local:LayoutGroup>
+                            </UniformGrid>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="1,2,3,4">
+                            <Button Name="SearchBtn" Content="Search" Click="SearchBtn_Click"></Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -22,5 +22,10 @@ namespace Wix_Studio.WixCardFiles
         public Boolean? LifeBurst { get; set; }
         public String cardEffect { get; set; }
         public String cardName { get; set; }
+
+        public bool isEmpty()
+        {
+            return MinPower == 0 && MaxPower == 0 && MinLevel == 0 && MaxLevel == 0 && Color == CardColor.NoColor && Type == CardType.NoType && Timing == CardTiming.NoTiming;
+        }
     }
 }
