@@ -14,38 +14,38 @@ namespace Wix_Studio
             List<WixossCard> resultCards = new List<WixossCard>();
             foreach ( var wixCard in CardCollection.cardCollection.Values )
             {
-                Boolean addCard = searchCard.isEmpty();
-                if ( !addCard )
+                Boolean addCard = true;// searchCard.isEmpty();
+                if ( addCard )
                 {
-                    if ( FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
-                        addCard = true;
+                    if ( !FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
+                        addCard = false;
 
-                    else if ( FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
-                        addCard = true;
+                    if ( !FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
+                        addCard = false;
 
-                    else if ( CheckBoolean(searchCard.Guard , wixCard.Guard) )
-                        addCard = true;
+                    if ( !CheckBoolean(searchCard.Guard , wixCard.Guard) )
+                        addCard = false;
 
-                    else if ( CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
-                        addCard = true;
+                    if ( !CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
+                        addCard = false;
 
-                    else if ( CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
-                        addCard = true;
+                    if ( !CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
+                        addCard = false;
 
-                    else if ( CheckEnum<CardColor>(searchCard.Color , wixCard.Color) )
-                        addCard = true;
+                    if ( !CheckEnum<CardColor>(searchCard.Color , wixCard.Color) )
+                        addCard = false;
 
-                    else if ( CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing) )
-                        addCard = true;
+                    if ( !CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing) )
+                        addCard = false;
 
-                    else if ( searchCard.Type != null && searchCard.Type.Value == wixCard.Type )
-                        addCard = true;
+                    if ( (searchCard.Type != null && searchCard.Type != CardType.NoType) && searchCard.Type.Value != wixCard.Type )
+                        addCard = false;
 
-                    else if ( searchCard.cardEffect != "" && wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
-                        addCard = true;
+                    if ( searchCard.cardEffect != "" && !wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
+                        addCard = false;
 
-                    else if ( searchCard.cardName != "" && wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
-                        addCard = true;
+                    if ( searchCard.cardName != "" && !wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
+                        addCard = false;
                 }
 
                 if ( addCard )
@@ -57,10 +57,11 @@ namespace Wix_Studio
 
         public static Boolean CheckEnum<T>(Enum searchEnum, List<T> cardEnum)
         {
-            bool cardMatches = false;
+            bool cardMatches = true;
 
             if ( !searchEnum.ToString().StartsWith("No") )
             {
+                cardMatches = false;
                 foreach ( var enumValue in cardEnum )
                 {
                     if ( searchEnum.ToString().Equals(enumValue.ToString()) )
@@ -76,7 +77,7 @@ namespace Wix_Studio
 
         public static Boolean CheckBoolean(Boolean? searchBool, Boolean cardBool)
         {
-            bool cardMatches = false;
+            bool cardMatches = true;
 
             if(searchBool != null )
             {
@@ -89,7 +90,7 @@ namespace Wix_Studio
         {
             bool inRange = false;
             if ( min == 0 && max == 0 )
-                inRange = false;
+                inRange = true;
             else if ( min == 0 && target <= max )
                 inRange = true;
             else if ( max == 0 && target >= min )

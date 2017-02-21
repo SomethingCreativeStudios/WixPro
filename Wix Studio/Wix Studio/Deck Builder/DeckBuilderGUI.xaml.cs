@@ -44,12 +44,12 @@ namespace Wix_Studio.Deck_Builder
             if ( ImageList.SelectedIndex == -1 )
                 return;
 
-            selectCard(ImageList.SelectedIndex);
+            //selectCard(ImageList.SelectedIndex);
         }
 
-        private void selectCard(int selectedIndex)
+        private void selectCard(int selectedIndex, System.Windows.Controls.ListView listView)
         {
-            WixossCard selectedCard = (WixossCard)ImageList.Items[selectedIndex];
+            WixossCard selectedCard = (WixossCard)listView.Items[selectedIndex];
             try
             {
                 Uri uriImage = new Uri(CardCollection.basePath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
@@ -118,20 +118,20 @@ namespace Wix_Studio.Deck_Builder
 
         private void ImageList_MouseMove(object sender , System.Windows.Input.MouseEventArgs e)
         {
-            int selectedIdex = this.GetCurrentIndex(e.GetPosition);
+            int selectedIdex = this.GetCurrentIndex(e.GetPosition, (System.Windows.Controls.ListView) sender);
             if ( selectedIdex == -1 )
                 return;
 
-            selectCard(selectedIdex);
+            selectCard(selectedIdex, (System.Windows.Controls.ListView)sender);
 
         }
 
-        private int GetCurrentIndex(GetPositionDelegate getPosition)
+        private int GetCurrentIndex(GetPositionDelegate getPosition, System.Windows.Controls.ListView listview)
         {
             int index = -1;
-            for ( int i = 0; i < ImageList.Items.Count; ++i )
+            for ( int i = 0; i < listview.Items.Count; ++i )
             {
-                System.Windows.Controls.ListViewItem item = GetListViewItem(i);
+                System.Windows.Controls.ListViewItem item = GetListViewItem(i, listview);
                 if ( this.IsMouseOverTarget(item , getPosition) )
                 {
                     index = i;
@@ -143,6 +143,9 @@ namespace Wix_Studio.Deck_Builder
 
         private bool IsMouseOverTarget(Visual target , GetPositionDelegate getPosition)
         {
+            if ( target == null )
+                return false;
+
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
             Point mousePos = getPosition((IInputElement)target);
             return bounds.Contains(mousePos);
@@ -150,12 +153,12 @@ namespace Wix_Studio.Deck_Builder
 
         delegate Point GetPositionDelegate(IInputElement element);
 
-        System.Windows.Controls.ListViewItem GetListViewItem(int index)
+        System.Windows.Controls.ListViewItem GetListViewItem(int index, System.Windows.Controls.ListView listView)
         {
-            if ( ImageList.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated )
+            if ( listView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated )
                 return null;
 
-            return ImageList.ItemContainerGenerator.ContainerFromIndex(index) as System.Windows.Controls.ListViewItem;
+            return listView.ItemContainerGenerator.ContainerFromIndex(index) as System.Windows.Controls.ListViewItem;
         }
 
         private void SearchBtn_Click(object sender , RoutedEventArgs e)
@@ -177,7 +180,7 @@ namespace Wix_Studio.Deck_Builder
 
             currentSetCards = new List<WixossCard>(WixCardSearchService.FindCards(searchModel , SortBy.Color , WixCardFiles.SortOrder.ASC).Distinct().ToList());
             String test = "";
-            //ImageList.ItemsSource = currentSetCards;
+            ResultsList.ItemsSource = currentSetCards;
         }
     }
 }

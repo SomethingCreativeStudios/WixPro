@@ -42,6 +42,8 @@ namespace Wix_Studio
         public String CardSet { get; set; }
         public String CardNumberInSet { get; set; }
 
+        public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+
         public override bool Equals(object obj)
         {
             if ((obj.GetType() != typeof(WixossCard)))
