@@ -70,7 +70,7 @@
                     <RowDefinition Height="100*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <TextBlock Name="CardNameBox" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="Card Name" FontSize="25">
+                    <TextBlock Name="CardNameBox" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="" FontSize="25">
                     </TextBlock>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -86,7 +86,7 @@
                 <Grid Grid.Row="2"/>
                 <Grid Grid.Row="3">
                     <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-                        <TextBlock x:Name="cardEffectBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="This is some text to play around with I hope this is long enough" FontSize="16" TextWrapping="Wrap" Padding="10"/>
+                        <TextBlock x:Name="cardEffectBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="" FontSize="16" TextWrapping="Wrap" Padding="10"/>
                     </ScrollViewer>
                 </Grid>
             </Grid>
@@ -333,6 +333,13 @@
                                                         <TextBlock.Text>
                                                             <MultiBinding StringFormat="Level: {0}">
                                                                 <Binding Path="Level"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="Type: {0}">
+                                                                <Binding Path="Type"/>
                                                             </MultiBinding>
                                                         </TextBlock.Text>
                                                     </TextBlock>
