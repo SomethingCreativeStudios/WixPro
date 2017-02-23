@@ -91,26 +91,31 @@
                 </Grid>
             </Grid>
             <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Border Padding="100,0,100,0">
-                        <TextBox Name="CardNameSearchBox" TextChanged="CardNameSearchBox_TextChanged" />
-                    </Border>
-                </Grid>
-                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="75*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="30*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <ListView Name="ImageList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0" MouseMove="ImageList_MouseMove">
-                            <ListView.ItemContainerStyle>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="75*"/>
+                            <RowDefinition Height="25*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <ListView Name="DeckList" 
+                                  ItemsSource="{Binding ImageList}" 
+                                  Background="Transparent" 
+                                  BorderThickness="0" 
+                                  MouseMove="DeckView_MouseMove" 
+                                  AllowDrop="True"
+                                  Drop="ListView_Drop"
+                                  DragEnter="ListView_DragEnter"
+                                  MouseRightButtonDown="DeckList_MouseRightButtonDown">
+                                <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="ToolTip">
+                                        <EventSetter Event="PreviewMouseRightButtonDown" Handler="DeckList_MouseRightButtonDown" />
+                                        <Setter Property="ToolTip">
                                         <Setter.Value>
                                             <UniformGrid Columns="1">
                                                 <TextBlock>
@@ -134,7 +139,14 @@
                                                         </MultiBinding>
                                                     </TextBlock.Text>
                                                 </TextBlock>
-                                            </UniformGrid>
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="Color: {0}">
+                                                                <Binding Path="ColorStr"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </UniformGrid>
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
@@ -172,6 +184,92 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1">
+                                <ListView Name="LRIGDeckList" 
+                                  ItemsSource="{Binding ImageList}" 
+                                  Background="Transparent" 
+                                  BorderThickness="1" 
+                                  MouseMove="DeckView_MouseMove" 
+                                  AllowDrop="True"
+                                  Drop="ListView_Drop"
+                                  DragEnter="ListView_DragEnter"
+                                  MouseRightButtonDown="DeckList_MouseRightButtonDown">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            <EventSetter Event="PreviewMouseRightButtonDown" Handler="DeckList_MouseRightButtonDown" />
+                                            <Setter Property="ToolTip">
+                                                <Setter.Value>
+                                                    <UniformGrid Columns="1">
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="Level: {0}">
+                                                                    <Binding Path="Level"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="Cost: {0}">
+                                                                    <Binding Path="CostStr"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="Timing: {0}">
+                                                                    <Binding Path="TimingStr"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="Color: {0}">
+                                                                    <Binding Path="ColorStr"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </UniformGrid>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), 
+                RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                ItemWidth="{Binding (ListView.View).ItemWidth, 
+                RelativeSource={RelativeSource AncestorType=ListView}}"
+                MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                ItemHeight="{Binding (ListView.View).ItemHeight, 
+                RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0,0,0,0" BorderBrush="#FFD0D1D7" Padding="5" Margin="10,10,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="20"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid>
+                                                            <TextBlock Name="ImageName" Margin="1" Foreground="#FF787878" TextAlignment="Center" Text="{Binding CardName}"/>
+                                                        </Grid>
+                                                        <Grid Width="150" Height="100" Grid.Row="1">
+                                                            <Image Source="{Binding CardImagePath}"/>
+                                                        </Grid>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Border>
+                        </Grid>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -182,31 +280,36 @@
                         <Grid Grid.Row="0">
                             <UniformGrid Columns="2">
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Min Level" x:Name="MinLevel" BoxType="Number"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Min Level" x:Name="MinLevel" BoxType="Number"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Max Level" x:Name="MaxLevel" BoxType="Number"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Max Level" x:Name="MaxLevel" BoxType="Number"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Min Power" x:Name="MinPower" BoxType="Number"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Min Power" x:Name="MinPower" BoxType="Number"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Max Power" x:Name="MaxPower" BoxType="Number"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Max Power" x:Name="MaxPower" BoxType="Number"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Card Name" x:Name="CardName" BoxType="Text"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Card Name" x:Name="CardName" BoxType="Text"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledTextBox Label="Card Effect" x:Name="CardEffect" BoxType="Text"/>
+                                    <local:LabelledTextBox Padding="5,0,5,5" Label="Card Effect" x:Name="CardEffect" BoxType="Text"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledComboBox Label="Card Color" x:Name="CardColor" ItemsSource="{Binding Source={StaticResource cardColorVals}}"/>
+                                    <local:LabelledComboBox Padding="5,0,5,5" Label="Card Color" x:Name="CardColor" ItemsSource="{Binding Source={StaticResource cardColorVals}}"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledComboBox Label="Card Timing" x:Name="CardTiming" ItemsSource="{Binding Source={StaticResource cardTimingVals}}"/>
+                                    <local:LabelledComboBox Padding="5,0,5,5" Label="Card Timing" x:Name="CardTiming" ItemsSource="{Binding Source={StaticResource cardTimingVals}}"/>
                                 </local:LayoutGroup>
                                 <local:LayoutGroup>
-                                    <local:LabelledComboBox Label="Card Type" x:Name="CardType" ItemsSource="{Binding Source={StaticResource cardTypeVals}}"/>
+                                    <local:LabelledComboBox Padding="5,0,5,5" Label="Card Type" x:Name="CardType" ItemsSource="{Binding Source={StaticResource cardTypeVals}}"/>
+                                </local:LayoutGroup>
+                                <local:LayoutGroup>
+                                    <CheckBox Padding="5,0,5,5" Name="LifeBurst" Content="has LifeBurst" IsChecked="{x:Null}" IsThreeState="True"></CheckBox>
+                                    <CheckBox Padding="5,0,5,5" Name="MultiEner" Content="has MultiEner" IsChecked="{x:Null}" IsThreeState="True"></CheckBox>
+                                    <CheckBox Padding="5,0,5,5" Name="Guard" Content="has Guard" IsChecked="{x:Null}" IsThreeState="True"></CheckBox>
                                 </local:LayoutGroup>
                             </UniformGrid>
                         </Grid>
@@ -214,7 +317,12 @@
                             <Button Name="SearchBtn" Content="Search" Click="SearchBtn_Click"></Button>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <ListView Name="ResultsList" ItemsSource="{Binding ImageList}" Background="Transparent" BorderThickness="0" MouseMove="ImageList_MouseMove">
+                            <ListView Name="ResultsList" 
+                                      ItemsSource="{Binding ImageList}" 
+                                      Background="Transparent" 
+                                      BorderThickness="0" 
+                                      MouseMove="ListView_MouseMove"
+                                      AllowDrop="True">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -239,6 +347,13 @@
                                                         <TextBlock.Text>
                                                             <MultiBinding StringFormat="Timing: {0}">
                                                                 <Binding Path="TimingStr"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="Color: {0}">
+                                                                <Binding Path="ColorStr"/>
                                                             </MultiBinding>
                                                         </TextBlock.Text>
                                                     </TextBlock>

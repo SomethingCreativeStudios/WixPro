@@ -78,6 +78,27 @@ namespace Wix_Studio
 
         }
 
+        public String ColorStr
+        {
+            get
+            {
+                String cardColorStr = "";
+
+                foreach ( var cardColor in Color )
+                {
+                    cardColorStr += "{" + cardColor + "} ";
+                }
+
+                if ( cardColorStr == "" )
+                {
+                    cardColorStr = "No Color";
+                }
+
+                return cardColorStr;
+            }
+
+        }
+
         public String TimingStr
         {
             get

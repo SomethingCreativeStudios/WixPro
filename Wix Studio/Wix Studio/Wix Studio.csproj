@@ -85,6 +85,7 @@
     <Compile Include="WixCardFiles\WixCardSearchModel.cs" />
     <Compile Include="WixCardFiles\WixossCard.cs" />
     <Compile Include="WixCardFiles\WixCardSearchService.cs" />
+    <Compile Include="WixCardFiles\WixossDeckHelper.cs" />
     <Compile Include="WixCardFiles\WixSortable.cs" />
     <Page Include="Card GUI\CardUpdater.xaml">
       <SubType>Designer</SubType>
