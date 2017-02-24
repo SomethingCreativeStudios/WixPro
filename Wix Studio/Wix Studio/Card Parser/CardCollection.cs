@@ -164,7 +164,7 @@ public class CardCollection
         return cardNames;
     }
 
-    private String PrintXML(String XML)
+    public static String PrintXML(String XML)
     {
         String Result = "";
 

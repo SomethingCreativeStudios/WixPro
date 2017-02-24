@@ -26,15 +26,14 @@ namespace Wix_Studio.Deck_Builder
         CardCollection cardCollection;
 
         List<WixossCard> resultCards = new List<WixossCard>();
-        List<WixossCard> currentDeck = new List<WixossCard>();
-        List<WixossCard> lrigDeck = new List<WixossCard>();
+        WixossDeck currentDeck = new WixossDeck();
 
         private Point LastMousePos = new Point(-1 , -1);
 
         public DeckBuilderGUI()
         {
             InitializeComponent();
-            DeckList.ItemsSource = currentDeck;
+            DeckList.ItemsSource = currentDeck.MainDeck;
         }
 
         private void NumberValidationTextBox(object sender , TextCompositionEventArgs e)
@@ -217,20 +216,20 @@ namespace Wix_Studio.Deck_Builder
                 WixossCard cardToAdd = (WixossCard)e.Data.GetData(typeof(WixossCard));
                 if ( listView.Name == DeckList.Name )
                 {
-                    if ( canAddCard(cardToAdd , currentDeck , false) )
+                    if ( currentDeck.canAddCard(cardToAdd , DeckType.Main) )
                     {
-                        currentDeck.Add(cardToAdd);
-                        DeckList.ItemsSource = currentDeck;
+                        currentDeck.AddToDeck(cardToAdd, DeckType.Main);
+                        DeckList.ItemsSource = currentDeck.MainDeck;
                         DeckList.Items.Refresh();
                     }
                 }
 
                 if ( listView.Name == LRIGDeckList.Name )
                 {
-                    if ( canAddCard(cardToAdd , lrigDeck , true) )
+                    if ( currentDeck.canAddCard(cardToAdd , DeckType.LRIG) )
                     {
-                        lrigDeck.Add(cardToAdd);
-                        LRIGDeckList.ItemsSource = lrigDeck;
+                        currentDeck.AddToDeck(cardToAdd, DeckType.LRIG);
+                        LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
                         LRIGDeckList.Items.Refresh();
                     }
                 }
@@ -261,14 +260,14 @@ namespace Wix_Studio.Deck_Builder
                 {
                     if ( listView.Name == DeckList.Name )
                     {
-                        currentDeck.RemoveAt(selectedIndex);
-                        DeckList.ItemsSource = currentDeck;
+                        currentDeck.RemoveAt(selectedIndex, DeckType.Main);
+                        DeckList.ItemsSource = currentDeck.MainDeck;
                         DeckList.Items.Refresh();
                     }
                     if ( listView.Name == LRIGDeckList.Name )
                     {
-                        lrigDeck.RemoveAt(selectedIndex);
-                        LRIGDeckList.ItemsSource = lrigDeck;
+                        currentDeck.RemoveAt(selectedIndex, DeckType.LRIG);
+                        LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
                         LRIGDeckList.Items.Refresh();
                     }
                 }
@@ -291,42 +290,6 @@ namespace Wix_Studio.Deck_Builder
             return null;
         }
         #endregion
-
-        private bool canAddCard(WixossCard cardToAdd , List<WixossCard> deck , bool lrigDeck)
-        {
-            //Common Rule no more than 4 per card
-            if ( WixossDeckHelper.totalCountOfCard(cardToAdd,deck) == 4 )
-                return false;
-
-            if ( lrigDeck ) //lrig special rules
-            {
-                if ( deck.Count == 10 )
-                    return false;
-
-                if ( !WixossDeckHelper.cardAllowedILRIGDeck(cardToAdd) )
-                {
-                    System.Windows.Forms.MessageBox.Show("Not allowed type(" + cardToAdd.Type + ") in LRIG deck");
-                    return false;
-                }
-            } else // normal deck special rules
-            {
-                if ( deck.Count == 40 )
-                    return false;
-
-                if ( !WixossDeckHelper.cardAllowedInMainDeck(cardToAdd) )
-                {
-                    System.Windows.Forms.MessageBox.Show("Not allowed type(" + cardToAdd.Type + ") in main deck");
-                    return false;
-                }
-
-                if ( cardToAdd.LifeBurst && WixossDeckHelper.totalCountOfLifeBurst(deck) == 20 )
-                {
-                    System.Windows.Forms.MessageBox.Show("Can Only Have 20 lifebursts per deck");
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        
     }
 }
