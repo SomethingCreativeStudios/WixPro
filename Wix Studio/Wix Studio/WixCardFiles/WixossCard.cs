@@ -42,6 +42,8 @@ namespace Wix_Studio
         public String CardSet { get; set; }
         public String CardNumberInSet { get; set; }
 
+        public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+
         public override bool Equals(object obj)
         {
             if ((obj.GetType() != typeof(WixossCard)))
@@ -72,6 +74,27 @@ namespace Wix_Studio
                 }
 
                 return cardCostStr;
+            }
+
+        }
+
+        public String ColorStr
+        {
+            get
+            {
+                String cardColorStr = "";
+
+                foreach ( var cardColor in Color )
+                {
+                    cardColorStr += "{" + cardColor + "} ";
+                }
+
+                if ( cardColorStr == "" )
+                {
+                    cardColorStr = "No Color";
+                }
+
+                return cardColorStr;
             }
 
         }
@@ -111,7 +134,8 @@ namespace Wix_Studio
         Red,
         Blue,
         White,
-        Colorless
+        Colorless,
+        NoColor
     }
 
     public enum CardType
@@ -120,7 +144,8 @@ namespace Wix_Studio
         LRIG,
         SIGNI,
         Resona,
-        Spell
+        Spell,
+        NoType
     }
 
     public class CardCost
@@ -133,6 +158,7 @@ namespace Wix_Studio
     {
         MainPhase,
         AttackPhase,
-        SpellCutIn
+        SpellCutIn,
+        NoTiming
     }
 }
