@@ -41,6 +41,9 @@ namespace Wix_Studio
                     if ( (searchCard.Type != null && searchCard.Type != CardType.NoType) && searchCard.Type.Value != wixCard.Type )
                         addCard = false;
 
+                    if ( searchCard.setName != "" && !wixCard.CardSet.ToLower().Contains(searchCard.setName.ToLower()) )
+                        addCard = false;
+
                     if ( searchCard.cardEffect != "" && !wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
                         addCard = false;
 

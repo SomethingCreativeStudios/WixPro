@@ -41,8 +41,6 @@ namespace Wix_Studio.Card_Parser
                     String urlToSet = urlName + "/" + cell.FirstChild.Attributes["href"].Value.Trim();
                     String setName = cell.FirstChild.Attributes["title"].Value.Split(' ')[0];
                     setList.Add(setName, urlToSet);
-                    //List<WixossCard> setCards = this.GetCardsFromUrl(urlToSet);
-                    //cardCollection.SaveSet(setName , setCards);
                 }
             }
 
@@ -81,7 +79,7 @@ namespace Wix_Studio.Card_Parser
                     justATag.LoadHtml(aTagText);
                     String cardUrl = "";
                     try { cardUrl = justATag.DocumentNode.ChildNodes["a"].Attributes["href"].Value; }
-                    catch ( Exception ex ) { Debug.WriteLine("TEST"); cardUrl = justATag.DocumentNode.ChildNodes["b"].ChildNodes["a"].Attributes["href"].Value; }
+                    catch ( Exception ex ) { cardUrl = justATag.DocumentNode.ChildNodes["b"].ChildNodes["a"].Attributes["href"].Value; }
 
 
                     if ( !cardUrl.StartsWith(urlName) )

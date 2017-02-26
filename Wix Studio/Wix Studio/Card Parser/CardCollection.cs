@@ -12,9 +12,23 @@ using Wix_Studio.Card_Parser;
 public class CardCollection
 {
     //public static string basePath = @"D:\WS PRO\Assets\Card Images\Resources\sets";//Application.dataPath + @"\Card Images\Resources\sets";
+
+    /// <summary>
+    /// Base path to sets, ends with \
+    /// </summary>
     public static string basePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Wix Cards\sets\";
+
+    /// <summary>
+    /// Base path to decks, ends with \
+    /// </summary>
     public static string deckBasePath = basePath + "decks\\";
+
+    /// <summary>
+    /// Path to set images, ends with \
+    /// </summary>
     public static string setImages = basePath + "setimages\\";
+
+    public static string logPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Wix Cards\\logs\\";
     public static Dictionary<String , WixossCard> cardCollection;
 
     public CardCollection()
@@ -39,6 +53,11 @@ public class CardCollection
         if ( !Directory.Exists(deckBasePath) )
         {
             Directory.CreateDirectory(deckBasePath);
+        }
+
+        if ( !Directory.Exists(logPath) )
+        {
+            Directory.CreateDirectory(logPath);
         }
     }
 
@@ -104,6 +123,10 @@ public class CardCollection
         }
     }
 
+    /// <summary>
+    /// Get all sets found in base path
+    /// </summary>
+    /// <returns>names of all found sets</returns>
     public List<string> GetAllSets()
     {
         List<string> cardSets = new List<string>();

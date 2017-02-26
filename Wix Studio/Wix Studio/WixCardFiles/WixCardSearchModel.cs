@@ -22,6 +22,7 @@ namespace Wix_Studio.WixCardFiles
         public Boolean? LifeBurst { get; set; }
         public String cardEffect { get; set; }
         public String cardName { get; set; }
+        public String setName { get; set; }
 
         public bool isEmpty()
         {

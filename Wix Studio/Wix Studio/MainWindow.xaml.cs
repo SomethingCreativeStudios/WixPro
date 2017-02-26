@@ -172,5 +172,12 @@ namespace Wix_Studio
             Deck_Builder.DeckBuilderGUI deck = new Deck_Builder.DeckBuilderGUI();
             deck.Show();
         }
+
+        private void updateImagesBtn_Click(object sender , RoutedEventArgs e)
+        {
+            CardUpdater cardUpdater = new CardUpdater();
+            cardUpdater.UpdateImages();
+            cardUpdater.Show();
+        }
     }
 }

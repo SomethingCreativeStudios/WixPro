@@ -72,11 +72,11 @@ namespace Wix_Studio.WixCardFiles
 
             String deckReport = "Deck Report:\n";
 
-            deckReport += "Main Deck:\n";
+            deckReport += "Main Deck(" + (( has40cards && has20LifeBursts) ? "Passed" : "Failed") +"):\n";
             deckReport += "\tHas 40 cards: " + has40cards;
             deckReport += "\n\tHas 20 LifeBursts: " + has20LifeBursts;
 
-            deckReport += "\n\nLRIG Deck:\n";
+            deckReport += "\n\nLRIG Deck(" + ( ( hasLessThen11Cards && hasLevel0Lrig ) ? "Passed" : "Failed" ) + "):\n";
             deckReport += "\tNo More Than 10 Cards: " + hasLessThen11Cards;
             deckReport += "\n\tHas a Level 0 LRIG: " + hasLevel0Lrig;
 
@@ -183,11 +183,11 @@ namespace Wix_Studio.WixCardFiles
             return true;
         }
 
-        public void SaveDeck(String deckName)
+        public static void SaveDeck(String deckName, WixossDeck deck)
         {
-            if ( !Directory.Exists(CardCollection.basePath + deckName) )
+            if ( !Directory.Exists(CardCollection.deckBasePath + deckName) )
             {
-                String filePath = CardCollection.basePath + deckName + ".xml";
+                String filePath = CardCollection.deckBasePath + deckName + ".xml";
                 if ( !File.Exists(filePath) )
                 {
                     File.Create(filePath).Close();
@@ -200,10 +200,23 @@ namespace Wix_Studio.WixCardFiles
                 using ( StringWriter sww = new StringWriter() )
                 using ( XmlWriter writer = XmlWriter.Create(sww) )
                 {
-                    xsSubmit.Serialize(writer , this);
+                    xsSubmit.Serialize(writer , deck);
                     File.WriteAllText(filePath , CardCollection.PrintXML(sww.ToString()));
                 }
             }
+        }
+
+        public static WixossDeck LoadDeck(string deckName)
+        {
+            WixossDeck loadedDeck = new WixossDeck();
+
+            using ( var stream = new StringReader(File.OpenText(CardCollection.deckBasePath + deckName + ".xml").ReadToEnd()) )
+            {
+                var serializer = new XmlSerializer(typeof(WixossDeck));
+                loadedDeck =  (WixossDeck)(serializer.Deserialize(stream) as WixossDeck);
+            }
+
+            return loadedDeck;
         }
     }
 

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wix_Studio.Dialog_Helpers;
 using Wix_Studio.WixCardFiles;
 
 namespace Wix_Studio.Deck_Builder
@@ -46,11 +47,11 @@ namespace Wix_Studio.Deck_Builder
         {
             if ( DeckList.SelectedIndex == -1 )
                 return;
-            
+
             //selectCard(ImageList.SelectedIndex);
         }
 
-        private void selectCard(int selectedIndex, System.Windows.Controls.ListView listView)
+        private void selectCard(int selectedIndex , System.Windows.Controls.ListView listView)
         {
             WixossCard selectedCard = (WixossCard)listView.Items[selectedIndex];
             try
@@ -65,18 +66,6 @@ namespace Wix_Studio.Deck_Builder
             }
             cardEffectBox.Text = selectedCard.CardEffect;
             CardNameBox.Text = selectedCard.CardName;
-        }
-
-        private void LoadSets()
-        {
-            AutoCompleteStringCollection autoStringCollection = new AutoCompleteStringCollection();
-            foreach ( String set in cardCollection.GetAllSets() )
-            {
-                autoStringCollection.Add(set);
-                setComboBox.Items.Add(set);
-            }
-
-            setComboBox.DataContext = autoStringCollection;
         }
 
         private void LoadBasePath()
@@ -106,6 +95,7 @@ namespace Wix_Studio.Deck_Builder
 
             searchModel.cardEffect = CardEffect.Text;
             searchModel.cardName = CardName.Text;
+            searchModel.setName = SetName.Text;
 
             searchModel.MinLevel = Convert.ToInt32(MinLevel.Text == "" ? "0" : MinLevel.Text);
             searchModel.MaxLevel = Convert.ToInt32(MaxLevel.Text == "" ? "0" : MaxLevel.Text);
@@ -122,16 +112,6 @@ namespace Wix_Studio.Deck_Builder
             resultCards = new List<WixossCard>(WixCardSearchService.FindCards(searchModel , SortBy.Color , WixCardFiles.SortOrder.ASC).Distinct().ToList());
             ResultsList.ItemsSource = resultCards;
         }
-
-        #region Deck View
-        private void setComboBox_SelectionChanged(object sender , SelectionChangedEventArgs e)
-        {
-            String setName = "\\" + setComboBox.SelectedItem;
-            resultCards = new List<WixossCard>(cardCollection.GetSet(setName)).Distinct().ToList();
-
-            DeckList.ItemsSource = resultCards;
-        }
-        #endregion
 
         private void ListView_MouseMove(object sender , System.Windows.Input.MouseEventArgs e)
         {
@@ -169,12 +149,12 @@ namespace Wix_Studio.Deck_Builder
 
         #region Mouse Over ListView
 
-        private int GetCurrentIndex(GetPositionDelegate getPosition, System.Windows.Controls.ListView listview)
+        private int GetCurrentIndex(GetPositionDelegate getPosition , System.Windows.Controls.ListView listview)
         {
             int index = -1;
             for ( int i = 0; i < listview.Items.Count; ++i )
             {
-                System.Windows.Controls.ListViewItem item = GetListViewItem(i, listview);
+                System.Windows.Controls.ListViewItem item = GetListViewItem(i , listview);
                 if ( this.IsMouseOverTarget(item , getPosition) )
                 {
                     index = i;
@@ -196,7 +176,7 @@ namespace Wix_Studio.Deck_Builder
 
         delegate Point GetPositionDelegate(IInputElement element);
 
-        System.Windows.Controls.ListViewItem GetListViewItem(int index, System.Windows.Controls.ListView listView)
+        System.Windows.Controls.ListViewItem GetListViewItem(int index , System.Windows.Controls.ListView listView)
         {
             if ( listView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated )
                 return null;
@@ -218,7 +198,7 @@ namespace Wix_Studio.Deck_Builder
                 {
                     if ( currentDeck.canAddCard(cardToAdd , DeckType.Main) )
                     {
-                        currentDeck.AddToDeck(cardToAdd, DeckType.Main);
+                        currentDeck.AddToDeck(cardToAdd , DeckType.Main);
                         DeckList.ItemsSource = currentDeck.MainDeck;
                         DeckList.Items.Refresh();
                     }
@@ -228,7 +208,7 @@ namespace Wix_Studio.Deck_Builder
                 {
                     if ( currentDeck.canAddCard(cardToAdd , DeckType.LRIG) )
                     {
-                        currentDeck.AddToDeck(cardToAdd, DeckType.LRIG);
+                        currentDeck.AddToDeck(cardToAdd , DeckType.LRIG);
                         LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
                         LRIGDeckList.Items.Refresh();
                     }
@@ -251,7 +231,7 @@ namespace Wix_Studio.Deck_Builder
         {
 
 
-            if (e.RightButton == MouseButtonState.Pressed )
+            if ( e.RightButton == MouseButtonState.Pressed )
             {
                 var item = sender as System.Windows.Controls.ListViewItem;
                 System.Windows.Controls.ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as System.Windows.Controls.ListView;
@@ -260,13 +240,13 @@ namespace Wix_Studio.Deck_Builder
                 {
                     if ( listView.Name == DeckList.Name )
                     {
-                        currentDeck.RemoveAt(selectedIndex, DeckType.Main);
+                        currentDeck.RemoveAt(selectedIndex , DeckType.Main);
                         DeckList.ItemsSource = currentDeck.MainDeck;
                         DeckList.Items.Refresh();
                     }
                     if ( listView.Name == LRIGDeckList.Name )
                     {
-                        currentDeck.RemoveAt(selectedIndex, DeckType.LRIG);
+                        currentDeck.RemoveAt(selectedIndex , DeckType.LRIG);
                         LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
                         LRIGDeckList.Items.Refresh();
                     }
@@ -290,6 +270,21 @@ namespace Wix_Studio.Deck_Builder
             return null;
         }
         #endregion
-        
+
+        private void loadDeckBtn_Click(object sender , RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveDeckBtn_Click(object sender , RoutedEventArgs e)
+        {
+            String deckName = InputMessageBox.Show("Enter Deck Name" , "Save Deck");
+
+            if ( deckName != null )
+            {
+                if ( currentDeck.isLegalDeck(true) )
+                    WixossDeck.SaveDeck(deckName , currentDeck);
+            }
+        }
     }
 }

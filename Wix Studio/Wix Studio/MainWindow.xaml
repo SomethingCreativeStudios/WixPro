@@ -16,7 +16,7 @@
 			<ToolBar x:Name="toolBar">
 				<Button Content="Update Cards" Name="normalUpdateBtn" FontSize="16" Click="button_Click"/>
 				<Separator></Separator>
-				<Button Content="Update Cards(Clean)" Name="cleanUpdateBtn" FontSize="16" Click="button_Click"/>
+				<Button Content="Update Images" Name="updateImagesBtn" FontSize="16" Click="updateImagesBtn_Click"/>
 				<Separator></Separator>
                 <Button Content="Deck Viewer" Name="deckViewerButton" FontSize="16" Click="ViewDeckViewer" VerticalAlignment="Top"/>
 			</ToolBar>
