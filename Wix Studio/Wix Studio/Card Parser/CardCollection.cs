@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Wix_Studio;
 using Wix_Studio.Card_Parser;
+using Wix_Studio.WixCardFiles;
 
 public class CardCollection
 {
@@ -16,19 +17,18 @@ public class CardCollection
     /// <summary>
     /// Base path to sets, ends with \
     /// </summary>
-    public static string basePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Wix Cards\sets\";
+    public static string baseSetPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Wix Cards\sets\";
 
     /// <summary>
     /// Base path to decks, ends with \
     /// </summary>
-    public static string deckBasePath = basePath + "decks\\";
+    public static string deckBasePath = baseSetPath + "decks\\";
 
     /// <summary>
     /// Path to set images, ends with \
     /// </summary>
-    public static string setImages = basePath + "setimages\\";
+    public static string setImages = baseSetPath + "setimages\\";
 
-    public static string logPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Wix Cards\\logs\\";
     public static Dictionary<String , WixossCard> cardCollection;
 
     public CardCollection()
@@ -40,9 +40,9 @@ public class CardCollection
     
     public void CreateNeededFolders()
     {
-        if ( !Directory.Exists(basePath) )
+        if ( !Directory.Exists(baseSetPath) )
         {
-            Directory.CreateDirectory(basePath);
+            Directory.CreateDirectory(baseSetPath);
         }
 
         if ( !Directory.Exists(setImages) )
@@ -55,20 +55,22 @@ public class CardCollection
             Directory.CreateDirectory(deckBasePath);
         }
 
-        if ( !Directory.Exists(logPath) )
+        if ( !Directory.Exists(AuditLog.logPath) )
         {
-            Directory.CreateDirectory(logPath);
+            Directory.CreateDirectory(AuditLog.logPath);
         }
     }
 
     public List<WixossCard> GetSet(string setName)
     {
         List<WixossCard> cards = new List<WixossCard>();
-
-        using ( var stream = new StringReader(File.OpenText(basePath + setName + ".xml").ReadToEnd()) )
+        StreamReader reader = File.OpenText(baseSetPath + setName + ".xml");
+        using ( var stream = new StringReader(reader.ReadToEnd()) )
         {
             var serializer = new XmlSerializer(typeof(List<WixossCard>));
             cards = new List<WixossCard>(serializer.Deserialize(stream) as List<WixossCard>);
+            stream.Close();
+            reader.Close();
         }
 
         return cards;
@@ -79,47 +81,48 @@ public class CardCollection
         SaveSet(cardsInSet[0].CardSet , cardsInSet);
     }
 
-    public void SaveSet(String setName, List<WixossCard> cardsInSet)
+    public void SaveSet(String setName , List<WixossCard> cardsInSet)
     {
-        if(!Directory.Exists(basePath + setName) )
-        {
-            String filePath = basePath + setName + ".xml";
-            if ( !File.Exists(filePath) )
-            {
-                File.Create(filePath).Close();
-            } else
-            {
-              File.Delete(filePath);
-            }
+        String filePath = baseSetPath + setName + ".xml";
 
-            try
+        try
+        {
+            foreach ( var cardInSet in cardsInSet )
             {
-                foreach ( var cardInSet in cardsInSet )
+                if ( !Directory.Exists(setImages + cardInSet.CardSet) )
                 {
-                    if(!Directory.Exists(setImages + cardInSet.CardSet) )
-                    {
-                        Directory.CreateDirectory(setImages + cardInSet.CardSet);
-                    }
+                    Directory.CreateDirectory(setImages + cardInSet.CardSet);
+                }
+                if ( !File.Exists(cardInSet.CardImagePath) )
+                {
 
                     using ( WebClient client = new WebClient() )
                     {
-                        String newFilePath = setImages + cardInSet.CardSet + "\\" + cardInSet.CardNumberInSet + ".jpg";
-                        client.DownloadFileAsync(new Uri(cardInSet.ImageUrl) , newFilePath);
+                        if ( cardInSet.CardNumberInSet == null || cardInSet.CardNumberInSet.Contains("???") )
+                            cardInSet.CardNumberInSet = cardInSet.CardName;
+
+                        String newFilePath = CardCollection.setImages + cardInSet.CardSet + "\\" + cardInSet.CardNumberInSet + ".jpg";
+                        if ( cardInSet.ImageUrl != null )
+                        {
+                            String urlName = cardInSet.ImageUrl;
+                            client.DownloadFileAsync(new Uri(urlName) , newFilePath , cardInSet);
+                        }
                     }
                 }
             }
-            catch ( Exception ex )
-            {
-                Console.WriteLine("ERROR!");
-            }
+        }
+        catch ( Exception ex )
+        {
+            Console.WriteLine("ERROR!");
+        }
 
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(List<WixossCard>));
-            using ( StringWriter sww = new StringWriter() )
-            using ( XmlWriter writer = XmlWriter.Create(sww) )
-            {
-                xsSubmit.Serialize(writer , cardsInSet);
-                File.WriteAllText(filePath , PrintXML(sww.ToString()));
-            }
+        XmlSerializer xsSubmit = new XmlSerializer(typeof(List<WixossCard>));
+        using ( StringWriter sww = new StringWriter() )
+        using ( XmlWriter writer = XmlWriter.Create(sww) )
+        {
+            xsSubmit.Serialize(writer , cardsInSet);
+            File.WriteAllText(filePath , PrintXML(sww.ToString()));
+            writer.Close();
         }
     }
 
@@ -130,11 +133,11 @@ public class CardCollection
     public List<string> GetAllSets()
     {
         List<string> cardSets = new List<string>();
-        string[] files = Directory.GetFiles(basePath);
+        string[] files = Directory.GetFiles(baseSetPath);
         for ( int i = 0; i < files.Length; i++ )
         {
             if ( files[i].EndsWith(".xml") && !files[i].Contains("nocard.txt") )
-                cardSets.Add(files[i].Replace(basePath , "").Replace(".xml" , ""));
+                cardSets.Add(files[i].Replace(baseSetPath , "").Replace(".xml" , ""));
         }
 
         return cardSets;

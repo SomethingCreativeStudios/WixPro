@@ -56,7 +56,7 @@ namespace Wix_Studio.Deck_Builder
             WixossCard selectedCard = (WixossCard)listView.Items[selectedIndex];
             try
             {
-                Uri uriImage = new Uri(CardCollection.basePath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             catch ( Exception ex )
@@ -77,12 +77,12 @@ namespace Wix_Studio.Deck_Builder
             {
                 if ( fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
                 {
-                    CardCollection.basePath = fbd.SelectedPath;
-                    Wix_Studio.Properties.Settings.Default.basePath = CardCollection.basePath;
+                    CardCollection.baseSetPath = fbd.SelectedPath;
+                    Wix_Studio.Properties.Settings.Default.basePath = CardCollection.baseSetPath;
                 }
             } else
             {
-                CardCollection.basePath = basePath;
+                CardCollection.baseSetPath = basePath;
             }
 
             Wix_Studio.Properties.Settings.Default.Save();

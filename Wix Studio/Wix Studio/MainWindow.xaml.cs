@@ -55,12 +55,12 @@ namespace Wix_Studio
             {
                 if ( fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
                 {
-                    CardCollection.basePath = fbd.SelectedPath;
-                    Wix_Studio.Properties.Settings.Default.basePath = CardCollection.basePath;
+                    CardCollection.baseSetPath = fbd.SelectedPath;
+                    Wix_Studio.Properties.Settings.Default.basePath = CardCollection.baseSetPath;
                 }
             } else
             {
-                CardCollection.basePath = basePath;
+                CardCollection.baseSetPath = basePath;
             }
 
             Wix_Studio.Properties.Settings.Default.Save();
@@ -89,12 +89,12 @@ namespace Wix_Studio
 
             try
             {
-                Uri uriImage = new Uri(CardCollection.basePath + "\\setimages\\" + currentSetCards[cardCombBox.SelectedIndex].CardSet + "\\" + currentSetCards[cardCombBox.SelectedIndex].CardNumberInSet + ".jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + currentSetCards[cardCombBox.SelectedIndex].CardSet + "\\" + currentSetCards[cardCombBox.SelectedIndex].CardNumberInSet + ".jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             catch ( Exception ex )
             {
-                Uri uriImage = new Uri(CardCollection.basePath + "setimages\\general\\Card Not Found.jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "setimages\\general\\Card Not Found.jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             cardEffectBox.Text = currentSetCards[cardCombBox.SelectedIndex].CardEffect;

@@ -17,6 +17,7 @@ using Wix_Studio.Card_Parser;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
+using Wix_Studio.WixCardFiles;
 
 namespace Wix_Studio.Card_GUI
 {
@@ -115,7 +116,8 @@ namespace Wix_Studio.Card_GUI
         private void updateImagesWork(object sender , DoWorkEventArgs e)
         {
             CardCollection cardCollection = new CardCollection();
-            String fileName = CardCollection.logPath + "Images Updated.txt";
+            String fileName = AuditLog.logPath + "Images Updated.txt";
+            AuditLog.clear("Images Updated.txt");
             BackgroundWorker worker = (BackgroundWorker)sender;
 
             int setCount = 0;
@@ -129,15 +131,19 @@ namespace Wix_Studio.Card_GUI
                 foreach ( var wixCard in cardList )
                 {
                     cardCount++;
+                    wixCard.CardSet = setName;
                     if ( !File.Exists(wixCard.CardImagePath) )
                     {
 
                         using ( WebClient client = new WebClient() )
                         {
+                            if ( wixCard.CardNumberInSet == null || wixCard.CardNumberInSet.Contains("???") )
+                                wixCard.CardNumberInSet = wixCard.CardName;
+
                             String newFilePath = CardCollection.setImages + wixCard.CardSet + "\\" + wixCard.CardNumberInSet + ".jpg";
                             if ( wixCard.ImageUrl != null )
                             {
-                                String urlName = "tET";//HttpUtility.UrlEncode("http://vignette2.wikia.nocookie.net/selector-wixoss/images/0/07/PR-066.jpg/revision/latest?cb=20141023063112"); ;
+                                String urlName = wixCard.ImageUrl;
                                 client.DownloadFileAsync(new Uri(urlName) , newFilePath , wixCard);
                                 client.DownloadFileCompleted += Client_DownloadFileCompleted;
                             }
@@ -145,6 +151,12 @@ namespace Wix_Studio.Card_GUI
 
                     }
                     worker.ReportProgress(cardCount , "Card Value");
+                }
+                try {
+                    cardCollection.SaveSet(setName , cardList);
+                }catch(Exception ex )
+                {
+                    Debug.WriteLine(ex.InnerException);
                 }
 
             }
@@ -156,8 +168,8 @@ namespace Wix_Studio.Card_GUI
         {
             WixossCard wixCard = e.UserState as WixossCard;
             String newLine = Environment.NewLine;
-            String hadError = e.Error == null ? newLine + "Passed" : e.Error.Message + newLine;
-            Audit( hadError + "Card Name: " + wixCard.CardName + newLine + "\tSet Name: " + wixCard.CardSet + newLine + "\tCard Number: " + wixCard.CardNumberInSet , "Images Updated.txt");
+            String hadError = e.Error == null ? newLine + "Passed " : newLine + e.Error.InnerException.Message + newLine;
+            AuditLog.log( hadError + "Card Name: " + wixCard.CardName + newLine + "\tSet Name: " + wixCard.CardSet + newLine + "\tCard Number: " + wixCard.CardNumberInSet , "Images Updated.txt");
 
         }
 
@@ -191,18 +203,6 @@ namespace Wix_Studio.Card_GUI
                 worker.ReportProgress(-1 , "Saving Set(" + cardSet.Key + ") To Disk...");
                 cardCollection.SaveSet(cardSet.Key , setCards);
             }
-        }
-
-        public void Audit(String message , String logFileName = "wixStudioLog.txt" , bool newline = true , bool clearLog = false)
-        {
-            String filePath = CardCollection.logPath + logFileName;
-            StreamWriter writer = null;
-            if ( !clearLog )
-                writer = File.AppendText(filePath);
-            else
-                writer = File.CreateText(filePath);
-            writer.WriteLine(message);
-            writer.Close();
         }
     }
 }

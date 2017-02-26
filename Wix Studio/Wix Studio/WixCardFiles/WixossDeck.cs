@@ -20,7 +20,7 @@ namespace Wix_Studio.WixCardFiles
             MainDeck = new List<WixossCard>();
             LRIGDeck = new List<WixossCard>();
         }
-
+        
         public int totalCountOfCard(WixossCard cardToCheck , DeckType deckType , bool ignoreMaxCount = false)
         {
             int totalCount = 0;
@@ -36,7 +36,7 @@ namespace Wix_Studio.WixCardFiles
 
             return totalCount;
         }
-
+        
         public int totalCountOfLifeBurst(bool ignoreMaxCount = false)
         {
             int totalCount = 0;
@@ -73,12 +73,12 @@ namespace Wix_Studio.WixCardFiles
             String deckReport = "Deck Report:\n";
 
             deckReport += "Main Deck(" + (( has40cards && has20LifeBursts) ? "Passed" : "Failed") +"):\n";
-            deckReport += "\tHas 40 cards: " + has40cards;
-            deckReport += "\n\tHas 20 LifeBursts: " + has20LifeBursts;
+            deckReport += "\tHas 40 cards: " + (has40cards ? "Passed" : "Failed(" + MainDeck.Count + ")");
+            deckReport += "\n\tHas 20 LifeBursts: " + ( has20LifeBursts ? "Passed" : "Failed(" + totalCountOfLifeBurst(true) + ")" );
 
             deckReport += "\n\nLRIG Deck(" + ( ( hasLessThen11Cards && hasLevel0Lrig ) ? "Passed" : "Failed" ) + "):\n";
-            deckReport += "\tNo More Than 10 Cards: " + hasLessThen11Cards;
-            deckReport += "\n\tHas a Level 0 LRIG: " + hasLevel0Lrig;
+            deckReport += "\tNo More Than 10 Cards: " + ( hasLessThen11Cards ? "Passed" : "Failed(" + LRIGDeck.Count + ")" );
+            deckReport += "\n\tHas a Level 0 LRIG: " + ( hasLevel0Lrig ? "Passed" : "Failed");
 
             if ( showReport )
                 System.Windows.Forms.MessageBox.Show(deckReport);
@@ -119,7 +119,7 @@ namespace Wix_Studio.WixCardFiles
                     break;
             }
         }
-
+        
         public static bool cardAllowedInMainDeck(WixossCard cardToCheck)
         {
             bool cardAllowed = true;
@@ -196,12 +196,14 @@ namespace Wix_Studio.WixCardFiles
                     File.Delete(filePath);
                 }
 
-                XmlSerializer xsSubmit = new XmlSerializer(typeof(List<WixossCard>));
+                XmlSerializer xsSubmit = new XmlSerializer(typeof(WixossDeck));
                 using ( StringWriter sww = new StringWriter() )
                 using ( XmlWriter writer = XmlWriter.Create(sww) )
                 {
                     xsSubmit.Serialize(writer , deck);
                     File.WriteAllText(filePath , CardCollection.PrintXML(sww.ToString()));
+                    writer.Close();
+                    sww.Close();
                 }
             }
         }
