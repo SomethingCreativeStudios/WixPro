@@ -120,6 +120,8 @@ namespace Wix_Studio.Card_GUI
             AuditLog.clear("Images Updated.txt");
             BackgroundWorker worker = (BackgroundWorker)sender;
 
+
+
             int setCount = 0;
             foreach ( var setName in cardCollection.GetAllSets() )
             {
@@ -128,13 +130,17 @@ namespace Wix_Studio.Card_GUI
                 List<WixossCard> cardList = cardCollection.GetSet(setName);
                 worker.ReportProgress(cardList.Count , "Card Set Count");
                 worker.ReportProgress(setCount , "Card Set Value");
+                if ( !Directory.Exists(CardCollection.setImages + setName) )
+                {
+                    Directory.CreateDirectory(CardCollection.setImages + setName);
+                }
                 foreach ( var wixCard in cardList )
                 {
                     cardCount++;
                     wixCard.CardSet = setName;
                     if ( !File.Exists(wixCard.CardImagePath) )
                     {
-
+                        
                         using ( WebClient client = new WebClient() )
                         {
                             if ( wixCard.CardNumberInSet == null || wixCard.CardNumberInSet.Contains("???") )
