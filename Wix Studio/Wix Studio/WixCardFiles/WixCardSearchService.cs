@@ -11,8 +11,10 @@ namespace Wix_Studio
     {
         public static List<WixossCard> FindCards(WixCardSearchModel searchCard, SortBy sortBy, SortOrder sortOrder)
         {
+            CardCollection cardCollection = new CardCollection();
             List<WixossCard> resultCards = new List<WixossCard>();
-            foreach ( var wixCard in CardCollection.cardCollection.Values )
+            List<WixossCard> totalCards = ( searchCard.setName != "" ? cardCollection.GetCardsInSets(searchCard.setName) : CardCollection.cardCollection.Values.ToList() );
+            foreach ( var wixCard in totalCards)
             {
                 Boolean addCard = true;// searchCard.isEmpty();
                 if ( addCard )
@@ -39,9 +41,6 @@ namespace Wix_Studio
                         addCard = false;
 
                     if ( (searchCard.Type != null && searchCard.Type != CardType.NoType) && searchCard.Type.Value != wixCard.Type )
-                        addCard = false;
-
-                    if ( searchCard.setName != "" && !wixCard.CardSet.ToLower().Contains(searchCard.setName.ToLower()) )
                         addCard = false;
 
                     if ( searchCard.cardEffect != "" && !wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )

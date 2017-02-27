@@ -142,7 +142,41 @@ public class CardCollection
 
         return cardSets;
     }
-    
+
+    /// <summary>
+    /// Get all sets thats starts with filter
+    /// </summary>
+    /// <returns>names of all found sets</returns>
+    public List<string> GetAllSets(String filter)
+    {
+        List<string> cardSets = new List<string>();
+        string[] files = Directory.GetFiles(baseSetPath);
+        for ( int i = 0; i < files.Length; i++ )
+        {
+            bool passesFilter = ( filter != "" ? files[i].Contains(filter) : true);
+            if ( files[i].EndsWith(".xml") && !files[i].Contains("nocard.txt") && passesFilter)
+                cardSets.Add(files[i].Replace(baseSetPath , "").Replace(".xml" , ""));
+        }
+
+        return cardSets;
+    }
+
+    /// <summary>
+    /// Get all cards in sets that starts with filter
+    /// </summary>
+    /// <returns>cards of all found sets</returns>
+    public List<WixossCard> GetCardsInSets(String filter)
+    {
+        List<WixossCard> cardSets = new List<WixossCard>();
+        List<String> setNames = GetAllSets(filter);
+        foreach ( var setName in setNames )
+        {
+            cardSets.AddRange(GetSet(setName));
+        }
+
+        return cardSets;
+    }
+
     public void LoadAllCards()
     {
         List<string> cardSets = GetAllSets();
