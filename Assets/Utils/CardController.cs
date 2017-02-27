@@ -341,43 +341,6 @@ public class CardController : PunBehaviour
                 this.getPhotonView().RPC(Constants.RPC_ChangeCardState , PhotonTargets.Others , cardState , cardLocation);
         }
     }
-
-    /// <summary>
-    /// Update the card's power value, also sync to Op
-    /// </summary>
-    /// <param name="WixossCardComponent"></param>
-    /// <param name="attackPowerModValue"></param>
-    public void ModCardPower(WixCardComponent WixossCardComponent, int attackPowerModValue)
-    {
-        WixossCardComponent.Card.PowerBoost = WixossCardComponent.Card.PowerBoost + attackPowerModValue;
-
-        if ( WixossCardComponent.GetComponentInParent<PoolViewerScript>() != null )
-        {
-            Location cardLocation = WixossCardComponent.GetComponentInParent<PoolViewerScript>().location;
-
-            if ( sendRPC )
-                this.getPhotonView().RPC(Constants.RPC_ModCardPower , PhotonTargets.Others , attackPowerModValue , cardLocation);
-        }
-    }
-
-    /// <summary>
-    /// Update the card's soul value, also sync to Op
-    /// </summary>
-    /// <param name="WixossCardComponent"></param>
-    /// <param name="attackPowerModValue"></param>
-    public void ModCardSoul(WixCardComponent WixossCardComponent , int soulModValue)
-    {
-        WixossCardComponent.Card.SoulBoost = WixossCardComponent.Card.SoulBoost + soulModValue;
-
-        if ( WixossCardComponent.GetComponentInParent<PoolViewerScript>() != null )
-        {
-            Location cardLocation = WixossCardComponent.GetComponentInParent<PoolViewerScript>().location;
-
-            if ( sendRPC )
-                this.getPhotonView().RPC(Constants.RPC_ModCardSoul , PhotonTargets.Others , soulModValue , cardLocation);
-        }
-    }
-    
     
     /// <summary>
     /// Change the game phase, and then sync it with both players
@@ -579,46 +542,6 @@ public class CardController : PunBehaviour
             }
         }
     }
-
-    [PunRPC]
-    public void RPCModCardPower(int attackModValue , Location cardLocation)
-    {
-        foreach ( WixCardComponent WixossCardComponent in GetCardsOnMyOpField() )
-        {
-            if ( WixossCardComponent != null )
-            {
-                if ( WixossCardComponent.GetComponentInParent<PoolViewerScript>() != null )
-                {
-                    if ( cardLocation == WixossCardComponent.GetComponentInParent<PoolViewerScript>().location )
-                    {
-                        WixossCardComponent.Card.PowerBoost = WixossCardComponent.Card.PowerBoost + attackModValue;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    [PunRPC]
-    public void RPCModCardSoul(int soulModValue , Location cardLocation)
-    {
-        foreach ( WixCardComponent WixossCardComponent in GetCardsOnMyOpField() )
-        {
-            if ( WixossCardComponent != null )
-            {
-                if ( WixossCardComponent.GetComponentInParent<PoolViewerScript>() != null )
-                {
-                    if ( cardLocation == WixossCardComponent.GetComponentInParent<PoolViewerScript>().location )
-                    {
-                        WixossCardComponent.Card.SoulBoost = WixossCardComponent.Card.SoulBoost + soulModValue ;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-   
 
     /// <summary>
     /// Quick way to get the photon view for RPC needs

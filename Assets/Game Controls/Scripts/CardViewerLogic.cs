@@ -38,17 +38,17 @@ public class CardViewerLogic : MonoBehaviour {
 	{
 		textName.text = card.CardName;
 		textPower.text = "Power: " + card.Power;
-		textPower.text += card.PowerBoost >= 0 ? " ( + " + card.PowerBoost + " )" : " ( " + card.PowerBoost + " )";
+		textPower.text += card.Power >= 0 ? " ( + " + card.PowerBoost + " )" : " ( " + card.PowerBoost + " )";
 		textLevel.text = "Level: " + card.Level;
-		textClass.text = "Class: " + card.getClassStr();
-		textColor.text = "Color: " + card.getColorStr();
-		textTiming.text = "Timing: " + card.getTimingStr();
+		textClass.text = "Class: " + card.ClassStr;
+		textColor.text = "Color: " + card.ColorStr;
+		textTiming.text = "Timing: " + card.TimingStr;
 		textLifeBurst.text = "LifeBurst: " + card.LifeBurst;
-		textCost.text = "Cost: " + card.getCostStr();
+		textCost.text = "Cost: " + card.CostStr;
 		textType.text = "Type: " + card.Type;
 		textEffects.text = "Effect: " + card.CardEffect;
 
-		WWW www = new WWW("file://" + WixossCard.GetImagePath(card));
+        WWW www = new WWW("file://" + card.CardImagePath);
 		Image rend = cardIamge.GetComponent<Image>();
 		RectTransform rect = cardIamge.GetComponent<RectTransform>();
 		rect.sizeDelta = new Vector2(265, 390);

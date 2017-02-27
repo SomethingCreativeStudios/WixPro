@@ -125,7 +125,7 @@ public class PoolViewerScript : PunBehaviour{
         if ( !card.FaceUp )
             www = new WWW("file://" + Constants.cardBack);
         else
-            www = new WWW("file://" + WixossCard.GetImagePath(card));
+            www = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
         go.name = card.CardSet + "-" + card.CardNumberInSet;
@@ -162,15 +162,14 @@ public class PoolViewerScript : PunBehaviour{
         if ( !card.FaceUp )
             www = new WWW("file://" + Constants.cardBack);
         else
-            www = new WWW("file://" + WixossCard.GetImagePath(card));
+            www = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
         go.name = card.CardSet + "-" + card.CardNumberInSet;
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();
         tempComponent.Card = card;
-        Sprite tempTexture = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));//Resources.Load<Sprite>(pathTemp);
-
+        Sprite tempTexture = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
         rend.sprite = tempTexture;
 
         tempComponent.tempSprite = tempTexture;

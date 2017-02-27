@@ -7,7 +7,6 @@ using System.Text;
 using System.Xml.Serialization;
 using Assets.Game_Controls.Scripts.Enums;
 
-[Serializable]
 public class WixossCard
 {
     public string CardName { get; set; }
@@ -19,6 +18,8 @@ public class WixossCard
     public int Level { get; set; }
     public int Limit { get; set; }
     public int Power { get; set; }
+    [XmlIgnore]
+    public int PowerBoost { get; set; }
     public List<String> Class { get; set; }
     public Boolean Guard { get; set; }
     public Boolean MultiEner { get; set; }
@@ -27,19 +28,7 @@ public class WixossCard
     public String ImageUrl { get; set; }
 
     [XmlIgnore]
-    public Boolean FaceUp { get; set; }
-
-    [XmlIgnore]
-    public int SoulBoost { get; set; }
-
-    [XmlIgnore]
-    public int PowerBoost { get; set; }
-
-    [XmlIgnore]
     public String CardEffect { get; set; }
-
-    [XmlIgnore]
-    public String CardId { get { return CardSet + " " + CardNumberInSet; } }
     [XmlElement("CardEffect")]
     public System.Xml.XmlCDataSection CardEffectCData
     {
@@ -55,8 +44,109 @@ public class WixossCard
     public String CardSet { get; set; }
     public String CardNumberInSet { get; set; }
 
+    public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+
     [XmlIgnore]
     public CardState StateOfCard { get; set; }
+
+    [XmlIgnore]
+    public String CardId { get { return CardSet + " " + CardNumberInSet; } }
+
+    [XmlIgnore]
+    public Boolean FaceUp { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        if ( ( obj.GetType() != typeof(WixossCard) ) )
+            return false;
+
+        WixossCard tempCard = (WixossCard)obj;
+        return ( CardSet + "/" + CardNumberInSet ).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
+    }
+
+    public override int GetHashCode()
+    {
+        return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
+    }
+    public String CostStr
+    {
+        get
+        {
+            String cardCostStr = "";
+
+            foreach ( var cardCost in Cost )
+            {
+                cardCostStr += "{" + cardCost.color + ": " + cardCost.numberPerColor + "} ";
+            }
+
+            if ( cardCostStr == "" )
+            {
+                cardCostStr = "No Cost";
+            }
+
+            return cardCostStr;
+        }
+
+    }
+
+    public String ColorStr
+    {
+        get
+        {
+            String cardColorStr = "";
+
+            foreach ( var cardColor in Color )
+            {
+                cardColorStr += "{" + cardColor + "} ";
+            }
+
+            if ( cardColorStr == "" )
+            {
+                cardColorStr = "No Color";
+            }
+
+            return cardColorStr;
+        }
+
+    }
+
+    public String TimingStr
+    {
+        get
+        {
+            String cardCostTimingStr = "";
+
+            foreach ( var cardTiming in Timing )
+            {
+                cardCostTimingStr += "{" + cardTiming + "} ";
+            }
+            if ( cardCostTimingStr == "" )
+            {
+                cardCostTimingStr = "No Timing";
+            }
+            return cardCostTimingStr;
+        }
+
+    }
+
+    public String ClassStr
+    {
+        get
+        {
+            String cardClassStr = "";
+
+            foreach ( var cardClass in Class )
+            {
+                cardClassStr += "{" + cardClass + "} ";
+            }
+            if ( cardClassStr == "" )
+            {
+                cardClassStr = "No Class";
+            }
+            return cardClassStr;
+        }
+
+    }
 
     public WixossCard()
     {
@@ -64,72 +154,6 @@ public class WixossCard
         Cost = new List<CardCost>();
         Timing = new List<CardTiming>();
         Class = new List<string>();
-        FaceUp = true;
-    }
-
-    public String getClassStr()
-    {
-        String classStr = "";
-        foreach ( var classItem in Class )
-        {
-            classStr += classItem + " ";
-        }
-
-        return classStr;
-    }
-
-    public String getCostStr()
-    {
-        String listStr = "";
-        foreach ( var costItem in Cost )
-        {
-            listStr += costItem + " ";
-        }
-
-        return listStr;
-    }
-
-    public String getColorStr()
-    {
-        String listStr = "";
-        foreach ( var colorItem in Color )
-        {
-            listStr += "{"+ colorItem + "} ";
-        }
-
-        return listStr;
-    }
-
-    public String getTimingStr()
-    {
-        String listStr = "";
-        foreach ( var timeItem in Timing )
-        {
-            listStr += "[" + timeItem + "] ";
-        }
-
-        return listStr;
-    }
-    /// <summary>
-    /// Checks to see if card is equal, based on imageUrl
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public override bool Equals(object obj)
-    {
-        WixossCard cardToCompare = (WixossCard)obj;
-        return ( this.ImageUrl == cardToCompare.ImageUrl );
-    }
-
-    public override int GetHashCode()
-    {
-        System.Random ra = new System.Random();
-        return base.GetHashCode() + ra.Next();
-    }
-
-    public static string GetImagePath(WixossCard card)
-    {
-        return CardCollection.setImages + card.CardSet + "\\" + card.CardNumberInSet + ".jpg";
     }
 
     /// <summary>
@@ -165,44 +189,39 @@ public class WixossCard
             return (WixossCard)formatter.Deserialize(ms);
         }
     }
-}
-[Serializable]
-public enum CardColor
-{
-    Green,
-    Black,
-    Red,
-    Blue,
-    White,
-    Colorless
-}
 
-[Serializable]
-public enum CardType
-{
-    ARTS,
-    LRIG,
-    SIGNI,
-    Resona,
-
-    Spell
-}
-[Serializable]
-public class CardCost
-{
-    public CardColor color { get; set; }
-    public int numberPerColor { get; set; }
-
-    public override string ToString()
+    public enum CardColor
     {
-        return numberPerColor + " {" + color + "}";
+        Green,
+        Black,
+        Red,
+        Blue,
+        White,
+        Colorless,
+        NoColor
+    }
+
+    public enum CardType
+    {
+        ARTS,
+        LRIG,
+        SIGNI,
+        Resona,
+        Spell,
+        NoType
+    }
+
+    public class CardCost
+    {
+        public CardColor color { get; set; }
+        public int numberPerColor { get; set; }
+    }
+
+    public enum CardTiming
+    {
+        MainPhase,
+        AttackPhase,
+        SpellCutIn,
+        NoTiming
     }
 }
-[Serializable]
-public enum CardTiming
-{
-    MainPhase,
-    AttackPhase,
-    SpellCutIn
-}
-
