@@ -77,6 +77,11 @@ namespace Assets.Utils
 
     public class MenuHelper
     {
+        /// <summary>
+        /// Converts enum to string array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string[] MenuToArray<T>()
         {
             List<String> listOfMenuItems = new List<string>();

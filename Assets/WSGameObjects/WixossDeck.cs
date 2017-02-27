@@ -7,8 +7,11 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Wix_Studio.WixCardFiles
+namespace WixPro
 {
+    /// <summary>
+    /// A collection of wixoss cards. Contains Main and LRIG Deck
+    /// </summary>
     public class WixossDeck
     {
         public List<WixossCard> MainDeck { get; set; }
@@ -52,7 +55,7 @@ namespace Wix_Studio.WixCardFiles
             return totalCount;
         }
 
-        public bool isLegalDeck(bool showReport)
+        public bool isLegalDeck()
         {
             bool has40cards = MainDeck.Count == 40;
             bool has20LifeBursts = totalCountOfLifeBurst(true) == 20;
@@ -99,6 +102,11 @@ namespace Wix_Studio.WixCardFiles
             }
         }
 
+        /// <summary>
+        /// Add card to deck
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="deckType">Which deck do you want to add</param>
         public void AddToDeck(WixossCard card, DeckType deckType)
         {
             switch ( deckType )
@@ -115,7 +123,12 @@ namespace Wix_Studio.WixCardFiles
                     break;
             }
         }
-        
+
+        /// <summary>
+        /// Checks the type and makes sure if it is allowed in main deck
+        /// </summary>
+        /// <param name="cardToCheck"></param>
+        /// <returns></returns>
         public static bool cardAllowedInMainDeck(WixossCard cardToCheck)
         {
             bool cardAllowed = true;
@@ -130,6 +143,11 @@ namespace Wix_Studio.WixCardFiles
             return cardAllowed;
         }
 
+        /// <summary>
+        /// Is this card allowed, checks type
+        /// </summary>
+        /// <param name="cardToCheck"></param>
+        /// <returns></returns>
         public static bool cardAllowedILRIGDeck(WixossCard cardToCheck)
         {
             bool cardAllowed = true;
@@ -142,6 +160,12 @@ namespace Wix_Studio.WixCardFiles
             return cardAllowed;
         }
 
+        /// <summary>
+        /// Check if you can add card to deck based on the rules
+        /// </summary>
+        /// <param name="cardToAdd">Card you want to check</param>
+        /// <param name="deckType">Which deck?</param>
+        /// <returns></returns>
         public bool canAddCard(WixossCard cardToAdd , DeckType deckType)
         {
             //Common Rule no more than 4 per card
@@ -176,6 +200,11 @@ namespace Wix_Studio.WixCardFiles
             return true;
         }
 
+        /// <summary>
+        /// Saves a wixoss deck
+        /// </summary>
+        /// <param name="deckName"></param>
+        /// <param name="deck"></param>
         public static void SaveDeck(String deckName, WixossDeck deck)
         {
             if ( !Directory.Exists(CardCollection.deckBasePath + deckName) )
@@ -201,6 +230,11 @@ namespace Wix_Studio.WixCardFiles
             }
         }
 
+        /// <summary>
+        /// Load a local wixoss deck
+        /// </summary>
+        /// <param name="deckName">The name of the deck</param>
+        /// <returns>A wixoss deck</returns>
         public static WixossDeck LoadDeck(string deckName)
         {
             WixossDeck loadedDeck = new WixossDeck();

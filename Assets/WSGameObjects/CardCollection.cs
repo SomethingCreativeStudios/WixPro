@@ -53,7 +53,7 @@ public class CardCollection
         }
     }
 
-    public List<WixossCard> GetSet(string setName)
+    public static List<WixossCard> GetSet(string setName)
     {
         List<WixossCard> cards = new List<WixossCard>();
         StreamReader reader = File.OpenText(baseSetPath + setName + ".xml");
@@ -68,12 +68,12 @@ public class CardCollection
         return cards;
     }
 
-    public void SaveSet(List<WixossCard> cardsInSet)
+    public static void SaveSet(List<WixossCard> cardsInSet)
     {
         SaveSet(cardsInSet[0].CardSet , cardsInSet);
     }
 
-    public void SaveSet(String setName , List<WixossCard> cardsInSet)
+    public static void SaveSet(String setName , List<WixossCard> cardsInSet)
     {
         String filePath = baseSetPath + setName + ".xml";
 
@@ -122,7 +122,7 @@ public class CardCollection
     /// Get all sets found in base path
     /// </summary>
     /// <returns>names of all found sets</returns>
-    public List<string> GetAllSets()
+    public static List<string> GetAllSets()
     {
         List<string> cardSets = new List<string>();
         string[] files = Directory.GetFiles(baseSetPath);
@@ -139,7 +139,7 @@ public class CardCollection
     /// Get all sets thats starts with filter
     /// </summary>
     /// <returns>names of all found sets</returns>
-    public List<string> GetAllSets(String filter)
+    public static List<string> GetAllSets(String filter)
     {
         List<string> cardSets = new List<string>();
         string[] files = Directory.GetFiles(baseSetPath);
@@ -157,7 +157,7 @@ public class CardCollection
     /// Get all cards in sets that starts with filter
     /// </summary>
     /// <returns>cards of all found sets</returns>
-    public List<WixossCard> GetCardsInSets(String filter)
+    public static List<WixossCard> GetCardsInSets(String filter)
     {
         List<WixossCard> cardSets = new List<WixossCard>();
         List<String> setNames = GetAllSets(filter);
@@ -169,7 +169,7 @@ public class CardCollection
         return cardSets;
     }
 
-    public void LoadAllCards()
+    public static void LoadAllCards()
     {
         List<string> cardSets = GetAllSets();
         List<WixossCard> allCards = new List<WixossCard>();
@@ -191,7 +191,7 @@ public class CardCollection
         }
     }
 
-    private WixossCard cardForName(string name)
+    private static WixossCard cardForName(string name)
     {
 
         for ( int i = 0; i < cardCollection.Keys.Count; i++ )

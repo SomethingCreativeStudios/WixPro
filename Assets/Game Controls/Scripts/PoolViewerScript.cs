@@ -6,6 +6,8 @@ using Assets.Utils;
 using UnityEngine.EventSystems;
 using Photon;
 using Assets.Game_Controls.Scripts.Enums;
+using System;
+using CodeBureau;
 
 public class PoolViewerScript : PunBehaviour{
 
@@ -273,20 +275,16 @@ public class PoolViewerScript : PunBehaviour{
 
     public void sendToX(string selectedItem)//will be inherited by most contollers
     {
-        if (selectedItem == Constants.sendToMenu[0]) // Waiting Room
+        if ( selectedItem == GetMenuItem(SendToMenu.SendToTrash) )
         {
             cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.WaitingRoom);
         }
-        if (selectedItem == Constants.sendToMenu[1]) // Shuffle into Deck
+        if ( selectedItem == GetMenuItem(SendToMenu.ShuffleIntoDeck) )
         {
             cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
             cardController.ShufflePlayerDeck();
         }
-        if (selectedItem == Constants.sendToMenu[2]) // Stock 
-        {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.Stock);
-        }
-        if (selectedItem == Constants.sendToMenu[3]) // Top Deck should move to top and cards behind should stay in same order
+        if ( selectedItem == GetMenuItem(SendToMenu.SendToTopOfDeck) )
         {
             cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
             List<WixossCard> WixossCards = cardController.PlayerDeck.GetComponent<PoolViewerScript>().poolOfCards;
@@ -295,24 +293,21 @@ public class PoolViewerScript : PunBehaviour{
             WixossCards.RemoveAt(WixossCards.Count - 1);
             cardController.SyncDeckWithOp();
         }
-        if (selectedItem == Constants.sendToMenu[4]) // Bottom Deck  
+        if ( selectedItem == GetMenuItem(SendToMenu.SendToBottomOfDeck) )
         {
             cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
         }
-        if (selectedItem == Constants.sendToMenu[5]) // Clock
-        {
-            cardController.MoveCardShowCard(WixossCardUnderMouse(), cardController.locationToGameObject(location), cardController.Clock, 0);
-        }
-        if (selectedItem == Constants.sendToMenu[6]) // Hand 
+        if ( selectedItem == GetMenuItem(SendToMenu.SendToHand) )
         {
             cardController.MoveCardShowCard(WixossCardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerHand, 0);
-        }
-        if (selectedItem == Constants.sendToMenu[7]) // Memory
-        {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.Memory);
         }
     }
     public virtual void Menu_clicked(string menuName)
     {
+    }
+
+    public string GetMenuItem(Enum menuItem)
+    {
+        return StringEnum.GetStringValue(menuItem);
     }
 }

@@ -40,8 +40,7 @@ public class OnLoad : PunBehaviour
     [PunRPC]
     public void StartDuel()
     {
-        cardCollection = new CardCollection();
-        currentDeck = cardCollection.GetSet("WXD-16");
+        currentDeck = CardCollection.GetSet("WXD-16");
         GamePhaseCounter.currentPhase = GamePhase.FirstTurn;
         PoolViewerScript deckViewer = GameObject.FindGameObjectWithTag("PlayerDeck").GetComponent<PoolViewerScript>();
         deckViewer.poolOfCards = new List<WixossCard>(currentDeck);

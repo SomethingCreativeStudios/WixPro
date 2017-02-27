@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Game_Controls.Scripts;
 using Assets.Game_Controls.Scripts.Enums;
+using CodeBureau;
 
 public class HandController : PoolViewerScript
 {
@@ -13,7 +14,7 @@ public class HandController : PoolViewerScript
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = Constants.handMenuMainPhase;
+        menuItems = MenuHelper.MenuToArray<HandMenuMainPhase>();
     }
 
     // Update is called once per frame
@@ -22,7 +23,7 @@ public class HandController : PoolViewerScript
         //Can Happen On Same Turn For Both Players
         if ( GamePhaseCounter.currentPhase == GamePhase.FirstTurn )
         {
-            menuItems = Constants.handMenuFirstTurn;
+            menuItems = MenuHelper.MenuToArray<HandMenuFirstTurn>();
 
             if ( !Constants.hasMulligenedCards && needToMulligenCards )
             {
@@ -70,14 +71,14 @@ public class HandController : PoolViewerScript
             }
             if ( GamePhaseCounter.currentPhase == GamePhase.ClockPhase )
             {
-                menuItems = Constants.handMenuClockPhase;
+                menuItems = MenuHelper.MenuToArray<HandMenuClockPhase>();
 
                 if ( Constants.hasClockedCard )
                     cardController.UpdateGamePhase(GamePhase.MainPhase);
             }
             if ( GamePhaseCounter.currentPhase == GamePhase.MainPhase )
             {
-                menuItems = Constants.handMenuMainPhase;
+                menuItems = MenuHelper.MenuToArray<HandMenuMainPhase>();
             }
         }
         #endregion
@@ -129,14 +130,14 @@ public class HandController : PoolViewerScript
     public override void Menu_clicked(string menuName)
     {
         #region Main Phase
-        if (menuName == Constants.handMenuMainPhase[0]) //Send to X
+        if (menuName == GetMenuItem(HandMenuMainPhase.SendToX))
         {
-            DialogScripts.ShowDropDownDialog(new List<string>(Constants.sendToMenu), "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
+            DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()), "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
         }
         #endregion
 
         #region Clock Phase
-        if (menuName == Constants.handMenuClockPhase[0]) // Clock Card
+        if ( menuName == GetMenuItem(HandMenuClockPhase.ClockCard) )
         {
             GameObject cardUnderMouse = CardUnderMouse();
             WixossCard wixossCardUnderMouse = WixossCardUnderMouse();
@@ -155,7 +156,7 @@ public class HandController : PoolViewerScript
             Constants.hasClockedCard = true;
         }
 
-        if (menuName == Constants.handMenuClockPhase[1]) // Move On To Main Phase
+        if ( menuName == GetMenuItem(HandMenuClockPhase.MoveToMainPhase) )
         {
             cardController.UpdateGamePhase(GamePhase.MainPhase);
             Constants.hasClockedCard = true;
@@ -163,11 +164,11 @@ public class HandController : PoolViewerScript
         #endregion
 
         #region Mulligan Phase
-        if (menuName == Constants.handMenuFirstTurn[0]) // Mulligan Card
+        if ( menuName == GetMenuItem(HandMenuFirstTurn.MulliganCard) )
         {
             DialogScripts.ShowCardDialog("Mulligan Time", "Place any cards you want to mulligan here and press OK.", (mulliganedCards) => { MulliganCards(mulliganedCards); }, null);
         }
-        if ( menuName == Constants.handMenuFirstTurn[1] ) // Skip Mulligan Card
+        if ( menuName == GetMenuItem(HandMenuFirstTurn.SkipMulliganCard) )
         {
             Constants.hasMulligenedCards = true;
             cardController.SendFlagToOp("OtherPlayerHasMulligend" , true);
