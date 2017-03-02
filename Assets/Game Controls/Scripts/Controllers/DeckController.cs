@@ -34,7 +34,7 @@ public class DeckController : PoolViewerScript
                 if ( !Constants.hasDrawnCard )
                 {
                     Constants.hasDrawnCard = true;
-                    cardController.MoveCardShowCard(poolOfCards[0] , cardController.PlayerDeck , cardController.PlayerHand, 0);
+                    cardController.MoveCardShowCard(poolOfCards[0] , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , 0);
                 }
 
                 cardController.UpdateGamePhase(GamePhase.ClockPhase);
@@ -72,14 +72,14 @@ public class DeckController : PoolViewerScript
         {
            
             cardController.RefreshDeck();
-            cardController.MoveCardShowCard(cardBeingMoved, cardController.PlayerDeck, cardController.PlayerHand, 0);
+            cardController.MoveCardShowCard(cardBeingMoved, ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , 0);
             cardController.RefreshDeck();
         }
 
         if ( menuName == StringEnum.GetStringValue(DeckMenu.MillTopCard))
           {
             cardController.RefreshDeck();
-            cardController.MoveCard(AddWixossCard(cardBeingMoved , false), cardController.PlayerDeck, cardController.WaitingRoom);
+            cardController.MoveCard(AddWixossCard(cardBeingMoved , false), ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.TrashZone));
             cardController.RefreshDeck();
         }
 

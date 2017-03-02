@@ -91,12 +91,17 @@
   <ItemGroup>
     <Compile Include="Assets\Draggable Logic\Draggable.cs" />
     <Compile Include="Assets\Draggable Logic\DropZone.cs" />
-    <Compile Include="Assets\Game Controls\Scripts\CardImporter.cs" />
     <Compile Include="Assets\Game Controls\Scripts\CardViewerLogic.cs" />
     <Compile Include="Assets\Game Controls\Scripts\ContextMenuScript.cs" />
     <Compile Include="Assets\Game Controls\Scripts\Controllers\DeckController.cs" />
     <Compile Include="Assets\Game Controls\Scripts\Controllers\HandController.cs" />
     <Compile Include="Assets\Game Controls\Scripts\Controllers\PhaseController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\EnerController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\SIGNIController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\CoinController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\LRIGController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\LRIGTrashController.cs" />
+    <Compile Include="Assets\Game Controls\Scripts\Controllers\LifeClothController.cs" />
     <Compile Include="Assets\Game Controls\Scripts\Controllers\TrashContoller.cs" />
     <Compile Include="Assets\Game Controls\Scripts\DialogScripts.cs" />
     <Compile Include="Assets\Game Controls\Scripts\Enums.cs" />
@@ -105,7 +110,6 @@
     <Compile Include="Assets\Game Controls\Scripts\PanelDragger.cs" />
     <Compile Include="Assets\Game Controls\Scripts\PoolViewerLogic.cs" />
     <Compile Include="Assets\Game Controls\Scripts\PoolViewerScript.cs" />
-    <Compile Include="Assets\Game Controls\Scripts\Services\NetworkService.cs" />
     <Compile Include="Assets\Networking\GameManager.cs" />
     <Compile Include="Assets\Networking\Launcher.cs" />
     <Compile Include="Assets\Networking\Lobby GUI Scripts\PlayerNameInputField.cs" />
@@ -189,6 +193,7 @@
     <Compile Include="Assets\PhotonChatApi\IChatClientListener.cs" />
     <Compile Include="Assets\Utils\CardController.cs" />
     <Compile Include="Assets\Utils\Constants.cs" />
+    <Compile Include="Assets\Utils\ControllerHelper.cs" />
     <Compile Include="Assets\Utils\ListExt.cs" />
     <Compile Include="Assets\Utils\Menus.cs" />
     <Compile Include="Assets\Utils\StringEnum.cs" />

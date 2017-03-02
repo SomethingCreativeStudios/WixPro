@@ -40,13 +40,13 @@ public class HandController : PoolViewerScript
                             cardsBeingMovedIds.Add(card.CardId);
                         }
 
-                        cardController.MoveCards(gameObjects , cardController.PlayerHand , cardController.PlayerDeck , 3);
+                        cardController.MoveCards(gameObjects , ControllerHelper.FindGameObject(Location.Hand) , ControllerHelper.FindGameObject(Location.Deck) , 3);
                         cardController.ShufflePlayerDeck();
 
                         for ( int i = 0; i < cardsBeingMulligend.Count; i++ )
                         {
                             WixossCard cardBeingMoved = cardController.getPlayerDeckController().poolOfCards[i];
-                            cardController.MoveCardShowCard(cardBeingMoved , cardController.PlayerDeck , cardController.PlayerHand, i);
+                            cardController.MoveCardShowCard(cardBeingMoved , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , i);
                         }
 
                         Constants.hasMulligenedCards = true;
@@ -142,13 +142,13 @@ public class HandController : PoolViewerScript
             GameObject cardUnderMouse = CardUnderMouse();
             WixossCard wixossCardUnderMouse = WixossCardUnderMouse();
 
-            cardController.MoveCard(cardUnderMouse, cardController.PlayerHand, cardController.Clock);
+            cardController.MoveCard(cardUnderMouse, ControllerHelper.FindGameObject(Location.Hand) , ControllerHelper.FindGameObject(Location.TrashZone));
             
             for (int i = 0; i < 2; i++)
             {
                 WixossCard WixossCard = cardController.getPlayerDeckController().poolOfCards[i];
                 cardController.RefreshDeck();
-                cardController.MoveCardShowCard(WixossCard , cardController.PlayerDeck, cardController.PlayerHand, i);
+                cardController.MoveCardShowCard(WixossCard , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , i);
                 cardController.RefreshDeck();
             }
 

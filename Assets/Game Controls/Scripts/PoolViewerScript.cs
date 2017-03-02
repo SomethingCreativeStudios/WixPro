@@ -277,17 +277,17 @@ public class PoolViewerScript : PunBehaviour{
     {
         if ( selectedItem == GetMenuItem(SendToMenu.SendToTrash) )
         {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.WaitingRoom);
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.TrashZone));
         }
         if ( selectedItem == GetMenuItem(SendToMenu.ShuffleIntoDeck) )
         {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
             cardController.ShufflePlayerDeck();
         }
         if ( selectedItem == GetMenuItem(SendToMenu.SendToTopOfDeck) )
         {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
-            List<WixossCard> WixossCards = cardController.PlayerDeck.GetComponent<PoolViewerScript>().poolOfCards;
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
+            List<WixossCard> WixossCards = ControllerHelper.FindGameObject(Location.Deck).GetComponent<PoolViewerScript>().poolOfCards;
             WixossCard temp = WixossCards[WixossCards.Count - 1];
             WixossCards.Insert(0, temp);
             WixossCards.RemoveAt(WixossCards.Count - 1);
@@ -295,11 +295,11 @@ public class PoolViewerScript : PunBehaviour{
         }
         if ( selectedItem == GetMenuItem(SendToMenu.SendToBottomOfDeck) )
         {
-            cardController.MoveCard(CardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerDeck);
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
         }
         if ( selectedItem == GetMenuItem(SendToMenu.SendToHand) )
         {
-            cardController.MoveCardShowCard(WixossCardUnderMouse(), cardController.locationToGameObject(location), cardController.PlayerHand, 0);
+            cardController.MoveCardShowCard(WixossCardUnderMouse() , ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Hand) , 0);
         }
     }
     public virtual void Menu_clicked(string menuName)

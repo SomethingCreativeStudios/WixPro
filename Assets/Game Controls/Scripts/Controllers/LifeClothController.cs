@@ -3,13 +3,14 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TrashController : PoolViewerScript
+public class LifeClothController : PoolViewerScript
 {
-
+    [Tooltip("The Life Cloth Number")]
+    public int LifeClothNumber = 0;
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<TrashMenu>();
+        menuItems = MenuHelper.MenuToArray<LifeClothMenu>();
     }
 
     // Update is called once per frame

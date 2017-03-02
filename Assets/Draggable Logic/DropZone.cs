@@ -89,7 +89,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     // Deal with networking
                     if ( logic != null && logic.cardController.sendRPC )
                     {
-                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardShowCardToX , PhotonTargets.Others , card.CardId , logic.cardController.gameObjectToLocation(d.parentToReturnTo.gameObject) , logic.cardController.gameObjectToLocation(gameObject));
+                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardShowCardToX , PhotonTargets.Others , card.CardId , ControllerHelper.GameObjectToLocation(d.parentToReturnTo.gameObject) , ControllerHelper.GameObjectToLocation(gameObject));
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     // Deal with networking
                     if ( logic != null && logic.cardController.sendRPC )
                     {
-                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , card.CardId , logic.cardController.gameObjectToLocation(d.parentToReturnTo.gameObject) , logic.cardController.gameObjectToLocation(gameObject));
+                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , card.CardId , ControllerHelper.GameObjectToLocation(d.parentToReturnTo.gameObject) , ControllerHelper.GameObjectToLocation(gameObject));
                     }
                 }
                 DestroyObject(eventData.pointerDrag);

@@ -49,7 +49,7 @@ public class OnLoad : PunBehaviour
         for ( int i = 0; i < 5; i++ )
         {
             WixossCard cardBeingMoved = cardControler.getPlayerDeckController().poolOfCards[i];
-            cardControler.MoveCardShowCard(cardBeingMoved , cardControler.PlayerDeck , cardControler.PlayerHand, i);
+            cardControler.MoveCardShowCard(cardBeingMoved , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , i);
             cardControler.RefreshDeck();
         }
     }
