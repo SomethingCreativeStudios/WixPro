@@ -23,19 +23,19 @@ namespace Assets.Game_Controls.Scripts.Enums
 
     public enum Location
     {
-        [StringValue("CoinZone")]
+        [StringValue("Coin_Zone")]
         CoinZone,
-        [StringValue("PlayerDeck")]
+        [StringValue("Deck_Zone")]
         Deck,
-        [StringValue("PlayerHand")]
+        [StringValue("Hand_Zone")]
         Hand,
         [StringValue("Ener_Zone")]
         EnerZone,
         [StringValue("LRIG_Zone")]
         LRIGZone,
-        [StringValue("LRIG_Trash")]
+        [StringValue("LRIG_Trash_Zone")]
         LRIGTrashZone,
-        [StringValue("Trash")]
+        [StringValue("Trash_Zone")]
         TrashZone,
         [StringValue("PlayerField")]
         PlayerField,
