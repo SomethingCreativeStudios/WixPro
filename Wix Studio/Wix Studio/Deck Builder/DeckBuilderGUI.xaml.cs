@@ -138,22 +138,11 @@ namespace Wix_Studio.Deck_Builder
 
         private int handleListViewMouseMove(object sender , System.Windows.Input.MouseEventArgs e)
         {
-            System.Windows.Controls.ListView listView = null;
-
-            if ( sender.GetType() == typeof(Grid) )
-            {
-                System.Windows.Controls.ListViewItem listViewItem = sender as System.Windows.Controls.ListViewItem;
-                listView = ItemsControl.ItemsControlFromItemContainer(listViewItem) as System.Windows.Controls.ListView;
-            } else
-            {
-                listView = sender as System.Windows.Controls.ListView;
-            }
-
-            int selectedIndex = this.GetCurrentIndex(e.GetPosition , listView);
+            int selectedIndex = this.GetCurrentIndex(e.GetPosition , (System.Windows.Controls.ListView)sender);
             if ( selectedIndex == -1 )
                 return -1;
 
-            selectCard(selectedIndex , listView);
+            selectCard(selectedIndex , (System.Windows.Controls.ListView)sender);
 
             return selectedIndex;
         }
