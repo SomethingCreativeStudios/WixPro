@@ -14,6 +14,7 @@ namespace Wix_Studio
             CardCollection cardCollection = new CardCollection();
             List<WixossCard> resultCards = new List<WixossCard>();
             List<WixossCard> totalCards = ( searchCard.setName != "" ? cardCollection.GetCardsInSets(searchCard.setName) : CardCollection.cardCollection.Values.ToList() );
+
             foreach ( var wixCard in totalCards)
             {
                 Boolean addCard = true;// searchCard.isEmpty();
@@ -102,5 +103,6 @@ namespace Wix_Studio
 
             return inRange;
         }
+        
     }
 }
