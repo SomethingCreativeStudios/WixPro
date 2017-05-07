@@ -7,8 +7,12 @@ using System.Text;
 using System.Xml.Serialization;
 using Assets.Game_Controls.Scripts.Enums;
 
+/// <summary>
+/// Wixoss Card Object
+/// </summary>
 public class WixossCard
 {
+    #region XML Variables
     public string CardName { get; set; }
     public List<CardColor> Color { get; set; }
     public CardType Type { get; set; }
@@ -18,17 +22,21 @@ public class WixossCard
     public int Level { get; set; }
     public int Limit { get; set; }
     public int Power { get; set; }
-    [XmlIgnore]
-    public int PowerBoost { get; set; }
     public List<String> Class { get; set; }
     public Boolean Guard { get; set; }
     public Boolean MultiEner { get; set; }
     public Boolean LifeBurst { get; set; }
     public String CardUrl { get; set; }
     public String ImageUrl { get; set; }
-
-    [XmlIgnore]
-    public String CardEffect { get; set; }
+    public String CardSet { get; set; }
+    public String CardNumberInSet { get; set; }
+    /// <summary>
+    /// The local path of the card image
+    /// </summary>
+    public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+    /// <summary>
+    /// For XML Serialize purposes only 
+    /// </summary>
     [XmlElement("CardEffect")]
     public System.Xml.XmlCDataSection CardEffectCData
     {
@@ -41,33 +49,49 @@ public class WixossCard
             CardEffect = value.Value;
         }
     }
-    public String CardSet { get; set; }
-    public String CardNumberInSet { get; set; }
+    #endregion
 
-    public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+    #region WixPro Temp Variables
 
+    /// <summary>
+    /// The power offset, can be negative
+    /// </summary>
+    [XmlIgnore]
+    public int PowerBoost { get; set; }
+    /// <summary>
+    /// The effect of the card
+    /// </summary>
+    [XmlIgnore]
+    public String CardEffect { get; set; }
+
+    /// <summary>
+    /// What position is the card?
+    /// </summary>
     [XmlIgnore]
     public CardState StateOfCard { get; set; }
 
+    /// <summary>
+    /// Unique id of card. This is the Set + Card Number in Set
+    /// </summary>
     [XmlIgnore]
     public String CardId { get { return CardSet + " " + CardNumberInSet; } }
 
+    /// <summary>
+    /// Is the card face up?
+    /// </summary>
     [XmlIgnore]
     public Boolean FaceUp { get; set; }
+    #endregion
 
-    public override bool Equals(object obj)
+    public WixossCard()
     {
-        if ( ( obj.GetType() != typeof(WixossCard) ) )
-            return false;
-
-        WixossCard tempCard = (WixossCard)obj;
-        return ( CardSet + "/" + CardNumberInSet ).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
+        Color = new List<CardColor>();
+        Cost = new List<CardCost>();
+        Timing = new List<CardTiming>();
+        Class = new List<string>();
     }
 
-    public override int GetHashCode()
-    {
-        return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
-    }
+    #region String Versions Of Arrays
     public String CostStr
     {
         get
@@ -147,14 +171,26 @@ public class WixossCard
         }
 
     }
+    #endregion
 
-    public WixossCard()
+    #region Override Methods
+    public override bool Equals(object obj)
     {
-        Color = new List<CardColor>();
-        Cost = new List<CardCost>();
-        Timing = new List<CardTiming>();
-        Class = new List<string>();
+        if ( ( obj.GetType() != typeof(WixossCard) ) )
+            return false;
+
+        WixossCard tempCard = (WixossCard)obj;
+        return ( CardSet + "/" + CardNumberInSet ).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
     }
+
+    public override int GetHashCode()
+    {
+        return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
+    }
+
+    #endregion
+
+    #region Helper Static Methods
 
     /// <summary>
     /// This will correctly check to see if card is null
@@ -190,6 +226,10 @@ public class WixossCard
         }
     }
 
+    #endregion
+
+    #region WixossCard Enums
+
     public enum CardColor
     {
         Green,
@@ -224,4 +264,6 @@ public class WixossCard
         SpellCutIn,
         NoTiming
     }
+
+    #endregion
 }

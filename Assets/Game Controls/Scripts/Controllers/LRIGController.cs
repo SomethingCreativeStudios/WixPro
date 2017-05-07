@@ -2,17 +2,19 @@
 using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Game_Controls.Scripts.Enums;
 
-public class MemoryController : PoolViewerScript {
+public class LRIGController : PoolViewerScript
+{
 
     // Use this for initialization
-    public override void StartUp() {
-        menuItems = Constants.memoryMenu;
+    public override void StartUp()
+    {
+        menuItems = MenuHelper.MenuToArray<LRIGMenu>();
     }
 
     // Update is called once per frame
-    public override void UpdateScript() {
+    public override void UpdateScript()
+    {
 
     }
 
@@ -33,7 +35,7 @@ public class MemoryController : PoolViewerScript {
         {
             GameObject contextMenu = (GameObject)Instantiate(Resources.Load("ContextMenu"));
             ContextMenuScript menu = contextMenu.GetComponent<ContextMenuScript>();
-            List<string> viewMenu = new List<string>(Constants.memoryMenu);
+            List<string> viewMenu = new List<string>(menuItems);
             menuItems = viewMenu.ToArray();
             menu.SetUpContextMenu(viewMenu);//new List<string>(menuItems));
             menu.clicked += Menu_clicked;
@@ -43,16 +45,15 @@ public class MemoryController : PoolViewerScript {
             contextMenu.transform.position = Input.mousePosition;
         }
     }
-    
 
     public override void Menu_clicked(string menuName)
     {
+        GameObject WixossCard = AddWixossCard(poolOfCards[0]);
 
-
-        if (menuName == menuItems[0]) //This is send to X
+        if ( menuName == GetMenuItem(TrashMenu.SendToX) )
         {
-            DialogScripts.ShowDropDownDialog(new List<string>(Constants.sendToMenu), "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
+            DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()) , "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
         }
     }
-
 }
+

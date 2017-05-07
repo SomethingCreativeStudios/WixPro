@@ -3,13 +3,13 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TrashController : PoolViewerScript
+public class CoinController : PoolViewerScript
 {
 
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<TrashMenu>();
+        menuItems = MenuHelper.MenuToArray<CoinMenu>();
     }
 
     // Update is called once per frame
@@ -49,11 +49,7 @@ public class TrashController : PoolViewerScript
     public override void Menu_clicked(string menuName)
     {
         GameObject WixossCard = AddWixossCard(poolOfCards[0]);
-
-        if ( menuName == GetMenuItem(TrashMenu.SendToX) )
-        {
-            DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()) , "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
-        }
+        
     }
 }
 

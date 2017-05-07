@@ -8,7 +8,7 @@ using CodeBureau;
 
 namespace Assets.Utils
 {
-
+    #region Hand Menu
     public enum HandMenuMainPhase
     {
         [StringValue("Send To X")]
@@ -30,6 +30,7 @@ namespace Assets.Utils
         [StringValue("Skip Mulligan Card")]
         SkipMulliganCard
     }
+    #endregion
 
     public enum DeckMenu
     {
@@ -43,7 +44,36 @@ namespace Assets.Utils
         ViewDeck
     }
 
-    public enum SigniStage
+    public enum SigniMenu
+    {
+        [StringValue("TBD")]
+        TBD
+    }
+
+    public enum CoinMenu
+    {
+        [StringValue("TBD")]
+        TBD
+    }
+    public enum LRIGMenu
+    {
+        [StringValue("TBD")]
+        TBD
+    }
+
+    public enum LRIGTrashMenu
+    {
+        [StringValue("TBD")]
+        TBD
+    }
+
+    public enum LifeClothMenu
+    {
+        [StringValue("TBD")]
+        TBD
+    }
+
+    public enum EnerMenu
     {
         [StringValue("TBD")]
         TBD
@@ -77,6 +107,11 @@ namespace Assets.Utils
 
     public class MenuHelper
     {
+        /// <summary>
+        /// Converts enum to string array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string[] MenuToArray<T>()
         {
             List<String> listOfMenuItems = new List<string>();

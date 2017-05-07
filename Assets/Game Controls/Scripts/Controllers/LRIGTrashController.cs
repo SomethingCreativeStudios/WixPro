@@ -3,13 +3,13 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TrashController : PoolViewerScript
+public class LRIGTrashController : PoolViewerScript
 {
 
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<TrashMenu>();
+        menuItems = MenuHelper.MenuToArray<LRIGTrashMenu>();
     }
 
     // Update is called once per frame

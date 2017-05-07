@@ -3,13 +3,15 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TrashController : PoolViewerScript
+public class SIGNIController : PoolViewerScript
 {
+
+    public SIGNIZone zone = SIGNIZone.Left;
 
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<TrashMenu>();
+        menuItems = MenuHelper.MenuToArray<SigniMenu>();
     }
 
     // Update is called once per frame
@@ -55,5 +57,12 @@ public class TrashController : PoolViewerScript
             DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()) , "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
         }
     }
+}
+
+public enum SIGNIZone
+{
+    Left,
+    Center,
+    Right
 }
 

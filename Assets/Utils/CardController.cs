@@ -11,40 +11,6 @@ using UnityEngine.UI;
 public class CardController : PunBehaviour
 {
 
-    public GameObject Stock;
-    public GameObject PlayerDeck;
-    public GameObject PlayerHand;
-    public GameObject WaitingRoom;
-    public GameObject Memory;
-    public GameObject Level;
-    public GameObject Clock;
-    public GameObject EventZone;
-    public GameObject Climax;
-    public GameObject FrontStageLeft;
-    public GameObject FrontStageCenter;
-    public GameObject FrontStageRight;
-    public GameObject BackStageLeft;
-    public GameObject BackStageRight;
-
-
-    public GameObject Other_Stock;
-    public GameObject Other_PlayerDeck;
-    public GameObject Other_PlayerHand;
-    public GameObject Other_WaitingRoom;
-    public GameObject Other_Memory;
-    public GameObject Other_Level;
-    public GameObject Other_Clock;
-    public GameObject Other_EventZone;
-    public GameObject Other_Climax;
-    public GameObject Other_FrontStageLeft;
-    public GameObject Other_FrontStageCenter;
-    public GameObject Other_FrontStageRight;
-    public GameObject Other_BackStageLeft;
-    public GameObject Other_BackStageRight;
-
-    public GameObject PlayerField;
-    public GameObject OtherPlayerField;
-
     /// <summary>
     /// Destory the gameObject after a move is completed
     /// </summary>
@@ -99,7 +65,7 @@ public class CardController : PunBehaviour
         sendRPC = oldRPC;
 
         if ( sendRPC )
-            this.getPhotonView().RPC(Constants.RPC_MoveCardShowCardToX , PhotonTargets.Others , cardBeingMoved.CardId , gameObjectToLocation(initalObject) , gameObjectToLocation(targetObject));
+            this.getPhotonView().RPC(Constants.RPC_MoveCardShowCardToX , PhotonTargets.Others , cardBeingMoved.CardId , ControllerHelper.GameObjectToLocation(initalObject) , ControllerHelper.GameObjectToLocation(targetObject));
     }
 
     /// <summary>
@@ -152,7 +118,7 @@ public class CardController : PunBehaviour
                 //handle who can view the cards, dont show op hand for example
                 if ( startingViewer.isOp )
                 {
-                    if (endingViewer.location == Location.PlayerHand )
+                    if (endingViewer.location == Location.Hand )
                     {
                         cardComponent.FlipCard();
                     }
@@ -160,11 +126,11 @@ public class CardController : PunBehaviour
                 } else
                 {
                     //Don't show cards going to hand, but show hand cards
-                    if ( startingViewer.location == Location.PlayerDeck )
+                    if ( startingViewer.location == Location.Deck )
                     {
                         cardComponent.FlipCard();
 
-                        if ( endingViewer.location == Location.PlayerHand )
+                        if ( endingViewer.location == Location.Hand )
                             flipCardOnMove = true;
                     }
                 }
@@ -178,7 +144,7 @@ public class CardController : PunBehaviour
             cardComponent.StartMove(destoryCardAfterMove, flipCardOnMove , cardSpeed);
 
             if(sendRPC)
-                this.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , cardComponent.Card.CardId , gameObjectToLocation(startingObject) , gameObjectToLocation(endingObject));
+                this.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , cardComponent.Card.CardId , ControllerHelper.GameObjectToLocation(startingObject) , ControllerHelper.GameObjectToLocation(endingObject));
 
         } else
         {
@@ -236,16 +202,16 @@ public class CardController : PunBehaviour
     /// <summary>
     /// Check to see if the deck needs to be "Refreshed", This will show the cards being moved
     /// </summary>
-    public void RefreshDeck()
+    public void RefreshDeck() /// LOOK AT
     {
-        DeckController playersDeck = PlayerDeck.GetComponent<DeckController>();
-        WaitRoomContoller waitingRoom = WaitingRoom.GetComponent<WaitRoomContoller>();
+        DeckController playersDeck = ControllerHelper.FindGameObject(Location.Deck).GetComponent<DeckController>();
+        TrashController trashZone = ControllerHelper.FindGameObject(Location.TrashZone).GetComponent<TrashController>();
 
         if ( playersDeck.poolOfCards.Count == 0 ) // check to make sure theres no cards
         {
-            waitingRoom.ShufflePool();
-            MoveCards(waitingRoom.poolOfGameObjects , WaitingRoom , PlayerDeck , 1);
-            MoveCard(PoolViewerScript.AddWixossCard(playersDeck.poolOfCards[0] , false) , PlayerDeck , Clock , 3f);//Change AddWixossCard to take tag parameter, this should alow you to see card
+            trashZone.ShufflePool();
+            MoveCards(trashZone.poolOfGameObjects , ControllerHelper.FindGameObject(Location.TrashZone) , ControllerHelper.FindGameObject(Location.Hand) , 1);
+            MoveCard(PoolViewerScript.AddWixossCard(playersDeck.poolOfCards[0] , false) , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Deck) , 3f);//Change AddWixossCard to take tag parameter, this should alow you to see card
         }
     }
 
@@ -254,7 +220,7 @@ public class CardController : PunBehaviour
     /// </summary>
     public void ShufflePlayerDeck()
     {
-        DeckController playersDeck = PlayerDeck.GetComponent<DeckController>();
+        DeckController playersDeck = ControllerHelper.FindGameObject(Location.Deck).GetComponent<DeckController>();
         playersDeck.ShufflePool();
 
         SyncDeckWithOp();
@@ -265,7 +231,7 @@ public class CardController : PunBehaviour
     /// </summary>
     public DeckController getPlayerDeckController()
     {
-        DeckController playersDeck = PlayerDeck.GetComponent<DeckController>();
+        DeckController playersDeck = ControllerHelper.FindGameObject(Location.Deck).GetComponent<DeckController>();
         return playersDeck;
     }
 
@@ -296,12 +262,9 @@ public class CardController : PunBehaviour
     public List<WixCardComponent> GetCardsOnMyField()
     {
         List<WixCardComponent> WixossCardComponents = new List<WixCardComponent>();
-        WixossCardComponents.Add(FrontStageLeft.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(FrontStageCenter.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(FrontStageRight.GetComponentInChildren<WixCardComponent>());
-
-        WixossCardComponents.Add(BackStageLeft.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(BackStageRight.GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Left).GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Center).GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Right).GetComponentInChildren<WixCardComponent>());
         return WixossCardComponents;
     }
 
@@ -315,12 +278,9 @@ public class CardController : PunBehaviour
     {
         List<WixCardComponent> WixossCardComponents = new List<WixCardComponent>();
 
-        WixossCardComponents.Add(Other_FrontStageLeft.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(Other_FrontStageCenter.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(Other_FrontStageRight.GetComponentInChildren<WixCardComponent>());
-
-        WixossCardComponents.Add(Other_BackStageLeft.GetComponentInChildren<WixCardComponent>());
-        WixossCardComponents.Add(Other_BackStageRight.GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Left , true).GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Center , true).GetComponentInChildren<WixCardComponent>());
+        WixossCardComponents.Add(ControllerHelper.FindGameObject(Location.SIGNI_Right , true).GetComponentInChildren<WixCardComponent>());
 
         return WixossCardComponents;
     }
@@ -359,7 +319,7 @@ public class CardController : PunBehaviour
     public void SyncDeckWithOp()
     {
         if (sendRPC)
-            this.getPhotonView().RPC(Constants.RPC_SetOPDeck, PhotonTargets.Others, PlayerDeck.GetComponent<PoolViewerScript>().getCardIds.ToArray());
+            this.getPhotonView().RPC(Constants.RPC_SetOPDeck, PhotonTargets.Others, ControllerHelper.FindGameObject(Location.Deck).GetComponent<PoolViewerScript>().getCardIds.ToArray());
     }
 
     public void SendFlagToOp(string flagName, bool flagValue)
@@ -376,12 +336,12 @@ public class CardController : PunBehaviour
 
         WixossCard cardBeingMoved = null;
         CardCollection.cardCollection.TryGetValue(cardId , out cardBeingMoved);
-        GameObject fromLocationObject = locationToGameObjectOP(fromLocation);
+        GameObject fromLocationObject = ControllerHelper.FindGameObject(fromLocation , true);
         if (cardBeingMoved != null )
         {
             
             GameObject cardObject = PoolViewerScript.AddWixossCard(cardBeingMoved, false);
-            MoveCard(cardObject , fromLocationObject , locationToGameObjectOP(toLocation));
+            MoveCard(cardObject , fromLocationObject , ControllerHelper.FindGameObject(toLocation , true));
         }
 
         //Clean Up
@@ -413,8 +373,8 @@ public class CardController : PunBehaviour
 
         WixossCard cardBeingMoved = null;
         CardCollection.cardCollection.TryGetValue(cardId , out cardBeingMoved);
-        GameObject fromLocationObject = locationToGameObjectOP(fromLocation);
-        GameObject toLocationObject = locationToGameObjectOP(toLocation);
+        GameObject fromLocationObject = ControllerHelper.FindGameObject(fromLocation , true);
+        GameObject toLocationObject = ControllerHelper.FindGameObject(toLocation , true);
         WixCardComponent oldComponent = null;
 
         if ( isLocationField(fromLocation) )
@@ -469,7 +429,7 @@ public class CardController : PunBehaviour
                 cardsBeingMoved.Add(PoolViewerScript.AddWixossCard(cardBeingMoved , false));
         }
 
-        MoveCards(cardsBeingMoved , locationToGameObjectOP(fromLocation) , locationToGameObjectOP(toLocation) , dir);
+        MoveCards(cardsBeingMoved , ControllerHelper.FindGameObject(fromLocation) , ControllerHelper.FindGameObject(toLocation , true), dir);
 
         sendRPC = oldSendRPC;
     }
@@ -480,7 +440,7 @@ public class CardController : PunBehaviour
         bool oldSendRPC = sendRPC;
         sendRPC = false;
 
-        PoolViewerScript opDeckViewer = Other_PlayerDeck.GetComponent<PoolViewerScript>();
+        PoolViewerScript opDeckViewer = ControllerHelper.FindGameObject(Location.Deck , true).GetComponent<PoolViewerScript>();
         opDeckViewer.poolOfCards.Clear();
         foreach ( var cardId in cardIds )
         {
@@ -521,7 +481,7 @@ public class CardController : PunBehaviour
                 break;
         }
 
-        Debug.Log("Changeing flag: " + flagName + " to value " + flagValue);
+        Debug.Log("Changing flag: " + flagName + " to value " + flagValue);
     }
 
     [PunRPC]
@@ -552,142 +512,6 @@ public class CardController : PunBehaviour
         PhotonView photonView = PhotonView.Get(this);
         return photonView;
     }
-
-    /// <summary>
-    /// Given gameObject will return the location enum
-    /// </summary>
-    /// <param name="gameObject">Object that has a poolscriptviewer</param>
-    /// <returns></returns>
-    public Location gameObjectToLocation(GameObject gameObject)
-    {
-        Location location = Location.Level;
-
-        if(gameObject.GetComponent<PoolViewerScript>() != null )
-        {
-            location = gameObject.GetComponent<PoolViewerScript>().location;
-        }
-
-        return location;
-    }
-
-    /// <summary>
-    /// Based on location return the gameObject. This is for player 1 fields
-    /// </summary>
-    /// <param name="location">The location you want</param>
-    /// <returns></returns>
-    public GameObject locationToGameObject(Location location)
-    {
-        GameObject gameObject = null;
-        switch ( location )
-        {
-            case Location.Stock:
-                gameObject = Stock;
-                break;
-            case Location.PlayerDeck:
-                gameObject = PlayerDeck;
-                break;
-            case Location.PlayerHand:
-                gameObject = PlayerHand;
-                break;
-            case Location.WaitingRoom:
-                gameObject = WaitingRoom;
-                break;
-            case Location.Memory:
-                gameObject = Memory;
-                break;
-            case Location.Level:
-                gameObject = Level;
-                break;
-            case Location.Clock:
-                gameObject = Clock;
-                break;
-            case Location.Event:
-                gameObject = EventZone;
-                break;
-            case Location.Climax:
-                gameObject = Climax;
-                break;
-            case Location.FrontStageCenter:
-                gameObject = FrontStageCenter;
-                break;
-            case Location.FrontStageLeft:
-                gameObject = FrontStageLeft;
-                break;
-            case Location.FrontStageRight:
-                gameObject = FrontStageRight;
-                break;
-            case Location.BackStageLeft:
-                gameObject = BackStageLeft;
-                break;
-            case Location.BackStageRight:
-                gameObject = BackStageRight;
-                break;
-            default:
-                break;
-        }
-
-        return gameObject;
-    }
-
-    /// <summary>
-    /// Based on location return the gameObject. This is for player 2 fields
-    /// </summary>
-    /// <param name="location">The location you want</param>
-    /// <returns></returns>
-    public GameObject locationToGameObjectOP(Location location)
-    {
-        GameObject gameObject = null;
-        switch ( location )
-        {
-            case Location.Stock:
-                gameObject = Other_Stock;
-                break;
-            case Location.PlayerDeck:
-                gameObject = Other_PlayerDeck;
-                break;
-            case Location.PlayerHand:
-                gameObject = Other_PlayerHand;
-                break;
-            case Location.WaitingRoom:
-                gameObject = Other_WaitingRoom;
-                break;
-            case Location.Memory:
-                gameObject = Other_Memory;
-                break;
-            case Location.Level:
-                gameObject = Other_Level;
-                break;
-            case Location.Clock:
-                gameObject = Other_Clock;
-                break;
-            case Location.Event:
-                gameObject = Other_EventZone;
-                break;
-            case Location.Climax:
-                gameObject = Other_Climax;
-                break;
-            case Location.FrontStageCenter:
-                gameObject = Other_FrontStageCenter;
-                break;
-            case Location.FrontStageLeft:
-                gameObject = Other_FrontStageLeft;
-                break;
-            case Location.FrontStageRight:
-                gameObject = Other_FrontStageRight;
-                break;
-            case Location.BackStageLeft:
-                gameObject = Other_BackStageLeft;
-                break;
-            case Location.BackStageRight:
-                gameObject = Other_BackStageRight;
-                break;
-            default:
-                break;
-        }
-
-        return gameObject;
-    }
-
 
     /// <summary>
     /// Is the location the field

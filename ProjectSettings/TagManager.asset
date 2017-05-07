@@ -7,40 +7,50 @@ TagManager:
   - Context Menu
   - Viewer
   - Card
-  - Player1Hand
-  - Player2Hand
   - CardViewer
-  - PlayerDeck
   - Main Field
   - DialogDropdown
   - PlayerField
   - OtherPlayerField
   - PhaseCounter
-  - OtherPlayerDeck
-  - WaitingRoomZone
-  - MemoryZone
-  - EventZone
-  - ClimaxZone
-  - StockZone
-  - LevelZone
-  - ClockZone
-  - OP_WaitingRoomZone
-  - OP_MemoryZone
-  - OP_EventZone
-  - OP_ClimaxZone
-  - OP_StockZone
-  - OP_LevelZone
-  - OP_ClockZone
-  - TopLeftBattleZone
-  - TopCenterBattleZone
-  - TopRightBattleZone
-  - BottomLeftBattleZone
-  - BottomRightBattleZone
-  - OP_TopLeftBattleZone
-  - OP_TopCenterBattleZone
-  - OP_TopRightBattleZone
-  - OP_BottomLeftBattleZone
-  - OP_BottomRightBattleZone
+  - LifeCloth_4
+  - Check_Zone
+  - Signi_Zone_Left
+  - Signi_Zone_Right
+  - Ener_Zone
+  - LifeCloth_1
+  - LifeCloth_2
+  - LifeCloth_3
+  - LifeCloth_5
+  - LifeCloth_7
+  - LifeCloth_6
+  - Signi_Zone_Center
+  - Deck_Zone
+  - Trash_Zone
+  - LRIG_Trash_Zone
+  - Coin_Zone
+  - Hand_Zone
+  - LRIG_Zone
+  - LRIG_Deck_Zone
+  - OP_Check_Zone
+  - OP_Signi_Zone_Left
+  - OP_Signi_Zone_Right
+  - OP_Signi_Zone_Center
+  - OP_Ener_Zone
+  - OP_Deck_Zone
+  - OP_Trash_Zone
+  - OP_LRIG_Trash_Zone
+  - OP_Coin_Zone
+  - OP_Hand_Zone
+  - OP_LRIG_Zone
+  - OP_LRIG_Deck_Zone
+  - OP_LifeCloth_1
+  - OP_LifeCloth_2
+  - OP_LifeCloth_3
+  - OP_LifeCloth_4
+  - OP_LifeCloth_5
+  - OP_LifeCloth_6
+  - OP_LifeCloth_7
   layers:
   - Default
   - TransparentFX

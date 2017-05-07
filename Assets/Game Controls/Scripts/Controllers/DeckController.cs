@@ -6,6 +6,7 @@ using Assets.Utils;
 using System;
 using Assets.Game_Controls.Scripts;
 using Assets.Game_Controls.Scripts.Enums;
+using CodeBureau;
 
 public class DeckController : PoolViewerScript
 {
@@ -14,7 +15,7 @@ public class DeckController : PoolViewerScript
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = Constants.deckMenu;
+        menuItems = MenuHelper.MenuToArray<DeckMenu>();
         ShufflePool();
     }
 
@@ -33,7 +34,7 @@ public class DeckController : PoolViewerScript
                 if ( !Constants.hasDrawnCard )
                 {
                     Constants.hasDrawnCard = true;
-                    cardController.MoveCardShowCard(poolOfCards[0] , cardController.PlayerDeck , cardController.PlayerHand, 0);
+                    cardController.MoveCardShowCard(poolOfCards[0] , ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , 0);
                 }
 
                 cardController.UpdateGamePhase(GamePhase.ClockPhase);
@@ -48,7 +49,7 @@ public class DeckController : PoolViewerScript
         {
             GameObject contextMenu = (GameObject)Instantiate(Resources.Load("ContextMenu"));
             ContextMenuScript menu = contextMenu.GetComponent<ContextMenuScript>();
-            List<string> viewMenu = new List<string>(Constants.deckMenu);
+            List<string> viewMenu = new List<string>(menuItems);
             menuItems = viewMenu.ToArray();
             menu.SetUpContextMenu(viewMenu);//new List<string>(menuItems));
             menu.clicked += Menu_clicked;
@@ -67,28 +68,28 @@ public class DeckController : PoolViewerScript
         if(poolOfCards.Count > 0)
             cardBeingMoved = poolOfCards[0];
 
-        if (menuName == Constants.deckMenu[0])//Draw Card
+        if (menuName == StringEnum.GetStringValue(DeckMenu.DrawCard))
         {
            
             cardController.RefreshDeck();
-            cardController.MoveCardShowCard(cardBeingMoved, cardController.PlayerDeck, cardController.PlayerHand, 0);
+            cardController.MoveCardShowCard(cardBeingMoved, ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.Hand) , 0);
             cardController.RefreshDeck();
         }
 
-        if (menuName == Constants.deckMenu[1])//Mill Top Card
-        {
+        if ( menuName == StringEnum.GetStringValue(DeckMenu.MillTopCard))
+          {
             cardController.RefreshDeck();
-            cardController.MoveCard(AddWixossCard(cardBeingMoved , false), cardController.PlayerDeck, cardController.WaitingRoom);
+            cardController.MoveCard(AddWixossCard(cardBeingMoved , false), ControllerHelper.FindGameObject(Location.Deck) , ControllerHelper.FindGameObject(Location.TrashZone));
             cardController.RefreshDeck();
         }
 
-        if (menuName == Constants.deckMenu[2])//Shuffle Deck
+        if ( menuName == StringEnum.GetStringValue(DeckMenu.ShuffleDeck))
         {
             shuffleDeck = true;
             cardController.ShufflePlayerDeck(); //This auto syncs the deck to op
         }
 
-        if (menuName == Constants.deckMenu[3])//View Deck
+        if ( menuName == StringEnum.GetStringValue(DeckMenu.ViewDeck))
         {
             GameObject poolViewer = (GameObject)Instantiate(Resources.Load("PoolViewer"));
             poolViewer.name = gameObject.GetComponent<DropZone>().zoneType.ToString() + " Viewer";
@@ -97,17 +98,6 @@ public class DeckController : PoolViewerScript
             //poolViewer.AddComponent<CanvasRenderer>();
             dragger.realParent = gameObject;
             poolViewer.transform.SetParent(parentCanvas.transform, false);
-        }
-
-        if (menuName == Constants.deckMenu[4])//Draw Hand -- Remove in final
-        {
-            cardController.RefreshDeck();
-            for (int i = 0; i < 5; i++)
-            {
-                cardController.MoveCardShowCard(poolOfCards[i], cardController.PlayerDeck, cardController.PlayerHand, i);
-                cardController.RefreshDeck();
-            }
-           
         }
     }
 
