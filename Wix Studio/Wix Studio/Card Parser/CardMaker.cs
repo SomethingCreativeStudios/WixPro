@@ -169,9 +169,9 @@ namespace Wix_Studio.Card_Parser
             {
                 switch ( key )
                 {
-                    case "Limit":
-                        try { wixossCard.Limit = Convert.ToInt16(tableMap[key].FirstChild.InnerText.Trim()); }
-                        catch (Exception ex){ wixossCard.Limit = 0; }
+                    case "LevelLimit":
+                        try { wixossCard.LevelLimit = Convert.ToInt16(tableMap[key].FirstChild.InnerText.Trim()); }
+                        catch (Exception ex){ wixossCard.LevelLimit = 0; }
                         break;
                     case "Card Type":
                         wixossCard.Type = (CardType)Enum.Parse(typeof(CardType) , tableMap[key].ChildNodes[1].InnerText.Trim());

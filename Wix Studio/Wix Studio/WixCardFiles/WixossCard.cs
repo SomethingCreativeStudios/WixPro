@@ -9,26 +9,27 @@ namespace Wix_Studio
 {
     public class WixossCard
     {
-        public string CardName { get; set; }
-        public List<CardColor> Color { get; set; }
-        public CardType Type { get; set; }
-        public List<CardCost> Cost { get; set; }
-        public string LimitingCondition { get; set; }
-        public List<CardTiming> Timing { get; set; }
-        public int Level { get; set; }
-        public int Limit { get; set; }
-        public int Power { get; set; }
-        public List<String> Class { get; set; }
-        public Boolean Guard { get; set; }
-        public Boolean MultiEner { get; set; }
-        public Boolean LifeBurst { get; set; }
-        public String CardUrl { get; set; }
-        public String ImageUrl { get; set; }
+        public virtual int Id { get; protected set; }
+        public virtual string CardName { get; set; }
+        public virtual IList<CardColor> Color { get; set; }
+        public virtual CardType Type { get; set; }
+        public virtual IList<CardCost> Cost { get; set; }
+        public virtual string LimitingCondition { get; set; }
+        public virtual IList<CardTiming> Timing { get; set; }
+        public virtual int Level { get; set; }
+        public virtual int LevelLimit { get; set; }
+        public virtual int Power { get; set; }
+        public virtual IList<String> Class { get; set; }
+        public virtual Boolean Guard { get; set; }
+        public virtual Boolean MultiEner { get; set; }
+        public virtual Boolean LifeBurst { get; set; }
+        public virtual String CardUrl { get; set; }
+        public virtual String ImageUrl { get; set; }
 
         [XmlIgnore]
-        public String CardEffect { get; set; }
+        public virtual String CardEffect { get; set; }
         [XmlElement("CardEffect")]
-        public System.Xml.XmlCDataSection CardEffectCData
+        public virtual System.Xml.XmlCDataSection CardEffectCData
         {
             get
             {
@@ -39,10 +40,10 @@ namespace Wix_Studio
                 CardEffect = value.Value;
             }
         }
-        public String CardSet { get; set; }
-        public String CardNumberInSet { get; set; }
+        public virtual String CardSet { get; set; }
+        public virtual String CardNumberInSet { get; set; }
 
-        public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+        public virtual String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
 
         public override bool Equals(object obj)
         {
@@ -57,7 +58,7 @@ namespace Wix_Studio
         {
             return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
         }
-        public String CostStr
+        public virtual String CostStr
         {
             get
             {
@@ -78,7 +79,7 @@ namespace Wix_Studio
 
         }
 
-        public String ColorStr
+        public virtual String ColorStr
         {
             get
             {
@@ -99,7 +100,7 @@ namespace Wix_Studio
 
         }
 
-        public String TimingStr
+        public virtual String TimingStr
         {
             get
             {
@@ -150,8 +151,23 @@ namespace Wix_Studio
 
     public class CardCost
     {
-        public CardColor color { get; set; }
-        public int numberPerColor { get; set; }
+        public virtual int Id { get; protected set; }
+        public virtual CardColor color { get; set; }
+        public virtual int numberPerColor { get; set; }
+
+        public virtual WixossCard wixCard { get; set; }
+
+        public CardCost()
+        {
+
+        }
+
+        public CardCost(CardColor color, int numberPerColor, WixossCard wixCard)
+        {
+            this.color = color;
+            this.numberPerColor = numberPerColor;
+            this.wixCard = wixCard;
+        }
     }
 
     public enum CardTiming
