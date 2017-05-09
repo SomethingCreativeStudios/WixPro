@@ -49,7 +49,7 @@ namespace Wix_Studio
             card.Cost.Add(new CardCost(CardColor.Black , 1, card));
 
 
-            WixCardService.Create(card);
+            //WixCardService.Create(card);
             
         }
 

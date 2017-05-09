@@ -40,7 +40,8 @@ namespace Wix_Studio.Card_GUI
             InitializeComponent();
             String updateDeckUrl = "http://selector-wixoss.wikia.com/wiki/Category:Pre-built_Decks?display=page";
             String updateSetUrl = "http://selector-wixoss.wikia.com/wiki/Category:Booster_Sets?display=page";
-            this.cardCollection = cardCollection;
+            cardMaker.GetBoosterSets();
+            /*this.cardCollection = cardCollection;
 
             setsProgressBar.Value = 0;
             setsProgressBar.Minimum = 0;
@@ -63,7 +64,7 @@ namespace Wix_Studio.Card_GUI
             worker.WorkerReportsProgress = true;
             worker.DoWork += updateCardsWork;
             worker.ProgressChanged += Worker_ProgressChanged;
-            worker.RunWorkerAsync();
+            worker.RunWorkerAsync();*/
         }
 
         public void UpdateImages()
