@@ -58,8 +58,9 @@ namespace Wix_Studio
             AutoCompleteStringCollection autoStringCollection = new AutoCompleteStringCollection();
             foreach ( String set in cardCollection.GetAllSets() )
             {
-                autoStringCollection.Add(set);
-                setComboBox.Items.Add(set);
+                String newSet = set.StartsWith("\\") ? set.Substring(1 , set.Length -1) : set;
+                autoStringCollection.Add(newSet);
+                setComboBox.Items.Add(newSet);
             }
 
             setComboBox.DataContext = autoStringCollection;

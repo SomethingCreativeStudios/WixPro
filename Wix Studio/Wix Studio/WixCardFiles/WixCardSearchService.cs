@@ -10,51 +10,13 @@ namespace Wix_Studio
 {
     public class WixCardSearchService
     {
-        public static List<WixossCard> FindCards(WixCardSearchModel searchCard , SortBy sortBy , SortOrder sortOrder)
+        public static List<WixossCard> Search(WixCardSearchModel searchCard , SortBy sortBy , SortOrder sortOrder)
         { 
             CardCollection cardCollection = new CardCollection();
             List<WixossCard> resultCards = new List<WixossCard>();
             List<WixossCard> totalCards = ( searchCard.setName != "" ? cardCollection.GetCardsInSets(searchCard.setName) : CardCollection.cardCollection.Values.ToList() );
             
-            foreach ( var wixCard in totalCards)
-            {
-                Boolean addCard = true;// searchCard.isEmpty();
-                if ( addCard )
-                {
-                    if ( !FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
-                        addCard = false;
-
-                    if ( !FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.Guard , wixCard.Guard) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
-                        addCard = false;
-
-                    if ( !CheckEnum<CardColor>(searchCard.Color , wixCard.Color) )
-                        addCard = false;
-
-                    if ( !CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing) )
-                        addCard = false;
-
-                    if ( (searchCard.Type != null && searchCard.Type != CardType.NoType) && searchCard.Type.Value != wixCard.Type )
-                        addCard = false;
-
-                    if ( searchCard.cardEffect != "" && !wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
-                        addCard = false;
-
-                    if ( searchCard.cardName != "" && !wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
-                        addCard = false;
-                }
-
-                if ( addCard )
-                    resultCards.Add(wixCard);
-            }
+            
 
             return resultCards;
         }

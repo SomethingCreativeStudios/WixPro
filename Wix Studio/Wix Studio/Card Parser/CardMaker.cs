@@ -79,8 +79,9 @@ namespace Wix_Studio.Card_Parser
                 List<HtmlNode> cardTables = html.DocumentNode.Descendants().Where
                  (x => ( x.Name == "span" && x.Attributes["class"] != null &&
                  x.Attributes["class"].Value.Contains("alternative-suggestion") )).ToList();
-                htmlStr.Contains("Did you mean");
-
+                htmlStr.Contains("alternative-suggestion");
+                html.GetElementbyId("WikiaArticle");
+               String newString = htmlStr.Substring(50000);
                 currentSet++;
             }
             

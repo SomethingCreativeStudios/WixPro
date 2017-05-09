@@ -118,8 +118,8 @@
     <Compile Include="Mappings\WixossCardMap.cs" />
     <Compile Include="WixCardFiles\AuditLog.cs" />
     <Compile Include="WixCardFiles\WixCardSearchModel.cs" />
+    <Compile Include="WixCardFiles\WixCardSearchService.cs" />
     <Compile Include="WixCardFiles\WixossCard.cs" />
-    <Compile Include="WixCardFiles\WixCardService.cs" />
     <Compile Include="WixCardFiles\WixossDeck.cs" />
     <Compile Include="WixCardFiles\WixSortable.cs" />
     <Page Include="Card GUI\CardUpdater.xaml">

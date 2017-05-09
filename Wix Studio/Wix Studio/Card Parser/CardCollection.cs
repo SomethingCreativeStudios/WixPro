@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -35,7 +36,7 @@ public class CardCollection
     {
         cardCollection = new Dictionary<string , WixossCard>();
         CreateNeededFolders();
-        LoadAllCards();
+        //LoadAllCards();
     }
     
     public void CreateNeededFolders()
@@ -65,14 +66,20 @@ public class CardCollection
     {
         List<WixossCard> cards = new List<WixossCard>();
         StreamReader reader = File.OpenText(baseSetPath + setName + ".xml");
-        using ( var stream = new StringReader(reader.ReadToEnd()) )
+        try
         {
-            var serializer = new XmlSerializer(typeof(List<WixossCard>));
-            cards = new List<WixossCard>(serializer.Deserialize(stream) as List<WixossCard>);
-            stream.Close();
-            reader.Close();
+            using ( var stream = new StringReader(reader.ReadToEnd()) )
+            {
+                var serializer = new XmlSerializer(typeof(List<WixossCard>));
+                cards = new List<WixossCard>(serializer.Deserialize(stream) as List<WixossCard>);
+                stream.Close();
+                reader.Close();
+            }
         }
-
+        catch ( Exception e )
+        {
+            Debug.WriteLine("Error occured when getting set " + setName + " throws: " + e.Message);
+        }
         return cards;
     }
 
