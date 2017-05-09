@@ -9,6 +9,7 @@ namespace Wix_Studio
 {
     public class WixossCard
     {
+
         public string CardName { get; set; }
         public List<CardColor> Color { get; set; }
         public CardType Type { get; set; }

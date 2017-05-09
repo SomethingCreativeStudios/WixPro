@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Wix_Studio.WixCardFiles;
@@ -9,11 +10,12 @@ namespace Wix_Studio
 {
     public class WixCardSearchService
     {
-        public static List<WixossCard> FindCards(WixCardSearchModel searchCard, SortBy sortBy, SortOrder sortOrder)
-        {
+        public static List<WixossCard> FindCards(WixCardSearchModel searchCard , SortBy sortBy , SortOrder sortOrder)
+        { 
             CardCollection cardCollection = new CardCollection();
             List<WixossCard> resultCards = new List<WixossCard>();
             List<WixossCard> totalCards = ( searchCard.setName != "" ? cardCollection.GetCardsInSets(searchCard.setName) : CardCollection.cardCollection.Values.ToList() );
+            
             foreach ( var wixCard in totalCards)
             {
                 Boolean addCard = true;// searchCard.isEmpty();
@@ -57,7 +59,7 @@ namespace Wix_Studio
             return resultCards;
         }
 
-        public static Boolean CheckEnum<T>(Enum searchEnum, List<T> cardEnum)
+        public static Boolean CheckEnum<T>(Enum searchEnum , List<T> cardEnum)
         {
             bool cardMatches = true;
 
@@ -77,11 +79,11 @@ namespace Wix_Studio
             return cardMatches;
         }
 
-        public static Boolean CheckBoolean(Boolean? searchBool, Boolean cardBool)
+        public static Boolean CheckBoolean(Boolean? searchBool , Boolean cardBool)
         {
             bool cardMatches = true;
 
-            if(searchBool != null )
+            if ( searchBool != null )
             {
                 cardMatches = searchBool == cardBool;
             }
@@ -102,5 +104,6 @@ namespace Wix_Studio
 
             return inRange;
         }
+     
     }
 }

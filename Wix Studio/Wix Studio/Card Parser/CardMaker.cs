@@ -47,6 +47,57 @@ namespace Wix_Studio.Card_Parser
             return setList;
         }
 
+        public Dictionary<String , String> GetBoosterSets()
+        {
+            Dictionary<String , String> setList = new Dictionary<string , string>();
+            HtmlNode deckTable = null;
+
+            var html = new HtmlDocument();
+            Boolean keepLooking = true;
+            int currentSet = 1;
+            string url = "http://selector-wixoss.wikia.com/wiki/WX-"; //alternative - suggestion
+            while ( keepLooking )
+            {
+                String fullUrl = url + makeSetName(currentSet);
+                String htmlStr = "";
+                try
+                {
+                    htmlStr = new WebClient().DownloadString(url);
+                }
+                catch ( System.Net.WebException exception )
+                {
+                    string responseText;
+
+                    using ( var reader = new System.IO.StreamReader(exception.Response.GetResponseStream()) )
+                    {
+                        responseText = reader.ReadToEnd();
+                        htmlStr = responseText;
+                    }
+                }
+
+                html.LoadHtml(htmlStr);
+                List<HtmlNode> cardTables = html.DocumentNode.Descendants().Where
+                 (x => ( x.Name == "span" && x.Attributes["class"] != null &&
+                 x.Attributes["class"].Value.Contains("alternative-suggestion") )).ToList();
+                htmlStr.Contains("Did you mean");
+
+                currentSet++;
+            }
+            
+
+            return setList;
+        }
+
+        private String makeSetName(int currentSet)
+        {
+            string setName = "";
+
+            if ( currentSet < 10 )
+                setName = "0";
+
+            return setName + currentSet.ToString();
+        }
+
         public Dictionary<String,int> GetCardsFromUrl(String urlOfDeck)
         {
 
