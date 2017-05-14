@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Wix_Studio
 {
@@ -125,6 +126,11 @@ namespace Wix_Studio
             Cost = new List<CardCost>();
             Timing = new List<CardTiming>();
             Class = new List<string>();
+        }
+
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this , Formatting.Indented);
         }
     }
 

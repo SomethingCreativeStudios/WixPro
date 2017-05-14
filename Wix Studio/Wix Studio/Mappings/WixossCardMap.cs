@@ -27,14 +27,14 @@ namespace Wix_Studio.NHibernate.Mappings
             Map(x => x.Power);
             Map(x => x.Type);
 
-            HasMany(x => x.Timing).Inverse().Cascade.All().Table("CardTiming").Element("CardTiming");
-            HasMany(x => x.Cost).Inverse().Cascade.All();
+            HasMany(x => x.Timing).Table("CardTiming").Element("CardTiming").Cascade.All().Not.LazyLoad(); ;
+            HasMany(x => x.Cost).Cascade.All().Not.LazyLoad(); ;
 
-            HasMany(x => x.Color).Table("CardColor").Element("CardColor").Cascade.All();
+            HasMany(x => x.Color).Table("CardColor").Element("CardColor").Cascade.All().Not.LazyLoad(); ;
 
 
             //HasMany(x => x.Color).Inverse().Cascade.All().Table("CardColor").Element("CardColor");
-            HasMany(x => x.Class).Inverse().Cascade.All().Table("CardClass").Element("CardClass");
+            HasMany(x => x.Class).Table("CardClass").Element("CardClass").Cascade.All().Not.LazyLoad(); ;
         }
     }
 }

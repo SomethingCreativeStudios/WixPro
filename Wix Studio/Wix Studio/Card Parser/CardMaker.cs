@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using System.Threading;
 
 namespace Wix_Studio.Card_Parser
 {
     public class CardMaker
     {
         public static String urlName = "http://selector-wixoss.wikia.com";
+        String boosterPackUrl = "";
+        System.Windows.Forms.WebBrowser browser = new System.Windows.Forms.WebBrowser();
 
         public Dictionary<String, String> GetAllSets(String url)
         {
@@ -47,44 +51,72 @@ namespace Wix_Studio.Card_Parser
             return setList;
         }
 
+        /// <summary>
+        /// This method is awful, and I kinda hate myself for writing it
+        /// But.... it works so...
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<String , String> GetBoosterSets()
         {
             Dictionary<String , String> setList = new Dictionary<string , string>();
-            HtmlNode deckTable = null;
+            browser.ScriptErrorsSuppressed = true;
 
             var html = new HtmlDocument();
             Boolean keepLooking = true;
+            Boolean websiteDownloading = false;
             int currentSet = 1;
-            string url = "http://selector-wixoss.wikia.com/wiki/WX-"; //alternative - suggestion
+            string url = "http://selector-wixoss.wikia.com/wiki/WX-";
+            boosterPackUrl = url + makeSetName(currentSet);
+
             while ( keepLooking )
             {
-                String fullUrl = url + makeSetName(currentSet);
-                String htmlStr = "";
-                try
-                {
-                    htmlStr = new WebClient().DownloadString(url);
-                }
-                catch ( System.Net.WebException exception )
-                {
-                    string responseText;
+                while ( websiteDownloading )
+                    System.Windows.Forms.Application.DoEvents();
 
-                    using ( var reader = new System.IO.StreamReader(exception.Response.GetResponseStream()) )
+                browser.Navigate(boosterPackUrl);
+                websiteDownloading = true;
+                browser.DocumentCompleted += (s , e) =>
+                {
+                    //Stop loading the same set
+                    if ( e.Url.ToString() != boosterPackUrl )
+                        return;
+
+                    String htmlStr = browser.DocumentText;
+                    html.LoadHtml(htmlStr);
+                    if ( htmlStr.Contains("alternative-suggestion") )
                     {
-                        responseText = reader.ReadToEnd();
-                        htmlStr = responseText;
-                    }
-                }
+                        //Dig down and find the a tag we need
+                        var wikiNode = html.GetElementbyId("WikiaArticle");
+                        var spanClasses = wikiNode
+                        .Descendants("span")
+                        .Where(d =>
+                           d.Attributes.Contains("class")
+                           &&
+                           d.Attributes["class"].Value.Contains("mw-headline")
+                        );
 
-                html.LoadHtml(htmlStr);
-                List<HtmlNode> cardTables = html.DocumentNode.Descendants().Where
-                 (x => ( x.Name == "span" && x.Attributes["class"] != null &&
-                 x.Attributes["class"].Value.Contains("alternative-suggestion") )).ToList();
-                htmlStr.Contains("alternative-suggestion");
-                html.GetElementbyId("WikiaArticle");
-               String newString = htmlStr.Substring(50000);
-                currentSet++;
+                        var htmlClasses = spanClasses.ElementAt(0).Descendants("span")
+                         .Where(d =>
+                            d.Attributes.Contains("class")
+                            &&
+                            d.Attributes["class"].Value.Contains("alternative-suggestion")
+                         );
+
+                        var aLink = htmlClasses.ElementAt(0).Descendants("a").ElementAt(0);
+
+                        //Sometimes we might hit a duplicate(shouldnt happen, but this is a saftey check)
+                        if ( !setList.ContainsKey(aLink.Attributes["title"].Value) )
+                            setList.Add(aLink.Attributes["title"].Value , "http://selector-wixoss.wikia.com" + aLink.Attributes["href"].Value);
+
+                        //Load up next booster pack url
+                        currentSet++;
+                        boosterPackUrl = url + makeSetName(currentSet);
+                    } else
+                        keepLooking = false;
+
+                    websiteDownloading = false;
+                };
             }
-            
 
             return setList;
         }

@@ -109,7 +109,7 @@ namespace Wix_Studio.Deck_Builder
             searchModel.Type = CardType.ComboBox1.Text == "" ? Wix_Studio.CardType.NoType : (Wix_Studio.CardType)Enum.Parse(typeof(Wix_Studio.CardType) , CardType.ComboBox1.Text);
             searchModel.Timing = CardTiming.ComboBox1.Text == "" ? Wix_Studio.CardTiming.NoTiming : (Wix_Studio.CardTiming)Enum.Parse(typeof(Wix_Studio.CardTiming) , CardTiming.ComboBox1.Text);
 
-            resultCards = new List<WixossCard>(WixCardSearchService.Search(searchModel , SortBy.Color , WixCardFiles.SortOrder.ASC).Distinct().ToList());
+            resultCards = new List<WixossCard>(WixCardService.Search(searchModel , SortBy.Color , WixCardFiles.SortOrder.ASC).Distinct().ToList());
             ResultsList.ItemsSource = resultCards;
         }
 

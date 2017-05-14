@@ -40,31 +40,58 @@ namespace Wix_Studio.Card_GUI
             InitializeComponent();
             String updateDeckUrl = "http://selector-wixoss.wikia.com/wiki/Category:Pre-built_Decks?display=page";
             String updateSetUrl = "http://selector-wixoss.wikia.com/wiki/Category:Booster_Sets?display=page";
-            cardMaker.GetBoosterSets();
-            /*this.cardCollection = cardCollection;
+            this.cardCollection = cardCollection;
 
             setsProgressBar.Value = 0;
             setsProgressBar.Minimum = 0;
 
+            String cardList = "";
+
             foreach ( var cardSet in cardMaker.GetAllSets(updateDeckUrl) )
             {
-                cardSets.Add(cardSet.Key , cardSet.Value);
+               // cardSets.Add(cardSet.Key , cardSet.Value);
             }
 
-            foreach ( var cardSet in cardMaker.GetAllSets(updateSetUrl) )
+            /*foreach ( var cardSet in cardMaker.GetBoosterSets() )
             {
                 cardSets.Add(cardSet.Key , cardSet.Value);
-            }
+                cardList += "cardSets.add(\"" + cardSet.Key + "\",\"" + cardSet.Value + "\");\n";
+            }*/
 
-            cardsProgressBar.Value = 0;
-            cardsProgressBar.Minimum = 0;
-            setsProgressBar.Maximum = cardSets.Values.Count;
+            //For Speed and testing
+            cardSets.Add("WX-01 Served Selector" , "http://selector-wixoss.wikia.com/wiki/WX-01_Served_Selector");
+           /* cardSets.Add("WX-02 Stirred Selector" , "http://selector-wixoss.wikia.com/wiki/WX-02_Stirred_Selector");
+            cardSets.Add("WX-03 Spread Selector" , "http://selector-wixoss.wikia.com/wiki/WX-03_Spread_Selector");
+            cardSets.Add("WX-04 Infected Selector" , "http://selector-wixoss.wikia.com/wiki/WX-04_Infected_Selector");
+            cardSets.Add("WX-05 Beginning Selector" , "http://selector-wixoss.wikia.com/wiki/WX-05_Beginning_Selector");
+            cardSets.Add("WX-06 Fortune Selector" , "http://selector-wixoss.wikia.com/wiki/WX-06_Fortune_Selector");
+            cardSets.Add("WX-07 Next Selector" , "http://selector-wixoss.wikia.com/wiki/WX-07_Next_Selector");
+            cardSets.Add("WX-08 Incubate Selector" , "http://selector-wixoss.wikia.com/wiki/WX-08_Incubate_Selector");
+            cardSets.Add("WX-09 Reacted Selector" , "http://selector-wixoss.wikia.com/wiki/WX-09_Reacted_Selector");
+            cardSets.Add("WX-10 Chained Selector" , "http://selector-wixoss.wikia.com/wiki/WX-10_Chained_Selector");
+            cardSets.Add("WX-11 Destructed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-11_Destructed_Selector");
+            cardSets.Add("WX-12 Replied Selector" , "http://selector-wixoss.wikia.com/wiki/WX-12_Replied_Selector");
+            cardSets.Add("WX-13 Unfeigned Selector" , "http://selector-wixoss.wikia.com/wiki/WX-13_Unfeigned_Selector");
+            cardSets.Add("WX-14 Succeed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-14_Succeed_Selector");
+            cardSets.Add("WX-15 Incited Selector" , "http://selector-wixoss.wikia.com/wiki/WX-15_Incited_Selector");
+            cardSets.Add("WX-16 Decided Selector" , "http://selector-wixoss.wikia.com/wiki/WX-16_Decided_Selector");
+            cardSets.Add("WX-17 Exposed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-17_Exposed_Selector");
+            cardSets.Add("WX-18 Conflated Selector" , "http://selector-wixoss.wikia.com/wiki/WX-18_Conflated_Selector");
+            cardSets.Add("WX-19 Unsolved Selector" , "http://selector-wixoss.wikia.com/wiki/WX-19_Unsolved_Selector");
+            */
 
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += updateCardsWork;
-            worker.ProgressChanged += Worker_ProgressChanged;
-            worker.RunWorkerAsync();*/
+
+
+
+             cardsProgressBar.Value = 0;
+             cardsProgressBar.Minimum = 0;
+             setsProgressBar.Maximum = cardSets.Values.Count;
+
+             BackgroundWorker worker = new BackgroundWorker();
+             worker.WorkerReportsProgress = true;
+             worker.DoWork += updateCardsWork;
+             worker.ProgressChanged += Worker_ProgressChanged;
+             worker.RunWorkerAsync();
         }
 
         public void UpdateImages()
@@ -91,7 +118,7 @@ namespace Wix_Studio.Card_GUI
             {
                 setsProgressBar.Value = e.ProgressPercentage;
                 setBlock.Text = "Set " + setsProgressBar.Value + " / " + setsProgressBar.Maximum;
-                if ( e.ProgressPercentage == setsProgressBar.Maximum )
+                if ( e.ProgressPercentage > setsProgressBar.Maximum )
                 {
                     System.Windows.Forms.MessageBox.Show("Update Done");
                     this.Close();
@@ -201,14 +228,15 @@ namespace Wix_Studio.Card_GUI
 
                     WixossCard theCard = cardMaker.GetCardFromUrl(cardItem.Key);
 
-                    for ( int i = 0; i < cardItem.Value; i++ )
+                    //for ( int i = 0; i < cardItem.Value; i++ )
                     {
                         setCards.Add(theCard);
+                        WixCardService.Create(theCard);
                     }
                 }
 
                 worker.ReportProgress(-1 , "Saving Set(" + cardSet.Key + ") To Disk...");
-                cardCollection.SaveSet(cardSet.Key , setCards);
+               // cardCollection.SaveSet(cardSet.Key , setCards);
             }
         }
     }
