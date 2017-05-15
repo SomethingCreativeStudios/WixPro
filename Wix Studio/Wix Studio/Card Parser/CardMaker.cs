@@ -331,21 +331,22 @@ namespace Wix_Studio.Card_Parser
                 {
                     if ( setInfo != "" )
                     {
-                        HtmlDocument justATag = new HtmlDocument();
-                        justATag.LoadHtml(setInfo);
+                        HtmlDocument htmlTableData = new HtmlDocument();
+                        htmlTableData.LoadHtml(setInfo);
 
-                        String setText = justATag.DocumentNode.ChildNodes[1].InnerText.Substring(2).Trim();
-                        String setName = setText.Substring(setText.IndexOf("(") + 1 , setText.IndexOf("-") - 1);
+                        var aTags = htmlTableData.DocumentNode.Descendants("a")
+                         .Where(d =>
+                            d.Attributes.Contains("title")
+                            &&
+                            d.Attributes["href"].Value.Contains("WX-")
+                         );
 
-                        try
+                        foreach ( var aTag in aTags )
                         {
-                            String cardNumberInSet = setText.Substring(setText.IndexOf("-") + 1 , setText.IndexOf(" - ") - 6);
-                            wixossCard.CardNumberInSet = cardNumberInSet;
+                            String setName = aTag.Attributes["href"].Value;
+                            setName = setName.Substring(setName.LastIndexOf("/") +  1, 5);
+                            wixossCard.CardSets.Add(setName);
                         }
-                        catch ( Exception ex ) { wixossCard.CardNumberInSet = "???"; }
-
-                        
-                        wixossCard.CardSet = setName;
                     }
                 }
             }

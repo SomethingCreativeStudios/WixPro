@@ -31,7 +31,7 @@ namespace Wix_Studio
             card.Color.Add(CardColor.Blue);
             card.Cost.Add(new CardCost(CardColor.Black , 1, card));
 
-
+            WixCardService.Search(null,WixCardFiles.SortBy.Color,WixCardFiles.SortOrder.ASC);
             //WixCardService.Create(card);
            // WixCardService.getAllCards();
             
@@ -93,7 +93,7 @@ namespace Wix_Studio
 
             try
             {
-                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + currentSetCards[cardCombBox.SelectedIndex].CardSet + "\\" + currentSetCards[cardCombBox.SelectedIndex].CardNumberInSet + ".jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + currentSetCards[cardCombBox.SelectedIndex].Id + ".jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             catch ( Exception ex )

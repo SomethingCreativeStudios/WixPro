@@ -47,7 +47,7 @@ namespace Wix_Studio
             WixossCard selectedCard = (WixossCard)ImageList.Items[selectedIndex];
             try
             {
-                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + selectedCard.Id + ".jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             catch ( Exception ex )

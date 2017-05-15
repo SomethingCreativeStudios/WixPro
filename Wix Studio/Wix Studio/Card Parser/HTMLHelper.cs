@@ -96,7 +96,14 @@ namespace Wix_Studio.Card_Parser
             {
                 if(item.Trim() != "" )
                 {
-                    cardCostList.Add(Convert.ToInt16(item.Trim()));
+                    String cleanedItem = item;
+
+                    if ( item.Contains("or") )
+                    {
+                        cleanedItem = item.Split(' ')[0];
+                    }
+
+                    cardCostList.Add(Convert.ToInt16(cleanedItem.Trim()));
                 }
             }
 

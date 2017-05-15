@@ -35,6 +35,12 @@ namespace Wix_Studio.Deck_Builder
         {
             InitializeComponent();
             DeckList.ItemsSource = currentDeck.MainDeck;
+            ResultsList.SelectionChanged += ResultsList_SelectionChanged;
+        }
+
+        private void ResultsList_SelectionChanged(object sender , SelectionChangedEventArgs e)
+        {
+            selectCard(ResultsList.SelectedIndex , (System.Windows.Controls.ListView)sender);
         }
 
         private void NumberValidationTextBox(object sender , TextCompositionEventArgs e)
@@ -56,7 +62,7 @@ namespace Wix_Studio.Deck_Builder
             WixossCard selectedCard = (WixossCard)listView.Items[selectedIndex];
             try
             {
-                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + selectedCard.CardSet + "\\" + selectedCard.CardNumberInSet + ".jpg");
+                Uri uriImage = new Uri(CardCollection.baseSetPath + "\\setimages\\" + selectedCard.Id + ".jpg");
                 cardImageBox.Source = new BitmapImage(uriImage);
             }
             catch ( Exception ex )
@@ -170,6 +176,7 @@ namespace Wix_Studio.Deck_Builder
                 return false;
 
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
+            bounds.Width = 150;
             Point mousePos = getPosition((IInputElement)target);
             return bounds.Contains(mousePos);
         }

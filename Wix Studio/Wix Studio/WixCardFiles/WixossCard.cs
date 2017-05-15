@@ -41,10 +41,9 @@ namespace Wix_Studio
                 CardEffect = value.Value;
             }
         }
-        public virtual String CardSet { get; set; }
-        public virtual String CardNumberInSet { get; set; }
+        public virtual IList<String> CardSets { get; set; }
 
-        public virtual String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
+        public virtual String CardImagePath { get { return CardCollection.setImages + "\\" + Id + ".jpg"; } }
 
         public override bool Equals(object obj)
         {
@@ -52,12 +51,12 @@ namespace Wix_Studio
                 return false;
 
             WixossCard tempCard = (WixossCard)obj;
-            return (CardSet + "/" + CardNumberInSet).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
+            return Id == tempCard.Id;
         }
 
         public override int GetHashCode()
         {
-            return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
+            return ( Id ).GetHashCode();
         }
         public virtual String CostStr
         {
@@ -126,6 +125,7 @@ namespace Wix_Studio
             Cost = new List<CardCost>();
             Timing = new List<CardTiming>();
             Class = new List<string>();
+            CardSets = new List<String>();
         }
 
         public override string ToString()

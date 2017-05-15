@@ -14,8 +14,6 @@ namespace Wix_Studio.NHibernate.Mappings
             Id(x => x.Id);
             Map(x => x.CardEffect);
             Map(x => x.CardName);
-            Map(x => x.CardNumberInSet);
-            Map(x => x.CardSet);
             Map(x => x.CardUrl);
             Map(x => x.Guard);
             Map(x => x.ImageUrl);
@@ -27,14 +25,12 @@ namespace Wix_Studio.NHibernate.Mappings
             Map(x => x.Power);
             Map(x => x.Type);
 
-            HasMany(x => x.Timing).Table("CardTiming").Element("CardTiming").Cascade.All().Not.LazyLoad(); ;
-            HasMany(x => x.Cost).Cascade.All().Not.LazyLoad(); ;
+            HasMany(x => x.Timing).Table("CardTiming").Element("CardTiming").Cascade.All().Not.LazyLoad();
+            HasMany(x => x.Cost).Cascade.All().Not.LazyLoad();
 
-            HasMany(x => x.Color).Table("CardColor").Element("CardColor").Cascade.All().Not.LazyLoad(); ;
-
-
-            //HasMany(x => x.Color).Inverse().Cascade.All().Table("CardColor").Element("CardColor");
-            HasMany(x => x.Class).Table("CardClass").Element("CardClass").Cascade.All().Not.LazyLoad(); ;
+            HasMany(x => x.Color).Table("CardColor").Element("CardColor").Cascade.All().Not.LazyLoad();
+            HasMany(x => x.CardSets).Table("CardSet").Element("CardSet").Cascade.All().Not.LazyLoad(); ;
+            HasMany(x => x.Class).Table("CardClass").Element("CardClass").Cascade.All().Not.LazyLoad();
         }
     }
 }

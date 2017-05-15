@@ -49,7 +49,7 @@ namespace Wix_Studio.Card_GUI
 
             foreach ( var cardSet in cardMaker.GetAllSets(updateDeckUrl) )
             {
-               // cardSets.Add(cardSet.Key , cardSet.Value);
+                //cardSets.Add(cardSet.Key , cardSet.Value);
             }
 
             /*foreach ( var cardSet in cardMaker.GetBoosterSets() )
@@ -59,8 +59,8 @@ namespace Wix_Studio.Card_GUI
             }*/
 
             //For Speed and testing
-            cardSets.Add("WX-01 Served Selector" , "http://selector-wixoss.wikia.com/wiki/WX-01_Served_Selector");
-           /* cardSets.Add("WX-02 Stirred Selector" , "http://selector-wixoss.wikia.com/wiki/WX-02_Stirred_Selector");
+            /*cardSets.Add("WX-01 Served Selector" , "http://selector-wixoss.wikia.com/wiki/WX-01_Served_Selector");
+            cardSets.Add("WX-02 Stirred Selector" , "http://selector-wixoss.wikia.com/wiki/WX-02_Stirred_Selector");
             cardSets.Add("WX-03 Spread Selector" , "http://selector-wixoss.wikia.com/wiki/WX-03_Spread_Selector");
             cardSets.Add("WX-04 Infected Selector" , "http://selector-wixoss.wikia.com/wiki/WX-04_Infected_Selector");
             cardSets.Add("WX-05 Beginning Selector" , "http://selector-wixoss.wikia.com/wiki/WX-05_Beginning_Selector");
@@ -71,14 +71,14 @@ namespace Wix_Studio.Card_GUI
             cardSets.Add("WX-10 Chained Selector" , "http://selector-wixoss.wikia.com/wiki/WX-10_Chained_Selector");
             cardSets.Add("WX-11 Destructed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-11_Destructed_Selector");
             cardSets.Add("WX-12 Replied Selector" , "http://selector-wixoss.wikia.com/wiki/WX-12_Replied_Selector");
-            cardSets.Add("WX-13 Unfeigned Selector" , "http://selector-wixoss.wikia.com/wiki/WX-13_Unfeigned_Selector");
+            cardSets.Add("WX-13 Unfeigned Selector" , "http://selector-wixoss.wikia.com/wiki/WX-13_Unfeigned_Selector");*/
             cardSets.Add("WX-14 Succeed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-14_Succeed_Selector");
             cardSets.Add("WX-15 Incited Selector" , "http://selector-wixoss.wikia.com/wiki/WX-15_Incited_Selector");
             cardSets.Add("WX-16 Decided Selector" , "http://selector-wixoss.wikia.com/wiki/WX-16_Decided_Selector");
             cardSets.Add("WX-17 Exposed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-17_Exposed_Selector");
             cardSets.Add("WX-18 Conflated Selector" , "http://selector-wixoss.wikia.com/wiki/WX-18_Conflated_Selector");
             cardSets.Add("WX-19 Unsolved Selector" , "http://selector-wixoss.wikia.com/wiki/WX-19_Unsolved_Selector");
-            */
+             
 
 
 
@@ -147,52 +147,34 @@ namespace Wix_Studio.Card_GUI
             String fileName = AuditLog.logPath + "Images Updated.txt";
             AuditLog.clear("Images Updated.txt");
             BackgroundWorker worker = (BackgroundWorker)sender;
-
-
-
             int setCount = 0;
-            foreach ( var setName in cardCollection.GetAllSets() )
+
+            setCount++;
+            int cardCount = 1;
+            List<WixossCard> cardList = WixCardService.getAllCards();
+            worker.ReportProgress(cardList.Count , "Card Set Count");
+            worker.ReportProgress(setCount , "Card Set Value");
+
+            foreach ( var wixCard in cardList )
             {
-                setCount++;
-                int cardCount = 1;
-                List<WixossCard> cardList = cardCollection.GetSet(setName);
-                worker.ReportProgress(cardList.Count , "Card Set Count");
-                worker.ReportProgress(setCount , "Card Set Value");
-                if ( !Directory.Exists(CardCollection.setImages + setName) )
+                cardCount++;
+                if ( !File.Exists(wixCard.CardImagePath) )
                 {
-                    Directory.CreateDirectory(CardCollection.setImages + setName);
-                }
-                foreach ( var wixCard in cardList )
-                {
-                    cardCount++;
-                    wixCard.CardSet = setName;
-                    if ( !File.Exists(wixCard.CardImagePath) )
+
+                    using ( WebClient client = new WebClient() )
                     {
-                        
-                        using ( WebClient client = new WebClient() )
+
+                        String newFilePath = CardCollection.setImages + "\\" + wixCard.Id + ".jpg";
+                        if ( wixCard.ImageUrl != null )
                         {
-                            if ( wixCard.CardNumberInSet == null || wixCard.CardNumberInSet.Contains("???") )
-                                wixCard.CardNumberInSet = wixCard.CardName;
-
-                            String newFilePath = CardCollection.setImages + wixCard.CardSet + "\\" + wixCard.CardNumberInSet + ".jpg";
-                            if ( wixCard.ImageUrl != null )
-                            {
-                                String urlName = wixCard.ImageUrl;
-                                client.DownloadFileAsync(new Uri(urlName) , newFilePath , wixCard);
-                                client.DownloadFileCompleted += Client_DownloadFileCompleted;
-                            }
+                            String urlName = wixCard.ImageUrl;
+                            client.DownloadFileAsync(new Uri(urlName) , newFilePath , wixCard);
+                            client.DownloadFileCompleted += Client_DownloadFileCompleted;
                         }
-
                     }
-                    worker.ReportProgress(cardCount , "Card Value");
-                }
-                try {
-                    cardCollection.SaveSet(setName , cardList);
-                }catch(Exception ex )
-                {
-                    Debug.WriteLine(ex.InnerException);
-                }
 
+                }
+                worker.ReportProgress(cardCount , "Card Value");
             }
 
             Process.Start("notepad.exe" , fileName);
@@ -203,7 +185,7 @@ namespace Wix_Studio.Card_GUI
             WixossCard wixCard = e.UserState as WixossCard;
             String newLine = Environment.NewLine;
             String hadError = e.Error == null ? newLine + "Passed " : newLine + e.Error.InnerException.Message + newLine;
-            AuditLog.log( hadError + "Card Name: " + wixCard.CardName + newLine + "\tSet Name: " + wixCard.CardSet + newLine + "\tCard Number: " + wixCard.CardNumberInSet , "Images Updated.txt");
+            AuditLog.log( hadError + "Card Name: " + wixCard.CardName + newLine , "Images Updated.txt");
 
         }
 
@@ -227,17 +209,14 @@ namespace Wix_Studio.Card_GUI
                     worker.ReportProgress(cardCount , "Card Value");
 
                     WixossCard theCard = cardMaker.GetCardFromUrl(cardItem.Key);
-
-                    //for ( int i = 0; i < cardItem.Value; i++ )
-                    {
-                        setCards.Add(theCard);
-                        WixCardService.Create(theCard);
-                    }
+                    WixCardService.CreateOrUpdate(theCard);
                 }
 
-                worker.ReportProgress(-1 , "Saving Set(" + cardSet.Key + ") To Disk...");
-               // cardCollection.SaveSet(cardSet.Key , setCards);
+                worker.ReportProgress(-1 , "Set: " + cardSet + " updated");
+
             }
+            worker.ReportProgress(setCount + 1 , "Card Set Value");
+            
         }
     }
 }

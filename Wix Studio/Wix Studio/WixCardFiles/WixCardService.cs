@@ -10,6 +10,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Criterion;
 using NHibernate.Tool.hbm2ddl;
+using NHibernate.Transform;
 using Wix_Studio.NHibernate.Mappings;
 using Wix_Studio.WixCardFiles;
 
@@ -18,20 +19,102 @@ namespace Wix_Studio
     public class WixCardService
     {
         public static String databaseName = "batorubase.db";
-        public static WixossCard Create(WixossCard wixossCard)
+        public static WixossCard CreateOrUpdate(WixossCard wixossCard)
         {
+            if ( !Exists(wixossCard.CardName) )
+            {
+                var sessionFactory = CreateSessionFactory();
+
+                using ( var session = sessionFactory.OpenSession() )
+                {
+                    using ( var transaction = session.BeginTransaction() )
+                    {
+                        session.SaveOrUpdate(wixossCard);
+                        transaction.Commit();
+                    }
+                }
+            }
+            return wixossCard;
+        }
+
+        public static List<String> GetSetNames()
+        {
+            List<String> setNames = new List<string>();
             var sessionFactory = CreateSessionFactory();
 
             using ( var session = sessionFactory.OpenSession() )
             {
                 using ( var transaction = session.BeginTransaction() )
                 {
-                    session.SaveOrUpdate(wixossCard);
-                    transaction.Commit();
+                    var sql = String.Format("SELECT distinct CardSet FROM {0} ORDER BY CardSet" , "CardSet");
+                    var query = session.CreateSQLQuery(sql);
+                    var result = query.List<String>();
+
+                    setNames = result.ToList<String>();
                 }
             }
 
-            return wixossCard;
+            return setNames;
+        }
+
+        public static List<String> GetAllClasses()
+        {
+            List<String> cardClasses = new List<string>();
+            var sessionFactory = CreateSessionFactory();
+
+            using ( var session = sessionFactory.OpenSession() )
+            {
+                using ( var transaction = session.BeginTransaction() )
+                {
+                    var sql = String.Format("SELECT distinct CardClass FROM {0} ORDER BY CardClass" , "CardClass");
+                    var query = session.CreateSQLQuery(sql);
+                    var result = query.List<String>();
+
+                    cardClasses = result.ToList<String>();
+                }
+            }
+
+            return cardClasses;
+        }
+
+        public static List<String> GetAllCardNames()
+        {
+            List<String> cardNames = new List<string>();
+            var sessionFactory = CreateSessionFactory();
+
+            using ( var session = sessionFactory.OpenSession() )
+            {
+                using ( var transaction = session.BeginTransaction() )
+                {
+                    var sql = String.Format("SELECT distinct CardName FROM {0} ORDER BY CardName" , "WixossCard");
+                    var query = session.CreateSQLQuery(sql);
+                    var result = query.List<String>();
+
+                    cardNames = result.ToList<String>();
+                }
+            }
+
+            return cardNames;
+        }
+
+        public static Boolean Exists(String cardName)
+        {
+            bool cardExists = false;
+            var sessionFactory = CreateSessionFactory();
+
+            using ( var session = sessionFactory.OpenSession() )
+            {
+                using ( var transaction = session.BeginTransaction() )
+                {
+                    var criteria = session.CreateCriteria<WixossCard>();
+                    criteria.Add(Expression.Eq("CardName" , cardName)); // where clause in subquery
+                    var result = criteria.List<WixossCard>();
+                    cardExists = result.Count != 0;
+
+                }
+            }
+
+            return cardExists;
         }
 
         public static List<WixossCard> getAllCards()
@@ -45,14 +128,6 @@ namespace Wix_Studio
                 {
                      var cards = session.CreateCriteria(typeof(WixossCard)).List<WixossCard>();
 
-                    /*var subCriteria = DetachedCriteria.For<WixossCard>(); // subquery
-                    subCriteria.Add(Expression.Eq("Color", house)); // where clause in subquery
-                    subCriteria.SetProjection(Projections.Id()); // DetachedCriteria needs to have a projection, id of Room is projected here
-
-                    var criteria = session.CreateCriteria<Person>();
-                    criteria.Add(Subqueries.PropertyIn("Room" , subCriteria)); // in operator to search in detached criteria
-                    var result = criteria.List<Person>();*/
-
                     foreach ( var card in cards )
                     {
                         allCards.Add(card);
@@ -62,99 +137,92 @@ namespace Wix_Studio
             
             return allCards;
         }
-
+        public static List<WixossCard> Search(WixCardSearchModel searchCard )
+        {
+            return Search(searchCard , SortBy.Color , SortOrder.ASC);
+        }
         public static List<WixossCard> Search(WixCardSearchModel searchCard , SortBy sortBy , SortOrder sortOrder)
         {
-            CardCollection cardCollection = new CardCollection();
             List<WixossCard> resultCards = new List<WixossCard>();
-            List<WixossCard> totalCards = ( searchCard.setName != "" ? cardCollection.GetCardsInSets(searchCard.setName) : CardCollection.cardCollection.Values.ToList() );
-            foreach ( var wixCard in totalCards )
+            var sessionFactory = CreateSessionFactory();
+
+            if ( searchCard != null )
             {
-                Boolean addCard = true;// searchCard.isEmpty();
-                if ( addCard )
+                using ( var session = sessionFactory.OpenSession() )
                 {
-                    if ( !FallsInRange(searchCard.MinPower , searchCard.MaxPower , wixCard.Power) )
-                        addCard = false;
-
-                    if ( !FallsInRange(searchCard.MinLevel , searchCard.MaxLevel , wixCard.Level) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.Guard , wixCard.Guard) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.LifeBurst , wixCard.LifeBurst) )
-                        addCard = false;
-
-                    if ( !CheckBoolean(searchCard.MultiEner , wixCard.MultiEner) )
-                        addCard = false;
-
-                    if ( !CheckEnum<CardColor>(searchCard.Color , wixCard.Color.ToList()) )
-                        addCard = false;
-
-                    if ( !CheckEnum<CardTiming>(searchCard.Timing , wixCard.Timing.ToList()) )
-                        addCard = false;
-
-                    if ( ( searchCard.Type != null && searchCard.Type != CardType.NoType ) && searchCard.Type.Value != wixCard.Type )
-                        addCard = false;
-
-                    if ( searchCard.cardEffect != "" && !wixCard.CardEffect.ToLower().Contains(searchCard.cardEffect.ToLower()) )
-                        addCard = false;
-
-                    if ( searchCard.cardName != "" && !wixCard.CardName.ToLower().Contains(searchCard.cardName.ToLower()) )
-                        addCard = false;
-                }
-
-                if ( addCard )
-                    resultCards.Add(wixCard);
-            }
-
-            return resultCards;
-        }
-
-        public static Boolean CheckEnum<T>(Enum searchEnum , List<T> cardEnum)
-        {
-            bool cardMatches = true;
-
-            if ( !searchEnum.ToString().StartsWith("No") )
-            {
-                cardMatches = false;
-                foreach ( var enumValue in cardEnum )
-                {
-                    if ( searchEnum.ToString().Equals(enumValue.ToString()) )
+                    using ( session.BeginTransaction() )
                     {
-                        cardMatches = true;
-                        break;
+
+                        var criteria = session.CreateCriteria<WixossCard>();
+
+                        if ( searchCard.Color != null  && searchCard.Color != CardColor.NoColor)
+                        {
+                            criteria.CreateAlias("Color" , "color");
+                            criteria.Add(Expression.Eq("color.elements" , searchCard.Color));
+                        }
+
+                        if ( searchCard.cardName != null && searchCard.cardName != "")
+                        {
+                            criteria.Add(Expression.Like("CardName" , "%" + searchCard.cardName + "%"));
+                        }
+
+                        if ( searchCard.cardEffect != null && searchCard.cardEffect != "")
+                        {
+                            criteria.Add(Expression.Like("CardEffect" , "%" + searchCard.cardEffect + "%"));
+                        }
+
+                        if ( searchCard.Guard != null )
+                        {
+                            criteria.Add(Expression.Eq("Guard" , searchCard.Guard));
+                        }
+
+                        if ( searchCard.MultiEner != null )
+                        {
+                            criteria.Add(Expression.Eq("MultiEner" , searchCard.MultiEner));
+                        }
+
+                        if ( searchCard.LifeBurst != null )
+                        {
+                            criteria.Add(Expression.Eq("LifeBurst" , searchCard.LifeBurst));
+                        }
+
+                        if ( searchCard.setName != null && searchCard.setName != "")
+                        {
+                            criteria.CreateAlias("CardSets" , "set");
+                            criteria.Add(Expression.Like("set.elements" , "%" + searchCard.setName + "%"));
+                        }
+
+                        if ( searchCard.Type != null && searchCard.Type != CardType.NoType)
+                        {
+                            criteria.CreateAlias("Type" , "cardType");
+                            criteria.Add(Expression.Eq("cardType.elements" , searchCard.Type));
+                        }
+
+                        if ( searchCard.MinPower != 0 || searchCard.MaxPower != 0 )
+                        {
+                            if ( searchCard.MinPower != 0 )
+                                criteria.Add(Expression.Ge("Power" , searchCard.MinPower));
+
+                            if ( searchCard.MaxPower != 0 )
+                                criteria.Add(Expression.Le("Power" , searchCard.MaxPower));
+                        }
+
+                        if ( searchCard.MinLevel != 0 || searchCard.MaxLevel != 0 )
+                        {
+                            if ( searchCard.MinLevel != 0 )
+                                criteria.Add(Expression.Ge("Level" , searchCard.MinLevel));
+
+                            if ( searchCard.MaxLevel != 0 )
+                                criteria.Add(Expression.Le("Level" , searchCard.MaxLevel));
+                        }
+
+
+                        criteria.SetResultTransformer(Transformers.DistinctRootEntity);
+                        resultCards = criteria.List<WixossCard>().ToList();
                     }
                 }
             }
-
-            return cardMatches;
-        }
-
-        public static Boolean CheckBoolean(Boolean? searchBool , Boolean cardBool)
-        {
-            bool cardMatches = true;
-
-            if ( searchBool != null )
-            {
-                cardMatches = searchBool == cardBool;
-            }
-
-            return cardMatches;
-        }
-        public static Boolean FallsInRange(int min , int max , int target)
-        {
-            bool inRange = false;
-            if ( min == 0 && max == 0 )
-                inRange = true;
-            else if ( min == 0 && target <= max )
-                inRange = true;
-            else if ( max == 0 && target >= min )
-                inRange = true;
-            else if ( target >= min && target <= max )
-                inRange = true;
-
-            return inRange;
+            return resultCards;
         }
 
         private static ISessionFactory CreateSessionFactory()
