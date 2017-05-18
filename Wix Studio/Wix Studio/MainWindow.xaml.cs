@@ -25,15 +25,9 @@ namespace Wix_Studio
             LoadBasePath();
             LoadSets();
 
-            WixossCard card = new WixossCard();
-            card.CardEffect = "TEST";
-            card.CardUrl = "URL";
-            card.Color.Add(CardColor.Blue);
-            card.Cost.Add(new CardCost(CardColor.Black , 1, card));
-
-            WixCardService.Search(null,WixCardFiles.SortBy.Color,WixCardFiles.SortOrder.ASC);
             //WixCardService.Create(card);
            // WixCardService.getAllCards();
+          
             
         }
 

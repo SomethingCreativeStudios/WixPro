@@ -337,14 +337,18 @@ namespace Wix_Studio.Card_Parser
                         var aTags = htmlTableData.DocumentNode.Descendants("a")
                          .Where(d =>
                             d.Attributes.Contains("title")
-                            &&
-                            d.Attributes["href"].Value.Contains("WX-")
+                            &&(
+                            d.Attributes["href"].Value.Contains("WX") ||
+                            d.Attributes["href"].Value.Contains("SP"))
                          );
 
                         foreach ( var aTag in aTags )
                         {
+                            //A very cheap way to do this.
+                            //Will have to update is they ever do in the three digits
                             String setName = aTag.Attributes["href"].Value;
-                            setName = setName.Substring(setName.LastIndexOf("/") +  1, 5);
+                            int maxCount = setName.Contains("WXD") ? 6 : 5;
+                            setName = setName.Substring(setName.LastIndexOf("/") +  1, maxCount);
                             wixossCard.CardSets.Add(setName);
                         }
                     }

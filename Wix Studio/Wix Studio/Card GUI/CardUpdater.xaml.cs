@@ -47,19 +47,22 @@ namespace Wix_Studio.Card_GUI
 
             String cardList = "";
 
+            int count = 0;
             foreach ( var cardSet in cardMaker.GetAllSets(updateDeckUrl) )
             {
-                //cardSets.Add(cardSet.Key , cardSet.Value);
+                cardSets.Add(cardSet.Key , cardSet.Value);
+                count++;
             }
 
-            /*foreach ( var cardSet in cardMaker.GetBoosterSets() )
+           /* foreach ( var cardSet in cardMaker.GetBoosterSets() )
             {
-                cardSets.Add(cardSet.Key , cardSet.Value);
+                //cardSets.Add(cardSet.Key , cardSet.Value);
                 cardList += "cardSets.add(\"" + cardSet.Key + "\",\"" + cardSet.Value + "\");\n";
             }*/
 
             //For Speed and testing
-            /*cardSets.Add("WX-01 Served Selector" , "http://selector-wixoss.wikia.com/wiki/WX-01_Served_Selector");
+            /**/
+            cardSets.Add("WX-01 Served Selector" , "http://selector-wixoss.wikia.com/wiki/WX-01_Served_Selector");
             cardSets.Add("WX-02 Stirred Selector" , "http://selector-wixoss.wikia.com/wiki/WX-02_Stirred_Selector");
             cardSets.Add("WX-03 Spread Selector" , "http://selector-wixoss.wikia.com/wiki/WX-03_Spread_Selector");
             cardSets.Add("WX-04 Infected Selector" , "http://selector-wixoss.wikia.com/wiki/WX-04_Infected_Selector");
@@ -71,7 +74,7 @@ namespace Wix_Studio.Card_GUI
             cardSets.Add("WX-10 Chained Selector" , "http://selector-wixoss.wikia.com/wiki/WX-10_Chained_Selector");
             cardSets.Add("WX-11 Destructed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-11_Destructed_Selector");
             cardSets.Add("WX-12 Replied Selector" , "http://selector-wixoss.wikia.com/wiki/WX-12_Replied_Selector");
-            cardSets.Add("WX-13 Unfeigned Selector" , "http://selector-wixoss.wikia.com/wiki/WX-13_Unfeigned_Selector");*/
+            cardSets.Add("WX-13 Unfeigned Selector" , "http://selector-wixoss.wikia.com/wiki/WX-13_Unfeigned_Selector");
             cardSets.Add("WX-14 Succeed Selector" , "http://selector-wixoss.wikia.com/wiki/WX-14_Succeed_Selector");
             cardSets.Add("WX-15 Incited Selector" , "http://selector-wixoss.wikia.com/wiki/WX-15_Incited_Selector");
             cardSets.Add("WX-16 Decided Selector" , "http://selector-wixoss.wikia.com/wiki/WX-16_Decided_Selector");
@@ -79,8 +82,6 @@ namespace Wix_Studio.Card_GUI
             cardSets.Add("WX-18 Conflated Selector" , "http://selector-wixoss.wikia.com/wiki/WX-18_Conflated_Selector");
             cardSets.Add("WX-19 Unsolved Selector" , "http://selector-wixoss.wikia.com/wiki/WX-19_Unsolved_Selector");
              
-
-
 
 
              cardsProgressBar.Value = 0;
