@@ -161,6 +161,7 @@ namespace Wix_Studio
         public virtual CardColor color { get; set; }
         public virtual int numberPerColor { get; set; }
 
+        [JsonIgnore]
         public virtual WixossCard wixCard { get; set; }
 
         public CardCost()

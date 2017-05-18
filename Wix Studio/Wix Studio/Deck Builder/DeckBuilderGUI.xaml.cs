@@ -59,6 +59,9 @@ namespace Wix_Studio.Deck_Builder
 
         private void selectCard(int selectedIndex , System.Windows.Controls.ListView listView)
         {
+            if ( selectedIndex == -1 )
+                return;
+
             WixossCard selectedCard = (WixossCard)listView.Items[selectedIndex];
             try
             {
