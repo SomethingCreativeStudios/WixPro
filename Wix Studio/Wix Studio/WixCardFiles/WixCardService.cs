@@ -97,6 +97,30 @@ namespace Wix_Studio
             return cardNames;
         }
 
+        public static WixossCard FindById(int cardId)
+        {
+            WixossCard card = null;
+            var sessionFactory = CreateSessionFactory();
+
+            using ( var session = sessionFactory.OpenSession() )
+            {
+                using ( var transaction = session.BeginTransaction() )
+                {
+                    try
+                    {
+                        var criteria = session.CreateCriteria<WixossCard>();
+                        criteria.Add(Expression.Eq("Id" , cardId)); // where clause in subquery
+                        var result = criteria.List<WixossCard>();
+                        card = result[0];
+                    }
+                    catch { }
+
+                }
+            }
+
+            return card;
+        }
+
         public static Boolean Exists(String cardName)
         {
             bool cardExists = false;

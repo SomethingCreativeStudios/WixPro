@@ -309,6 +309,7 @@
                                       Background="Transparent" 
                                       BorderThickness="0" 
                                       MouseMove="ListView_MouseMove"
+                                      MouseDown="ResultsList_MouseDown"
                                       AllowDrop="True">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">

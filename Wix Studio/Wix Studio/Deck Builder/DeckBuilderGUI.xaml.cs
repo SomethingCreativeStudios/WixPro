@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -124,20 +125,42 @@ namespace Wix_Studio.Deck_Builder
 
         private void ListView_MouseMove(object sender , System.Windows.Input.MouseEventArgs e)
         {
-
             int selectedIndex = handleListViewMouseMove(sender , e);
 
             if ( selectedIndex == -1 )
                 return;
 
+            System.Windows.Controls.ListView listView = sender as System.Windows.Controls.ListView;
             if ( e.LeftButton == MouseButtonState.Pressed )
             {
-                System.Windows.Controls.ListView listView = sender as System.Windows.Controls.ListView;
-
                 System.Windows.Forms.DataObject dragData = new System.Windows.Forms.DataObject("selectedIndex" , selectedIndex);
                 DragDrop.DoDragDrop(listView , resultCards[selectedIndex] , System.Windows.DragDropEffects.Move);
             }
+        }
 
+        private void ResultsList_MouseDown(object sender , System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int selectedIndex = handleListViewMouseMove(sender , e);
+
+            if ( selectedIndex == -1 )
+                return;
+
+            if ( e.RightButton == MouseButtonState.Pressed )
+            {
+                WixossCard cardToAdd = resultCards[selectedIndex];
+                if ( currentDeck.canAddCard(cardToAdd , DeckType.Main) )
+                {
+                    currentDeck.AddToDeck(cardToAdd , DeckType.Main);
+                    DeckList.ItemsSource = currentDeck.MainDeck;
+                    DeckList.Items.Refresh();
+                }
+                if ( currentDeck.canAddCard(cardToAdd , DeckType.LRIG) )
+                {
+                    currentDeck.AddToDeck(cardToAdd , DeckType.LRIG);
+                    LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
+                    LRIGDeckList.Items.Refresh();
+                }
+            }
         }
 
         private void DeckView_MouseMove(object sender , System.Windows.Input.MouseEventArgs e)
@@ -161,6 +184,10 @@ namespace Wix_Studio.Deck_Builder
         private int GetCurrentIndex(GetPositionDelegate getPosition , System.Windows.Controls.ListView listview)
         {
             int index = -1;
+
+            if ( listview == null )
+                return index;
+
             for ( int i = 0; i < listview.Items.Count; ++i )
             {
                 System.Windows.Controls.ListViewItem item = GetListViewItem(i , listview);
@@ -283,7 +310,30 @@ namespace Wix_Studio.Deck_Builder
 
         private void loadDeckBtn_Click(object sender , RoutedEventArgs e)
         {
+            String deckName = ListMessageBox.Show(FindAllDeckNames() , "Load Deck");
 
+            if ( deckName != null )
+            {
+                currentDeck = WixossDeck.LoadDeck(deckName);
+                DeckList.ItemsSource = currentDeck.MainDeck;
+                LRIGDeckList.ItemsSource = currentDeck.LRIGDeck;
+
+                DeckList.Items.Refresh();
+                LRIGDeckList.Items.Refresh();
+            }
+        }
+
+        private List<String> FindAllDeckNames()
+        {
+            List<String> deckNames = new List<String>();
+            String[] decks = Directory.GetFiles(CardCollection.deckBasePath);
+            foreach ( var deckPath in decks )
+            {
+                String deckName = deckPath.Replace(CardCollection.deckBasePath , "");
+                deckName = deckName.Substring(0 , deckName.LastIndexOf("."));
+                deckNames.Add(deckName);
+            }
+            return deckNames;
         }
 
         private void saveDeckBtn_Click(object sender , RoutedEventArgs e)
@@ -296,5 +346,7 @@ namespace Wix_Studio.Deck_Builder
                     WixossDeck.SaveDeck(deckName , currentDeck);
             }
         }
+
+       
     }
 }

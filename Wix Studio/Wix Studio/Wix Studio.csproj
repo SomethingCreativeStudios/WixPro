@@ -127,6 +127,9 @@
     <Compile Include="Dialog Helpers\InputMessageBox.xaml.cs">
       <DependentUpon>InputMessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialog Helpers\ListMessageBox.xaml.cs">
+      <DependentUpon>ListMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Mappings\CardCostMap.cs" />
     <Compile Include="Mappings\WixossCardMap.cs" />
     <Compile Include="WixCardFiles\AuditLog.cs" />
@@ -157,6 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialog Helpers\InputMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialog Helpers\ListMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

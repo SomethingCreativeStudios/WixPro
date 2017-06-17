@@ -187,7 +187,7 @@ namespace Wix_Studio.WixCardFiles
         {
             if ( !Directory.Exists(CardCollection.deckBasePath + deckName) )
             {
-                String filePath = CardCollection.deckBasePath + deckName + ".xml";
+                String filePath = CardCollection.deckBasePath + deckName + ".deck";
                 if ( !File.Exists(filePath) )
                 {
                     File.Create(filePath).Close();
@@ -196,26 +196,71 @@ namespace Wix_Studio.WixCardFiles
                     File.Delete(filePath);
                 }
 
-                XmlSerializer xsSubmit = new XmlSerializer(typeof(WixossDeck));
-                using ( StringWriter sww = new StringWriter() )
-                using ( XmlWriter writer = XmlWriter.Create(sww) )
+                String mainDeck = "";
+                String lrigDeck = "";
+
+                for ( int i = 0; i < deck.MainDeck.Count; i++ )
                 {
-                    xsSubmit.Serialize(writer , deck);
-                    File.WriteAllText(filePath , CardCollection.PrintXML(sww.ToString()));
-                    writer.Close();
-                    sww.Close();
+                    mainDeck += deck.MainDeck[i].Id;
+
+                    if ( i < deck.MainDeck.Count - 2 )
+                        mainDeck += ",";
                 }
+
+                for ( int i = 0; i < deck.LRIGDeck.Count; i++ )
+                {
+                    lrigDeck += deck.LRIGDeck[i].Id;
+
+                    if ( i < deck.LRIGDeck.Count - 2 )
+                        lrigDeck += ",";
+                }
+
+                StreamWriter writer = File.CreateText(filePath);
+
+                writer.WriteLine(mainDeck);
+                writer.WriteLine(lrigDeck);
+
+                writer.Close();
+
             }
         }
 
         public static WixossDeck LoadDeck(string deckName)
         {
+            String filePath = CardCollection.deckBasePath + deckName + ".deck";
+            String wixDeck = "";
             WixossDeck loadedDeck = new WixossDeck();
 
-            using ( var stream = new StringReader(File.OpenText(CardCollection.deckBasePath + deckName + ".xml").ReadToEnd()) )
+            StreamReader reader = File.OpenText(filePath);
+            wixDeck = reader.ReadToEnd();
+            reader.Close();
+
+
+            string[] mainDeckArray = wixDeck.Split(new char[] {'\n' })[0].Split(new char[] { ',' });
+            string[] lrigDeckArray = wixDeck.Split(new char[] { '\n' })[1].Split(new char[] { ',' });
+
+            foreach ( var cardIdStr in mainDeckArray )
             {
-                var serializer = new XmlSerializer(typeof(WixossDeck));
-                loadedDeck =  (WixossDeck)(serializer.Deserialize(stream) as WixossDeck);
+                try
+                {
+                    int cardId = Convert.ToInt16(cardIdStr);
+                    WixossCard card = WixCardService.FindById(cardId);
+                    if ( card != null )
+                        loadedDeck.MainDeck.Add(card);
+                }
+                catch { }
+            }
+
+            foreach ( var cardIdStr in lrigDeckArray )
+            {
+                try
+                {
+                    int cardId = Convert.ToInt16(cardIdStr);
+                    WixossCard card = WixCardService.FindById(cardId);
+                    if ( card != null )
+                        loadedDeck.LRIGDeck.Add(card);
+                }
+                catch { }
             }
 
             return loadedDeck;
