@@ -3,13 +3,13 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TrashContoller : PoolViewerScript
+public class CheckController : PoolViewerScript
 {
 
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<TrashMenu>();
+        menuItems = MenuHelper.MenuToArray<EnerMenu>();
     }
 
     // Update is called once per frame
@@ -27,7 +27,6 @@ public class TrashContoller : PoolViewerScript
             poolViewer.name = gameObject.GetComponent<DropZone>().zoneType.ToString() + " Viewer";
             PanelDragger dragger = poolViewer.GetComponent<PanelDragger>();
             dragger.poolOfCards = new List<WixossCard>(poolOfCards);
-            //poolViewer.AddComponent<CanvasRenderer>();
             dragger.realParent = gameObject;
             poolViewer.transform.SetParent(parentCanvas.transform, false);
         }
@@ -40,7 +39,6 @@ public class TrashContoller : PoolViewerScript
             menu.SetUpContextMenu(viewMenu);//new List<string>(menuItems));
             menu.clicked += Menu_clicked;
             contextMenu.name = "Pool Viewer Context Menu";
-            //poolViewer.AddComponent<CanvasRenderer>();
             contextMenu.transform.SetParent(parentCanvas, false);
             contextMenu.transform.position = Input.mousePosition;
         }
@@ -50,10 +48,9 @@ public class TrashContoller : PoolViewerScript
     {
         GameObject WixossCard = AddWixossCard(poolOfCards[0]);
 
-        if ( menuName == GetMenuItem(TrashMenu.SendToX) )
+        if (menuName == GetMenuItem(TrashMenu.SendToX))
         {
-            DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()) , "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
+            DialogScripts.ShowDropDownDialog(new List<string>(MenuHelper.MenuToArray<SendToMenu>()), "Memory", "Move your card.", (selectedItem) => { sendToX(selectedItem); }, null);
         }
     }
 }
-

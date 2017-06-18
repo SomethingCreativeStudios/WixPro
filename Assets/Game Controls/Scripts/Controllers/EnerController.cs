@@ -3,7 +3,7 @@ using Assets.Utils;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnterController : PoolViewerScript
+public class EnerController : PoolViewerScript
 {
 
     // Use this for initialization

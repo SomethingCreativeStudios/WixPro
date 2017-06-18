@@ -205,7 +205,7 @@ public class CardController : PunBehaviour
     public void RefreshDeck() /// LOOK AT
     {
         DeckController playersDeck = ControllerHelper.FindGameObject(Location.Deck).GetComponent<DeckController>();
-        TrashController trashZone = ControllerHelper.FindGameObject(Location.TrashZone).GetComponent<TrashController>();
+        TrashContoller trashZone = ControllerHelper.FindGameObject(Location.TrashZone).GetComponent<TrashContoller>();
 
         if ( playersDeck.poolOfCards.Count == 0 ) // check to make sure theres no cards
         {
