@@ -46,37 +46,66 @@ namespace Assets.Utils
 
     public enum SigniMenu
     {
-        [StringValue("TBD")]
-        TBD
+        
+        [StringValue("Attack")]
+        Attack,
+        [StringValue("Down")]
+        Down,
+        //[StringValue("Power Up 500")]
+        //PowerUp500,
+        [StringValue("Power Up X")]
+        PowerUpX,
+        [StringValue("Power Down X")]
+        PowerDownX,
+        [StringValue("View Cards")]
+        ViewCards
     }
 
     public enum CoinMenu
     {
-        [StringValue("TBD")]
-        TBD
+        [StringValue("Add Coin")]
+        AddCoin,
+        [StringValue("Subtract Coin")]
+        SubtractCoin        
     }
     public enum LRIGMenu
     {
-        [StringValue("TBD")]
-        TBD
+        
+        [StringValue("Attack")]
+        Attack,
+        [StringValue("Down")]
+        Down,
+        [StringValue("View Cards")]
+        ViewCards
     }
 
     public enum LRIGTrashMenu
     {
-        [StringValue("TBD")]
-        TBD
+        [StringValue("View Cards")]
+        ViewCards
     }
 
     public enum LifeClothMenu
     {
-        [StringValue("TBD")]
-        TBD
+        [StringValue("View Cards")]
+        ViewCards,
+        [StringValue("Remove Top")]
+        RemoveTop
     }
 
     public enum EnerMenu
     {
-        [StringValue("TBD")]
-        TBD
+        
+        [StringValue("Pay 1")]
+        PayOne,
+        [StringValue("Pay 2")]
+        PayTwo,
+        [StringValue("Pay 3")]
+        PayThree,
+        [StringValue("Pay X")]
+        PayX,
+        [StringValue("View Cards")]
+        ViewCards
     }
 
     public enum OpponentMenu
@@ -87,7 +116,7 @@ namespace Assets.Utils
 
     public enum TrashMenu
     {
-        [StringValue("Send To X")]
+        [StringValue("View Cards")]
         SendToX
     }
 
@@ -103,6 +132,11 @@ namespace Assets.Utils
         SendToBottomOfDeck,
         [StringValue("Send To Hand")]
         SendToHand
+    }
+    public enum LRIGDeckMenu
+    {
+        [StringValue("View Cards")]
+        ViewCards
     }
 
     public class MenuHelper

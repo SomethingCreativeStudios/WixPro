@@ -16,31 +16,14 @@ public class LRIGDeckController : PoolViewerScript
     // Use this for initialization
     public override void StartUp()
     {
-        menuItems = MenuHelper.MenuToArray<DeckMenu>();
-        ShufflePool();
+        menuItems = MenuHelper.MenuToArray<LRIGDeckMenu>();
     }
 
     // Update is called once per frame
     public override void UpdateScript()
     {
-        if (shuffleDeck)
-        {
-            //Handle Animation to shuffle
-        }
+        
 
-        if (Constants.isMyTurn)
-        {
-            if (GamePhaseCounter.currentPhase == GamePhase.DrawPhase)
-            {
-                if (!Constants.hasDrawnCard)
-                {
-                    Constants.hasDrawnCard = true;
-                    cardController.MoveCardShowCard(poolOfCards[0], ControllerHelper.FindGameObject(Location.Deck), ControllerHelper.FindGameObject(Location.Hand), 0);
-                }
-
-                cardController.UpdateGamePhase(GamePhase.ClockPhase);
-            }
-        }
     }
 
 
@@ -69,28 +52,7 @@ public class LRIGDeckController : PoolViewerScript
         if (poolOfCards.Count > 0)
             cardBeingMoved = poolOfCards[0];
 
-        if (menuName == StringEnum.GetStringValue(DeckMenu.DrawCard))
-        {
-
-            cardController.RefreshDeck();
-            cardController.MoveCardShowCard(cardBeingMoved, ControllerHelper.FindGameObject(Location.Deck), ControllerHelper.FindGameObject(Location.Hand), 0);
-            cardController.RefreshDeck();
-        }
-
-        if (menuName == StringEnum.GetStringValue(DeckMenu.MillTopCard))
-        {
-            cardController.RefreshDeck();
-            cardController.MoveCard(AddWixossCard(cardBeingMoved, false), ControllerHelper.FindGameObject(Location.Deck), ControllerHelper.FindGameObject(Location.TrashZone));
-            cardController.RefreshDeck();
-        }
-
-        if (menuName == StringEnum.GetStringValue(DeckMenu.ShuffleDeck))
-        {
-            shuffleDeck = true;
-            cardController.ShufflePlayerDeck(); //This auto syncs the deck to op
-        }
-
-        if (menuName == StringEnum.GetStringValue(DeckMenu.ViewDeck))
+        if (menuName == StringEnum.GetStringValue(LRIGDeckMenu.ViewCards))
         {
             GameObject poolViewer = (GameObject)Instantiate(Resources.Load("PoolViewer"));
             poolViewer.name = gameObject.GetComponent<DropZone>().zoneType.ToString() + " Viewer";

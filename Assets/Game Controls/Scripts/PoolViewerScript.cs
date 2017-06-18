@@ -200,7 +200,7 @@ public class PoolViewerScript : PunBehaviour{
         List<RaycastResult> hits = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pe, hits);
         bool hit = false;
-        GameObject hgo = null;
+        //GameObject hgo = null;
         foreach (RaycastResult h in hits)
         {
             GameObject g = h.gameObject;
