@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 7
+  serializedVersion: 8
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -25,6 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -41,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 7
+  serializedVersion: 9
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -53,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 4
+    serializedVersion: 8
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -66,13 +67,27 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_DirectLightInLightProbes: 1
     m_FinalGather: 0
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
+    m_MixedBakeMode: 1
+    m_BakeBackend: 0
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 500
+    m_PVRBounces: 2
+    m_PVRFiltering: 0
+    m_PVRFilteringMode: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousColorSigma: 1
+    m_PVRFilteringAtrousNormalSigma: 1
+    m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_RuntimeCPUUsage: 25
+  m_ShadowMaskMode: 2
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -89,6 +104,8 @@ NavMeshSettings:
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &27089254
@@ -198,7 +215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 136, y: -178}
+  m_AnchoredPosition: {x: 136, y: -177.99994}
   m_SizeDelta: {x: 267.36, y: -19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &51797348
@@ -274,7 +291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 134.09001, y: -249.51}
+  m_AnchoredPosition: {x: 134.09001, y: -249.50995}
   m_SizeDelta: {x: 268.18, y: -28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &148898595
@@ -326,6 +343,7 @@ GameObject:
   - component: {fileID: 180308893}
   - component: {fileID: 180308895}
   - component: {fileID: 180308894}
+  - component: {fileID: 180308896}
   m_Layer: 5
   m_Name: Life Cloth 4
   m_TagString: LifeCloth_4
@@ -384,6 +402,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 180308892}
+--- !u!114 &180308896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 180308892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &191468542
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -179.89229}
   m_AnchorMin: {x: 0.15151516, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 102, y: 882}
+  m_AnchoredPosition: {x: 102, y: 882.0001}
   m_SizeDelta: {x: -198, y: 438}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &191468544
@@ -447,6 +485,7 @@ GameObject:
   - component: {fileID: 246796460}
   - component: {fileID: 246796462}
   - component: {fileID: 246796461}
+  - component: {fileID: 246796463}
   m_Layer: 5
   m_Name: P1Hand
   m_TagString: Hand_Zone
@@ -505,6 +544,25 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 246796459}
+--- !u!114 &246796463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 246796459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed2d81e5d2bafe4c987695df06d957a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &315002961
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +647,8 @@ GameObject:
   - component: {fileID: 317399198}
   - component: {fileID: 317399200}
   - component: {fileID: 317399199}
+  - component: {fileID: 317399202}
+  - component: {fileID: 317399201}
   m_Layer: 5
   m_Name: Trash
   m_TagString: Trash_Zone
@@ -611,7 +671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.47326395}
   m_AnchorMax: {x: 0.51900005, y: 0.5}
-  m_AnchoredPosition: {x: 578.5, y: -82}
+  m_AnchoredPosition: {x: 578.5007, y: -82}
   m_SizeDelta: {x: 83, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &317399199
@@ -647,6 +707,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 317399197}
+--- !u!114 &317399201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 317399197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 317399202}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &317399202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 317399197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee818a7f4056a549a3cd967ae15af0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &359077277
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +766,7 @@ GameObject:
   - component: {fileID: 359077278}
   - component: {fileID: 359077280}
   - component: {fileID: 359077279}
+  - component: {fileID: 359077281}
   m_Layer: 5
   m_Name: Check Zone
   m_TagString: Check_Zone
@@ -715,6 +825,25 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 359077277}
+--- !u!114 &359077281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 359077277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7268b90ed71ce04f822afb4633c76c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &387736643
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +854,8 @@ GameObject:
   - component: {fileID: 387736644}
   - component: {fileID: 387736646}
   - component: {fileID: 387736645}
+  - component: {fileID: 387736648}
+  - component: {fileID: 387736647}
   m_Layer: 5
   m_Name: Signi Zone Left
   m_TagString: Signi_Zone_Left
@@ -783,6 +914,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 387736643}
+--- !u!114 &387736647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 387736643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 387736648}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &387736648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 387736643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c1462885d80f14a9fc38f43dc087a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  zone: 0
 --- !u!1 &449208656
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,6 +974,8 @@ GameObject:
   - component: {fileID: 449208657}
   - component: {fileID: 449208659}
   - component: {fileID: 449208658}
+  - component: {fileID: 449208661}
+  - component: {fileID: 449208660}
   m_Layer: 5
   m_Name: Signi Zone Right
   m_TagString: Signi_Zone_Right
@@ -851,6 +1034,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 449208656}
+--- !u!114 &449208660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 449208656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 449208661}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &449208661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 449208656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c1462885d80f14a9fc38f43dc087a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  zone: 0
 --- !u!1 &577365681
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +1116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.075, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 127.2, y: 11.005}
+  m_AnchoredPosition: {x: 127.19998, y: 11.005001}
   m_SizeDelta: {x: 272.33, y: -30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &577365683
@@ -937,6 +1170,8 @@ GameObject:
   - component: {fileID: 599311084}
   - component: {fileID: 599311086}
   - component: {fileID: 599311085}
+  - component: {fileID: 599311088}
+  - component: {fileID: 599311087}
   m_Layer: 5
   m_Name: LRIG Trash
   m_TagString: LRIG_Trash_Zone
@@ -995,6 +1230,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 599311083}
+--- !u!114 &599311087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599311083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 599311088}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &599311088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 599311083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85bd9c9742e5f14fb48812b81dbb5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &639024924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,6 +1365,8 @@ GameObject:
   - component: {fileID: 664073448}
   - component: {fileID: 664073450}
   - component: {fileID: 664073449}
+  - component: {fileID: 664073452}
+  - component: {fileID: 664073451}
   m_Layer: 5
   m_Name: Lrig_Zone
   m_TagString: Untagged
@@ -1139,6 +1425,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664073447}
+--- !u!114 &664073451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664073447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 664073452}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &664073452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664073447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d5f2e068aa49641accca8c337b5f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &679599837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,6 +1597,8 @@ GameObject:
   - component: {fileID: 689454112}
   - component: {fileID: 689454114}
   - component: {fileID: 689454113}
+  - component: {fileID: 689454116}
+  - component: {fileID: 689454115}
   m_Layer: 5
   m_Name: Ener Zone
   m_TagString: Ener_Zone
@@ -1320,6 +1657,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 689454111}
+--- !u!114 &689454115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 689454111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 689454116}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &689454116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 689454111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b389ce27ef3e954fb8a1c1b2c5cc21d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &720895876
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1860,7 @@ GameObject:
   - component: {fileID: 743267212}
   - component: {fileID: 743267214}
   - component: {fileID: 743267213}
+  - component: {fileID: 743267215}
   m_Layer: 5
   m_Name: Life Cloth 1
   m_TagString: LifeCloth_1
@@ -1532,6 +1919,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 743267211}
+--- !u!114 &743267215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 743267211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1001 &766634235
 Prefab:
   m_ObjectHideFlags: 0
@@ -1747,7 +2154,7 @@ Canvas:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 911379813}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -1756,6 +2163,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1769,6 +2177,8 @@ GameObject:
   - component: {fileID: 981094593}
   - component: {fileID: 981094595}
   - component: {fileID: 981094594}
+  - component: {fileID: 981094597}
+  - component: {fileID: 981094596}
   m_Layer: 5
   m_Name: LRIG Deck
   m_TagString: LRIG_Deck_Zone
@@ -1827,6 +2237,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 981094592}
+--- !u!114 &981094596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981094592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 981094597}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &981094597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981094592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfceb47c5aa31846a08fde903942be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &1026567075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +2296,7 @@ GameObject:
   - component: {fileID: 1026567076}
   - component: {fileID: 1026567078}
   - component: {fileID: 1026567077}
+  - component: {fileID: 1026567079}
   m_Layer: 5
   m_Name: Life Cloth 2
   m_TagString: LifeCloth_2
@@ -1895,6 +2355,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026567075}
+--- !u!114 &1026567079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1026567075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &1051959360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,6 +2385,7 @@ GameObject:
   - component: {fileID: 1051959361}
   - component: {fileID: 1051959363}
   - component: {fileID: 1051959362}
+  - component: {fileID: 1051959364}
   m_Layer: 5
   m_Name: Life Cloth 3
   m_TagString: LifeCloth_3
@@ -1963,6 +2444,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1051959360}
+--- !u!114 &1051959364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1051959360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &1209814259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2550,7 @@ GameObject:
   - component: {fileID: 1290328132}
   - component: {fileID: 1290328134}
   - component: {fileID: 1290328133}
+  - component: {fileID: 1290328135}
   m_Layer: 5
   m_Name: Life Cloth 5
   m_TagString: LifeCloth_5
@@ -2107,6 +2609,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290328131}
+--- !u!114 &1290328135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1290328131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &1316731943
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,7 +2661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 136, y: -211}
+  m_AnchoredPosition: {x: 136, y: -210.99994}
   m_SizeDelta: {x: 267.36, y: -28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1316731945
@@ -2254,6 +2776,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
+  m_AllowMSAA: 1
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -2333,6 +2857,7 @@ GameObject:
   - component: {fileID: 1403748522}
   - component: {fileID: 1403748524}
   - component: {fileID: 1403748523}
+  - component: {fileID: 1403748525}
   m_Layer: 5
   m_Name: Life Cloth 7
   m_TagString: LifeCloth_7
@@ -2391,6 +2916,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1403748521}
+--- !u!114 &1403748525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1403748521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &1453951124
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,6 +3226,7 @@ GameObject:
   - component: {fileID: 1882824527}
   - component: {fileID: 1882824529}
   - component: {fileID: 1882824528}
+  - component: {fileID: 1882824530}
   m_Layer: 5
   m_Name: Life Cloth 6
   m_TagString: LifeCloth_6
@@ -2703,7 +3249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -193, y: -71.378006}
+  m_AnchoredPosition: {x: -195, y: -82}
   m_SizeDelta: {x: 63, y: 65.002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1882824528
@@ -2739,6 +3285,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882824526}
+--- !u!114 &1882824530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1882824526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ff84a43f9b344dbd8d0aa917fd247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  LifeClothNumber: 0
 --- !u!1 &2051929700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,6 +3315,8 @@ GameObject:
   - component: {fileID: 2051929701}
   - component: {fileID: 2051929703}
   - component: {fileID: 2051929702}
+  - component: {fileID: 2051929704}
+  - component: {fileID: 2051929705}
   m_Layer: 5
   m_Name: Player Deck
   m_TagString: Deck_Zone
@@ -2807,6 +3375,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2051929700}
+--- !u!114 &2051929704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2051929700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b2a519d71c30214182db5e118f4d5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 1
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+--- !u!114 &2051929705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2051929700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2051929704}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &2055177026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,6 +3434,8 @@ GameObject:
   - component: {fileID: 2055177027}
   - component: {fileID: 2055177029}
   - component: {fileID: 2055177028}
+  - component: {fileID: 2055177031}
+  - component: {fileID: 2055177030}
   m_Layer: 5
   m_Name: CoinZone
   m_TagString: Coin_Zone
@@ -2839,7 +3458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 608, y: -243}
+  m_AnchoredPosition: {x: 608, y: -245}
   m_SizeDelta: {x: 193, y: 80.995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055177028
@@ -2875,6 +3494,55 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2055177026}
+--- !u!114 &2055177030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2055177026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2055177031}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &2055177031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2055177026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6502f485ce755f4bada320ab752702d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
 --- !u!1 &2131511161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,6 +3553,8 @@ GameObject:
   - component: {fileID: 2131511162}
   - component: {fileID: 2131511164}
   - component: {fileID: 2131511163}
+  - component: {fileID: 2131511166}
+  - component: {fileID: 2131511165}
   m_Layer: 5
   m_Name: Signi Zone Center
   m_TagString: Signi_Zone_Center
@@ -2943,3 +3613,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2131511161}
+--- !u!114 &2131511165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2131511161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2131511166}
+          m_MethodName: MenuClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &2131511166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2131511161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c1462885d80f14a9fc38f43dc087a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 911379814}
+  cardController: {fileID: 1385543177}
+  location: 0
+  menuItems:
+  - Send To Waiting Room
+  - Send To
+  isOp: 0
+  canBeViewed: 1
+  zone: 0
