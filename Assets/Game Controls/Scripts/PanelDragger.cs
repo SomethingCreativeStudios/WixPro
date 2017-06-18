@@ -30,7 +30,7 @@ public class PanelDragger : MonoBehaviour, IDragHandler, IPointerEnterHandler, I
     }
     public void AddWixossCard(WixossCard card)
     {
-        string pathTemp = "sets/setimages/" + card.CardSet + "/" + card.CardNumberInSet;
+        string pathTemp = "sets/setimages/" + card.CardId;
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();

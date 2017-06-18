@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Serialization;
 using Assets.Game_Controls.Scripts.Enums;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Wixoss Card Object
@@ -13,42 +14,29 @@ using Assets.Game_Controls.Scripts.Enums;
 public class WixossCard
 {
     #region XML Variables
-    public string CardName { get; set; }
-    public List<CardColor> Color { get; set; }
-    public CardType Type { get; set; }
-    public List<CardCost> Cost { get; set; }
-    public string LimitingCondition { get; set; }
-    public List<CardTiming> Timing { get; set; }
-    public int Level { get; set; }
-    public int Limit { get; set; }
-    public int Power { get; set; }
-    public List<String> Class { get; set; }
-    public Boolean Guard { get; set; }
-    public Boolean MultiEner { get; set; }
-    public Boolean LifeBurst { get; set; }
-    public String CardUrl { get; set; }
-    public String ImageUrl { get; set; }
-    public String CardSet { get; set; }
-    public String CardNumberInSet { get; set; }
-    /// <summary>
-    /// The local path of the card image
-    /// </summary>
-    public String CardImagePath { get { return CardCollection.setImages + CardSet + "\\" + CardNumberInSet + ".jpg"; } }
-    /// <summary>
-    /// For XML Serialize purposes only 
-    /// </summary>
-    [XmlElement("CardEffect")]
-    public System.Xml.XmlCDataSection CardEffectCData
-    {
-        get
-        {
-            return new System.Xml.XmlDocument().CreateCDataSection(CardEffect);
-        }
-        set
-        {
-            CardEffect = value.Value;
-        }
-    }
+    public virtual int Id { get; protected set; }
+    public virtual string CardName { get; set; }
+    public virtual IList<CardColor> Color { get; set; }
+    public virtual CardType Type { get; set; }
+    public virtual IList<CardCost> Cost { get; set; }
+    public virtual string LimitingCondition { get; set; }
+    public virtual IList<CardTiming> Timing { get; set; }
+    public virtual int Level { get; set; }
+    public virtual int LevelLimit { get; set; }
+    public virtual int Power { get; set; }
+    public virtual IList<String> Class { get; set; }
+    public virtual Boolean Guard { get; set; }
+    public virtual Boolean MultiEner { get; set; }
+    public virtual Boolean LifeBurst { get; set; }
+    public virtual String CardUrl { get; set; }
+    public virtual String ImageUrl { get; set; }
+
+    [XmlIgnore]
+    public virtual String CardEffect { get; set; }
+    public virtual IList<String> CardSets { get; set; }
+
+    public virtual String CardImagePath { get { return CardCollection.setImages + "\\" + Id + ".jpg"; } }
+
     #endregion
 
     #region WixPro Temp Variables
@@ -58,11 +46,6 @@ public class WixossCard
     /// </summary>
     [XmlIgnore]
     public int PowerBoost { get; set; }
-    /// <summary>
-    /// The effect of the card
-    /// </summary>
-    [XmlIgnore]
-    public String CardEffect { get; set; }
 
     /// <summary>
     /// What position is the card?
@@ -74,7 +57,7 @@ public class WixossCard
     /// Unique id of card. This is the Set + Card Number in Set
     /// </summary>
     [XmlIgnore]
-    public String CardId { get { return CardSet + " " + CardNumberInSet; } }
+    public String CardId { get { return Convert.ToString(Id); } }
 
     /// <summary>
     /// Is the card face up?
@@ -89,6 +72,7 @@ public class WixossCard
         Cost = new List<CardCost>();
         Timing = new List<CardTiming>();
         Class = new List<string>();
+        CardSets = new List<String>();
     }
 
     #region String Versions Of Arrays
@@ -180,12 +164,12 @@ public class WixossCard
             return false;
 
         WixossCard tempCard = (WixossCard)obj;
-        return ( CardSet + "/" + CardNumberInSet ).Equals(tempCard.CardSet + "/" + tempCard.CardNumberInSet);
+        return ( CardId).Equals(tempCard.CardId);
     }
 
     public override int GetHashCode()
     {
-        return ( CardSet + "/" + CardNumberInSet ).GetHashCode();
+        return ( CardId).GetHashCode();
     }
 
     #endregion
@@ -229,7 +213,6 @@ public class WixossCard
     #endregion
 
     #region WixossCard Enums
-
     public enum CardColor
     {
         Green,
@@ -253,8 +236,24 @@ public class WixossCard
 
     public class CardCost
     {
-        public CardColor color { get; set; }
-        public int numberPerColor { get; set; }
+        public virtual int Id { get; protected set; }
+        public virtual CardColor color { get; set; }
+        public virtual int numberPerColor { get; set; }
+
+        [JsonIgnore]
+        public virtual WixossCard wixCard { get; set; }
+
+        public CardCost()
+        {
+
+        }
+
+        public CardCost(CardColor color, int numberPerColor, WixossCard wixCard)
+        {
+            this.color = color;
+            this.numberPerColor = numberPerColor;
+            this.wixCard = wixCard;
+        }
     }
 
     public enum CardTiming

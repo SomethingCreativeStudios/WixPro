@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Wix_Studio;
+using Wix_Studio.WixCardFiles;
 
 public class CardCollection
 {
@@ -26,177 +29,82 @@ public class CardCollection
     /// </summary>
     public static string setImages = baseSetPath + "setimages\\";
 
-    public static Dictionary<String , WixossCard> cardCollection;
+    public static Dictionary<String, WixossCard> cardCollection;
 
     public CardCollection()
     {
-        cardCollection = new Dictionary<string , WixossCard>();
+        cardCollection = new Dictionary<string, WixossCard>();
         CreateNeededFolders();
-        LoadAllCards();
+        //LoadAllCards();
     }
 
     public void CreateNeededFolders()
     {
-        if ( !Directory.Exists(baseSetPath) )
+        if (!Directory.Exists(baseSetPath))
         {
             Directory.CreateDirectory(baseSetPath);
         }
 
-        if ( !Directory.Exists(setImages) )
+        if (!Directory.Exists(setImages))
         {
             Directory.CreateDirectory(setImages);
         }
 
-        if ( !Directory.Exists(deckBasePath) )
+        if (!Directory.Exists(deckBasePath))
         {
             Directory.CreateDirectory(deckBasePath);
         }
+
+       /* if (!Directory.Exists(AuditLog.logPath))
+        {
+            Directory.CreateDirectory(AuditLog.logPath);
+        }*/
     }
 
-    public static List<WixossCard> GetSet(string setName)
+    public List<WixossCard> GetSet(string setName)
     {
         List<WixossCard> cards = new List<WixossCard>();
-        StreamReader reader = File.OpenText(baseSetPath + setName + ".xml");
-        using ( var stream = new StringReader(reader.ReadToEnd()) )
-        {
-            var serializer = new XmlSerializer(typeof(List<WixossCard>));
-            cards = new List<WixossCard>(serializer.Deserialize(stream) as List<WixossCard>);
-            stream.Close();
-            reader.Close();
-        }
-
-        return cards;
-    }
-
-    public static void SaveSet(List<WixossCard> cardsInSet)
-    {
-        SaveSet(cardsInSet[0].CardSet , cardsInSet);
-    }
-
-    public static void SaveSet(String setName , List<WixossCard> cardsInSet)
-    {
-        String filePath = baseSetPath + setName + ".xml";
-
-        try
-        {
-            foreach ( var cardInSet in cardsInSet )
-            {
-                if ( !Directory.Exists(setImages + cardInSet.CardSet) )
-                {
-                    Directory.CreateDirectory(setImages + cardInSet.CardSet);
-                }
-                if ( !File.Exists(cardInSet.CardImagePath) )
-                {
-
-                    using ( WebClient client = new WebClient() )
-                    {
-                        if ( cardInSet.CardNumberInSet == null || cardInSet.CardNumberInSet.Contains("???") )
-                            cardInSet.CardNumberInSet = cardInSet.CardName;
-
-                        String newFilePath = CardCollection.setImages + cardInSet.CardSet + "\\" + cardInSet.CardNumberInSet + ".jpg";
-                        if ( cardInSet.ImageUrl != null )
-                        {
-                            String urlName = cardInSet.ImageUrl;
-                            client.DownloadFileAsync(new Uri(urlName) , newFilePath , cardInSet);
-                        }
-                    }
-                }
-            }
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine("ERROR!");
-        }
-
-        XmlSerializer xsSubmit = new XmlSerializer(typeof(List<WixossCard>));
-        using ( StringWriter sww = new StringWriter() )
-        using ( XmlWriter writer = XmlWriter.Create(sww) )
-        {
-            xsSubmit.Serialize(writer , cardsInSet);
-            File.WriteAllText(filePath , PrintXML(sww.ToString()));
-            writer.Close();
-        }
+        WixCardSearchModel searchModel = new WixCardSearchModel();
+        searchModel.setName = setName.Substring(1);
+        return null;// WixCardService.Search(searchModel);
     }
 
     /// <summary>
     /// Get all sets found in base path
     /// </summary>
     /// <returns>names of all found sets</returns>
-    public static List<string> GetAllSets()
+    public List<string> GetAllSets()
     {
-        List<string> cardSets = new List<string>();
-        string[] files = Directory.GetFiles(baseSetPath);
-        for ( int i = 0; i < files.Length; i++ )
-        {
-            if ( files[i].EndsWith(".xml") && !files[i].Contains("nocard.txt") )
-                cardSets.Add(files[i].Replace(baseSetPath , "").Replace(".xml" , ""));
-        }
-
-        return cardSets;
+        return null;// WixCardService.GetSetNames();
     }
 
-    /// <summary>
-    /// Get all sets thats starts with filter
-    /// </summary>
-    /// <returns>names of all found sets</returns>
-    public static List<string> GetAllSets(String filter)
-    {
-        List<string> cardSets = new List<string>();
-        string[] files = Directory.GetFiles(baseSetPath);
-        for ( int i = 0; i < files.Length; i++ )
-        {
-            bool passesFilter = ( filter != "" ? files[i].Contains(filter) : true );
-            if ( files[i].EndsWith(".xml") && !files[i].Contains("nocard.txt") && passesFilter )
-                cardSets.Add(files[i].Replace(baseSetPath , "").Replace(".xml" , ""));
-        }
-
-        return cardSets;
-    }
-
-    /// <summary>
-    /// Get all cards in sets that starts with filter
-    /// </summary>
-    /// <returns>cards of all found sets</returns>
-    public static List<WixossCard> GetCardsInSets(String filter)
-    {
-        List<WixossCard> cardSets = new List<WixossCard>();
-        List<String> setNames = GetAllSets(filter);
-        foreach ( var setName in setNames )
-        {
-            cardSets.AddRange(GetSet(setName));
-        }
-
-        return cardSets;
-    }
-
-    public static void LoadAllCards()
+    public void LoadAllCards()
     {
         List<string> cardSets = GetAllSets();
         List<WixossCard> allCards = new List<WixossCard>();
 
-        for ( int i = 0; i < cardSets.Count; i++ )
+      /*  foreach (var tempCard in WixCardService.getAllCards())
         {
             try
             {
-                foreach ( var tempCard in GetSet(cardSets[i]) )
-                {
-                    if ( tempCard.ImageUrl != null && !cardCollection.ContainsKey(tempCard.ImageUrl) )
-                        cardCollection.Add(tempCard.ImageUrl , tempCard);
-                }
+                if (tempCard.ImageUrl != null && !cardCollection.ContainsKey(tempCard.ImageUrl))
+                    cardCollection.Add(tempCard.ImageUrl, tempCard);
+
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                Console.WriteLine("Error occured when getting set id: " + cardSets[i]);
+                Debug.WriteLine("Error occured when getting card id: " + tempCard.Id);
             }
-        }
+        }*/
+
     }
 
-    private static WixossCard cardForName(string name)
+    private WixossCard cardForName(string name)
     {
 
-        for ( int i = 0; i < cardCollection.Keys.Count; i++ )
+        for (int i = 0; i < cardCollection.Keys.Count; i++)
         {
-            if ( cardCollection[cardCollection.Keys.ElementAt(i)].CardName == name )
+            if (cardCollection[cardCollection.Keys.ElementAt(i)].CardName == name)
                 return cardCollection[cardCollection.Keys.ElementAt(i)];
         }
 
@@ -208,14 +116,7 @@ public class CardCollection
 
     public static List<String> getAllCardNames()
     {
-        List<String> cardNames = new List<string>();
-        foreach ( var cardKey in cardCollection.Keys )
-        {
-            String cardName = cardCollection[cardKey].CardName;
-            if ( !cardNames.Contains(cardName.Trim()) )
-                cardNames.Add(cardName.Trim());
-        }
-        return cardNames;
+        return null;// WixCardService.GetAllCardNames();
     }
 
     public static String PrintXML(String XML)
@@ -223,7 +124,7 @@ public class CardCollection
         String Result = "";
 
         MemoryStream mStream = new MemoryStream();
-        XmlTextWriter writer = new XmlTextWriter(mStream , Encoding.Unicode);
+        XmlTextWriter writer = new XmlTextWriter(mStream, Encoding.Unicode);
         XmlDocument document = new XmlDocument();
 
         try
@@ -250,7 +151,7 @@ public class CardCollection
 
             Result = FormattedXML;
         }
-        catch ( XmlException )
+        catch (XmlException)
         {
         }
 
