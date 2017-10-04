@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 using Wix_Studio;
 using Wix_Studio.WixCardFiles;
 
@@ -55,10 +52,10 @@ public class CardCollection
             Directory.CreateDirectory(deckBasePath);
         }
 
-       /* if (!Directory.Exists(AuditLog.logPath))
-        {
-            Directory.CreateDirectory(AuditLog.logPath);
-        }*/
+        /* if (!Directory.Exists(AuditLog.logPath))
+         {
+             Directory.CreateDirectory(AuditLog.logPath);
+         }*/
     }
 
     public List<WixossCard> GetSet(string setName)
@@ -66,7 +63,7 @@ public class CardCollection
         List<WixossCard> cards = new List<WixossCard>();
         WixCardSearchModel searchModel = new WixCardSearchModel();
         searchModel.setName = setName.Substring(1);
-        return null;// WixCardService.Search(searchModel);
+        return WixCardService.Search(searchModel, SortBy.Color, SortOrder.ASC);
     }
 
     /// <summary>
@@ -83,19 +80,19 @@ public class CardCollection
         List<string> cardSets = GetAllSets();
         List<WixossCard> allCards = new List<WixossCard>();
 
-      /*  foreach (var tempCard in WixCardService.getAllCards())
-        {
-            try
-            {
-                if (tempCard.ImageUrl != null && !cardCollection.ContainsKey(tempCard.ImageUrl))
-                    cardCollection.Add(tempCard.ImageUrl, tempCard);
+        /*  foreach (var tempCard in WixCardService.getAllCards())
+          {
+              try
+              {
+                  if (tempCard.ImageUrl != null && !cardCollection.ContainsKey(tempCard.ImageUrl))
+                      cardCollection.Add(tempCard.ImageUrl, tempCard);
 
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error occured when getting card id: " + tempCard.Id);
-            }
-        }*/
+              }
+              catch (Exception ex)
+              {
+                  Debug.WriteLine("Error occured when getting card id: " + tempCard.Id);
+              }
+          }*/
 
     }
 

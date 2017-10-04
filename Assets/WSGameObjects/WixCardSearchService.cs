@@ -1,18 +1,23 @@
-﻿using System;
+﻿using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Criterion;
+using NHibernate.Tool.hbm2ddl;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Wix_Studio.WixCardFiles;
 
 namespace Wix_Studio
 {
     public class WixCardService
     {
-        public static String databaseName = "batorubase.db";
+        public static String databaseName = @"C:\Users\eric-\Source\Repos\WixPro\Assets\batorubase.db";
         public static WixossCard CreateOrUpdate(WixossCard wixossCard)
         {
-           /* if (!Exists(wixossCard.CardName))
+            if (!Exists(wixossCard.CardName))
             {
                 var sessionFactory = CreateSessionFactory();
 
@@ -24,26 +29,26 @@ namespace Wix_Studio
                         transaction.Commit();
                     }
                 }
-            }*/
+            }
             return wixossCard;
         }
 
         public static List<String> GetSetNames()
         {
             List<String> setNames = new List<string>();
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    var sql = String.Format("SELECT distinct CardSet FROM {0} ORDER BY CardSet", "CardSet");
-                    var query = session.CreateSQLQuery(sql);
-                    var result = query.List<String>();
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (var transaction = session.BeginTransaction())
+                 {
+                     var sql = String.Format("SELECT distinct CardSet FROM {0} ORDER BY CardSet", "CardSet");
+                     var query = session.CreateSQLQuery(sql);
+                     var result = query.List<String>();
 
-                    setNames = result.ToList<String>();
-                }
-            }*/
+                     setNames = result.ToList<String>();
+                 }
+             }*/
 
             return setNames;
         }
@@ -51,19 +56,19 @@ namespace Wix_Studio
         public static List<String> GetAllClasses()
         {
             List<String> cardClasses = new List<string>();
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    var sql = String.Format("SELECT distinct CardClass FROM {0} ORDER BY CardClass", "CardClass");
-                    var query = session.CreateSQLQuery(sql);
-                    var result = query.List<String>();
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (var transaction = session.BeginTransaction())
+                 {
+                     var sql = String.Format("SELECT distinct CardClass FROM {0} ORDER BY CardClass", "CardClass");
+                     var query = session.CreateSQLQuery(sql);
+                     var result = query.List<String>();
 
-                    cardClasses = result.ToList<String>();
-                }
-            }*/
+                     cardClasses = result.ToList<String>();
+                 }
+             }*/
 
             return cardClasses;
         }
@@ -71,19 +76,19 @@ namespace Wix_Studio
         public static List<String> GetAllCardNames()
         {
             List<String> cardNames = new List<string>();
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    var sql = String.Format("SELECT distinct CardName FROM {0} ORDER BY CardName", "WixossCard");
-                    var query = session.CreateSQLQuery(sql);
-                    var result = query.List<String>();
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (var transaction = session.BeginTransaction())
+                 {
+                     var sql = String.Format("SELECT distinct CardName FROM {0} ORDER BY CardName", "WixossCard");
+                     var query = session.CreateSQLQuery(sql);
+                     var result = query.List<String>();
 
-                    cardNames = result.ToList<String>();
-                }
-            }*/
+                     cardNames = result.ToList<String>();
+                 }
+             }*/
 
             return cardNames;
         }
@@ -91,43 +96,43 @@ namespace Wix_Studio
         public static WixossCard FindById(int cardId)
         {
             WixossCard card = null;
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    try
-                    {
-                        var criteria = session.CreateCriteria<WixossCard>();
-                        criteria.Add(Expression.Eq("Id", cardId)); // where clause in subquery
-                        var result = criteria.List<WixossCard>();
-                        card = result[0];
-                    }
-                    catch { }
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (var transaction = session.BeginTransaction())
+                 {
+                     try
+                     {
+                         var criteria = session.CreateCriteria<WixossCard>();
+                         criteria.Add(Expression.Eq("Id", cardId)); // where clause in subquery
+                         var result = criteria.List<WixossCard>();
+                         card = result[0];
+                     }
+                     catch { }
 
-                }
-            }
-            */
+                 }
+             }
+             */
             return card;
         }
 
         public static Boolean Exists(String cardName)
         {
             bool cardExists = false;
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    var criteria = session.CreateCriteria<WixossCard>();
-                    criteria.Add(Expression.Eq("CardName", cardName)); // where clause in subquery
-                    var result = criteria.List<WixossCard>();
-                    cardExists = result.Count != 0;
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (var transaction = session.BeginTransaction())
+                 {
+                     var criteria = session.CreateCriteria<WixossCard>();
+                     criteria.Add(Expression.Eq("CardName", cardName)); // where clause in subquery
+                     var result = criteria.List<WixossCard>();
+                     cardExists = result.Count != 0;
 
-                }
-            }*/
+                 }
+             }*/
 
             return cardExists;
         }
@@ -135,31 +140,34 @@ namespace Wix_Studio
         public static List<WixossCard> getAllCards()
         {
             var allCards = new List<WixossCard>();
-           /* var sessionFactory = CreateSessionFactory();
+            /* var sessionFactory = CreateSessionFactory();
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                using (session.BeginTransaction())
-                {
-                    var cards = session.CreateCriteria(typeof(WixossCard)).List<WixossCard>();
+             using (var session = sessionFactory.OpenSession())
+             {
+                 using (session.BeginTransaction())
+                 {
+                     var cards = session.CreateCriteria(typeof(WixossCard)).List<WixossCard>();
 
-                    foreach (var card in cards)
-                    {
-                        allCards.Add(card);
-                    }
-                }
-            }*/
+                     foreach (var card in cards)
+                     {
+                         allCards.Add(card);
+                     }
+                 }
+             }*/
 
             return allCards;
         }
+
         public static List<WixossCard> Search(WixCardSearchModel searchCard)
         {
+            var sessionFactory = CreateSessionFactory();
             return Search(searchCard, SortBy.Color, SortOrder.ASC);
         }
+
         public static List<WixossCard> Search(WixCardSearchModel searchCard, SortBy sortBy, SortOrder sortOrder)
         {
             List<WixossCard> resultCards = new List<WixossCard>();
-            /*var sessionFactory = CreateSessionFactory();
+            var sessionFactory = CreateSessionFactory();
 
             if (searchCard != null)
             {
@@ -170,7 +178,7 @@ namespace Wix_Studio
 
                         var criteria = session.CreateCriteria<WixossCard>();
 
-                        if (searchCard.Color != null && searchCard.Color != CardColor.NoColor)
+                        if (searchCard.Color != null && searchCard.Color != WixossCard.CardColor.NoColor)
                         {
                             criteria.CreateAlias("Color", "color");
                             criteria.Add(Expression.Eq("color.elements", searchCard.Color));
@@ -207,7 +215,7 @@ namespace Wix_Studio
                             criteria.Add(Expression.Like("set.elements", "%" + searchCard.setName + "%"));
                         }
 
-                        if (searchCard.Type != null && searchCard.Type != CardType.NoType)
+                        if (searchCard.Type != null && searchCard.Type != WixossCard.CardType.NoType)
                         {
                             criteria.CreateAlias("Type", "cardType");
                             criteria.Add(Expression.Eq("cardType.elements", searchCard.Type));
@@ -232,14 +240,14 @@ namespace Wix_Studio
                         }
 
 
-                        criteria.SetResultTransformer(Transformers.DistinctRootEntity);
+                        // criteria.SetResultTransformer(Transformers.DistinctRootEntity);
                         resultCards = criteria.List<WixossCard>().ToList();
                     }
                 }
-            }*/
+            }
             return resultCards;
         }
-/*
+
         private static ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure().Database(SQLiteConfiguration.Standard.UsingFile(databaseName))
@@ -251,7 +259,7 @@ namespace Wix_Studio
         private static void BuildSchema(Configuration config)
         {
             //Allows us to log, and output sql commands
-            config.SetInterceptor(new SqlStatementInterceptor());
+            //  config.SetInterceptor(new SqlStatementInterceptor());
 
             //Only create schema if file is not found
             if (!File.Exists(databaseName))
@@ -259,6 +267,6 @@ namespace Wix_Studio
                 //File.Delete("firstProject.db");
                 new SchemaExport(config).Create(false, true);
             }
-        }*/
+        }
     }
 }

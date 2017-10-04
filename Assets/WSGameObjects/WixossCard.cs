@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Assets.Game_Controls.Scripts.Enums;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Xml.Serialization;
-using Assets.Game_Controls.Scripts.Enums;
-using Newtonsoft.Json;
-
 /// <summary>
 /// Wixoss Card Object
 /// </summary>
@@ -82,12 +79,12 @@ public class WixossCard
         {
             String cardCostStr = "";
 
-            foreach ( var cardCost in Cost )
+            foreach (var cardCost in Cost)
             {
                 cardCostStr += "{" + cardCost.color + ": " + cardCost.numberPerColor + "} ";
             }
 
-            if ( cardCostStr == "" )
+            if (cardCostStr == "")
             {
                 cardCostStr = "No Cost";
             }
@@ -103,12 +100,12 @@ public class WixossCard
         {
             String cardColorStr = "";
 
-            foreach ( var cardColor in Color )
+            foreach (var cardColor in Color)
             {
                 cardColorStr += "{" + cardColor + "} ";
             }
 
-            if ( cardColorStr == "" )
+            if (cardColorStr == "")
             {
                 cardColorStr = "No Color";
             }
@@ -124,11 +121,11 @@ public class WixossCard
         {
             String cardCostTimingStr = "";
 
-            foreach ( var cardTiming in Timing )
+            foreach (var cardTiming in Timing)
             {
                 cardCostTimingStr += "{" + cardTiming + "} ";
             }
-            if ( cardCostTimingStr == "" )
+            if (cardCostTimingStr == "")
             {
                 cardCostTimingStr = "No Timing";
             }
@@ -143,11 +140,11 @@ public class WixossCard
         {
             String cardClassStr = "";
 
-            foreach ( var cardClass in Class )
+            foreach (var cardClass in Class)
             {
                 cardClassStr += "{" + cardClass + "} ";
             }
-            if ( cardClassStr == "" )
+            if (cardClassStr == "")
             {
                 cardClassStr = "No Class";
             }
@@ -160,16 +157,16 @@ public class WixossCard
     #region Override Methods
     public override bool Equals(object obj)
     {
-        if ( ( obj.GetType() != typeof(WixossCard) ) )
+        if ((obj.GetType() != typeof(WixossCard)))
             return false;
 
         WixossCard tempCard = (WixossCard)obj;
-        return ( CardId).Equals(tempCard.CardId);
+        return (CardId).Equals(tempCard.CardId);
     }
 
     public override int GetHashCode()
     {
-        return ( CardId).GetHashCode();
+        return (CardId).GetHashCode();
     }
 
     #endregion
@@ -183,10 +180,10 @@ public class WixossCard
     /// <returns>is this card null or not</returns>
     public static bool isCardNull(WixossCard card)
     {
-        if ( card == null )
+        if (card == null)
             return true;
 
-        if ( card.CardName == null )
+        if (card.CardName == null)
             return true;
 
         return false;
@@ -200,10 +197,10 @@ public class WixossCard
     /// <returns>newly deep copied card</returns>
     public static WixossCard Clone(WixossCard obj)
     {
-        using ( var ms = new MemoryStream() )
+        using (var ms = new MemoryStream())
         {
             var formatter = new BinaryFormatter();
-            formatter.Serialize(ms , obj);
+            formatter.Serialize(ms, obj);
             ms.Position = 0;
 
             return (WixossCard)formatter.Deserialize(ms);

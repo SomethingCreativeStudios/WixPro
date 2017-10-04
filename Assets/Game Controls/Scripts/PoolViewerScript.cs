@@ -1,15 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System.Collections.Generic;
+﻿using Assets.Game_Controls.Scripts.Enums;
 using Assets.Utils;
-using UnityEngine.EventSystems;
-using Photon;
-using Assets.Game_Controls.Scripts.Enums;
-using System;
 using CodeBureau;
+using Photon;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PoolViewerScript : PunBehaviour{
+public class PoolViewerScript : PunBehaviour
+{
 
     public Transform parentCanvas;
     private Vector3 startMousePosition;
@@ -26,7 +26,8 @@ public class PoolViewerScript : PunBehaviour{
     [HideInInspector]
     public List<GameObject> poolOfGameObjects
     {
-        get {
+        get
+        {
             List<GameObject> tempObjects = new List<GameObject>();
 
             foreach (var item in poolOfCards)
@@ -45,7 +46,7 @@ public class PoolViewerScript : PunBehaviour{
         {
             List<string> cardIds = new List<string>();
 
-            foreach ( var WixossCard in poolOfCards )
+            foreach (var WixossCard in poolOfCards)
             {
                 cardIds.Add(WixossCard.CardId);
             }
@@ -57,12 +58,14 @@ public class PoolViewerScript : PunBehaviour{
     public bool canBeViewed = true;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         StartUp();
     }
-    
+
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         UpdateScript();
     }
 
@@ -121,29 +124,29 @@ public class PoolViewerScript : PunBehaviour{
     /// <param name="card">The Card being turned into a gameObject</param>
     /// <param name="destoryObject">removed the gameObject from main field. Just return an gameObject</param>
     /// <returns>The gameObject, it contains an WixossCardComponent. Parent is tag 'Main Field'</returns>
-    public static GameObject AddWixossCard(WixossCard card , bool destoryObject)
+    public static GameObject AddWixossCard(WixossCard card, bool destoryObject)
     {
         WWW www = null;
-        if ( !card.FaceUp )
+        if (!card.FaceUp)
             www = new WWW("file://" + Constants.cardBack);
         else
             www = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
-        go.name = card.CardSet + "-" + card.CardNumberInSet;
+        go.name = card.Id + "-" + card.CardName;
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();
         tempComponent.Card = card;
-        Sprite tempTexture = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
+        Sprite tempTexture = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
 
 
         rend.sprite = tempTexture;
 
         Transform trans = GameObject.FindGameObjectsWithTag("Main Field")[0].transform;
-        go.transform.SetParent(trans , false);
-        go.transform.position = new Vector3(-100 , -100 , 0);
-        CardController.SetSize(go , 100 , 100); //By default, the size is 0... for some reason
-        if ( destoryObject )
+        go.transform.SetParent(trans, false);
+        go.transform.position = new Vector3(-100, -100, 0);
+        CardController.SetSize(go, 100, 100); //By default, the size is 0... for some reason
+        if (destoryObject)
             DestroyObject(go);//we just want the object not show in editor
         return go;
     }
@@ -155,23 +158,23 @@ public class PoolViewerScript : PunBehaviour{
     /// <param name="parentTag">GameObject with this tag is the parent</param>
     /// <param name="destoryObject">removed the gameObject from main field. Just return an gameObject</param>
     /// <returns>The gameObject, it contains an WixossCardComponent. Parent is tag 'parentTag'</returns>
-    public static GameObject AddWixossCard(WixossCard card, string parentTag , bool destoryObject)
+    public static GameObject AddWixossCard(WixossCard card, string parentTag, bool destoryObject)
     {
-        if ( parentTag == "Untagged" )
+        if (parentTag == "Untagged")
             parentTag = "Main Field";
 
         WWW www = null;
-        if ( !card.FaceUp )
+        if (!card.FaceUp)
             www = new WWW("file://" + Constants.cardBack);
         else
             www = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
-        go.name = card.CardSet + "-" + card.CardNumberInSet;
+        go.name = card.Id + "-" + card.CardName;
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();
         tempComponent.Card = card;
-        Sprite tempTexture = Sprite.Create(www.texture , new Rect(0 , 0 , www.texture.width , www.texture.height) , new Vector2(0.5f , 0.5f));
+        Sprite tempTexture = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
         rend.sprite = tempTexture;
 
         tempComponent.tempSprite = tempTexture;
@@ -205,7 +208,7 @@ public class PoolViewerScript : PunBehaviour{
         {
             GameObject g = h.gameObject;
             hit = (g.tag == "Card");
-                   
+
             if (hit)
             {
                 cardUnderTheMouse = g;
@@ -220,14 +223,14 @@ public class PoolViewerScript : PunBehaviour{
     /// Finds the WixossCard that is directly under the mouse. MoveCardShowCard
     /// </summary>
     /// <returns>The WixossCard. If nothing found will return null</returns>
-    public WixossCard WixossCardUnderMouse() 
+    public WixossCard WixossCardUnderMouse()
     {
         GameObject gameObject = CardUnderMouse();
 
         WixCardComponent cardComponent = gameObject.GetComponent<WixCardComponent>();
         WixossCard card = null;
 
-        if ( cardComponent != null )
+        if (cardComponent != null)
             card = cardComponent.Card;
 
         return card;
@@ -275,31 +278,31 @@ public class PoolViewerScript : PunBehaviour{
 
     public void sendToX(string selectedItem)//will be inherited by most contollers
     {
-        if ( selectedItem == GetMenuItem(SendToMenu.SendToTrash) )
+        if (selectedItem == GetMenuItem(SendToMenu.SendToTrash))
         {
-            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.TrashZone));
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.TrashZone));
         }
-        if ( selectedItem == GetMenuItem(SendToMenu.ShuffleIntoDeck) )
+        if (selectedItem == GetMenuItem(SendToMenu.ShuffleIntoDeck))
         {
-            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Deck));
             cardController.ShufflePlayerDeck();
         }
-        if ( selectedItem == GetMenuItem(SendToMenu.SendToTopOfDeck) )
+        if (selectedItem == GetMenuItem(SendToMenu.SendToTopOfDeck))
         {
-            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Deck));
             List<WixossCard> WixossCards = ControllerHelper.FindGameObject(Location.Deck).GetComponent<PoolViewerScript>().poolOfCards;
             WixossCard temp = WixossCards[WixossCards.Count - 1];
             WixossCards.Insert(0, temp);
             WixossCards.RemoveAt(WixossCards.Count - 1);
             cardController.SyncDeckWithOp();
         }
-        if ( selectedItem == GetMenuItem(SendToMenu.SendToBottomOfDeck) )
+        if (selectedItem == GetMenuItem(SendToMenu.SendToBottomOfDeck))
         {
-            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location) , ControllerHelper.FindGameObject(Location.Deck));
+            cardController.MoveCard(CardUnderMouse(), ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Deck));
         }
-        if ( selectedItem == GetMenuItem(SendToMenu.SendToHand) )
+        if (selectedItem == GetMenuItem(SendToMenu.SendToHand))
         {
-            cardController.MoveCardShowCard(WixossCardUnderMouse() , ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Hand) , 0);
+            cardController.MoveCardShowCard(WixossCardUnderMouse(), ControllerHelper.FindGameObject(location), ControllerHelper.FindGameObject(Location.Hand), 0);
         }
     }
     public virtual void Menu_clicked(string menuName)
