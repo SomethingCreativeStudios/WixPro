@@ -358,7 +358,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 180308892}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -414,6 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -468,6 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 0}
+  poolOfCards: []
   cardController: {fileID: 0}
   location: 0
   menuItems:
@@ -556,8 +558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 2
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -749,8 +752,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 6
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -837,6 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -956,8 +961,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 8
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -1076,8 +1082,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 10
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -1272,8 +1279,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 5
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -1467,8 +1475,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 4
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -1699,8 +1708,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 3
   menuItems:
   - Send To Waiting Room
   - Send To
@@ -1875,7 +1885,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 743267211}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -1931,6 +1941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -2279,6 +2290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -2311,7 +2323,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1026567075}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -2367,6 +2379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -2400,7 +2413,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1051959360}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -2456,6 +2469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -2565,7 +2579,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1290328131}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -2621,6 +2635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -2872,7 +2887,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1403748521}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -2928,6 +2943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -3088,7 +3104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 127.68002, y: -418.99997}
+  m_AnchoredPosition: {x: 127.68002, y: -418.99988}
   m_SizeDelta: {x: 281, y: 255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1686999925
@@ -3154,7 +3170,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1782288294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 387736644}
@@ -3241,7 +3257,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1882824526}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1.00001, y: 1.00001, z: 1.00001}
   m_Children: []
   m_Father: {fileID: 815172241}
@@ -3297,6 +3313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -3387,6 +3404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 1
   menuItems:
@@ -3536,6 +3554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
   location: 0
   menuItems:
@@ -3655,8 +3674,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 911379814}
+  poolOfCards: []
   cardController: {fileID: 1385543177}
-  location: 0
+  location: 9
   menuItems:
   - Send To Waiting Room
   - Send To

@@ -187,7 +187,7 @@ namespace Wix_Studio.WixCardFiles
         {
             if ( !Directory.Exists(CardCollection.deckBasePath + deckName) )
             {
-                String filePath = CardCollection.deckBasePath + deckName + ".deck";
+                String filePath = CardCollection.deckBasePath + deckName + ".json";
                 if ( !File.Exists(filePath) )
                 {
                     File.Create(filePath).Close();
@@ -196,38 +196,18 @@ namespace Wix_Studio.WixCardFiles
                     File.Delete(filePath);
                 }
 
-                String mainDeck = "";
-                String lrigDeck = "";
-
-                for ( int i = 0; i < deck.MainDeck.Count; i++ )
-                {
-                    mainDeck += deck.MainDeck[i].Id;
-
-                    if ( i < deck.MainDeck.Count - 2 )
-                        mainDeck += ",";
-                }
-
-                for ( int i = 0; i < deck.LRIGDeck.Count; i++ )
-                {
-                    lrigDeck += deck.LRIGDeck[i].Id;
-
-                    if ( i < deck.LRIGDeck.Count - 2 )
-                        lrigDeck += ",";
-                }
-
+                String jsonDeck =  Newtonsoft.Json.JsonConvert.SerializeObject(deck, Newtonsoft.Json.Formatting.Indented);
                 StreamWriter writer = File.CreateText(filePath);
 
-                writer.WriteLine(mainDeck);
-                writer.WriteLine(lrigDeck);
+                writer.WriteLine(jsonDeck);
 
                 writer.Close();
-
             }
         }
 
         public static WixossDeck LoadDeck(string deckName)
         {
-            String filePath = CardCollection.deckBasePath + deckName + ".deck";
+            String filePath = CardCollection.deckBasePath + deckName + ".json";
             String wixDeck = "";
             WixossDeck loadedDeck = new WixossDeck();
 
@@ -235,33 +215,7 @@ namespace Wix_Studio.WixCardFiles
             wixDeck = reader.ReadToEnd();
             reader.Close();
 
-
-            string[] mainDeckArray = wixDeck.Split(new char[] {'\n' })[0].Split(new char[] { ',' });
-            string[] lrigDeckArray = wixDeck.Split(new char[] { '\n' })[1].Split(new char[] { ',' });
-
-            foreach ( var cardIdStr in mainDeckArray )
-            {
-                try
-                {
-                    int cardId = Convert.ToInt16(cardIdStr);
-                    WixossCard card = WixCardService.FindById(cardId);
-                    if ( card != null )
-                        loadedDeck.MainDeck.Add(card);
-                }
-                catch { }
-            }
-
-            foreach ( var cardIdStr in lrigDeckArray )
-            {
-                try
-                {
-                    int cardId = Convert.ToInt16(cardIdStr);
-                    WixossCard card = WixCardService.FindById(cardId);
-                    if ( card != null )
-                        loadedDeck.LRIGDeck.Add(card);
-                }
-                catch { }
-            }
+            loadedDeck = (WixossDeck)Newtonsoft.Json.JsonConvert.DeserializeObject(wixDeck, typeof(WixossDeck));
 
             return loadedDeck;
         }

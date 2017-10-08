@@ -3,6 +3,7 @@ using System.Collections;
 using Assets.Game_Controls.Scripts;
 using UnityEngine.UI;
 using Assets.Utils;
+using System;
 
 public class PhaseController : MonoBehaviour {
 
@@ -81,7 +82,15 @@ public class PhaseController : MonoBehaviour {
 
 	private static void ChangeBtn(GamePhase gamePhase, bool enable)
 	{
-		PhaseController phaseBtns = GameObject.FindGameObjectWithTag("PhaseCounter").GetComponent<PhaseController>();
+        PhaseController phaseBtns = null;
+        try {
+            phaseBtns = GameObject.FindGameObjectWithTag("PhaseCounter").GetComponent<PhaseController>();
+        }catch (Exception ex )
+        {
+            Debug.logger.Log("Please add back the phase counter!!!! \n throws: " + ex);
+            return;
+        }
+
 		Button buttonToChange = null;
 		Color newColor = new Color();
 

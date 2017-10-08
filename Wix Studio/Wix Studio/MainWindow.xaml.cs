@@ -113,7 +113,7 @@ namespace Wix_Studio
 
             foreach ( var cardCost in selectedCard.Cost )
             {
-                cardCostStr += "(Color: " + cardCost.color + ", Cost: " + cardCost.numberPerColor + ") ";
+                cardCostStr += "(Color: " + cardCost.Color + ", Cost: " + cardCost.NumberPerColor + ") ";
             }
 
             foreach ( var cardTiming in selectedCard.Timing )

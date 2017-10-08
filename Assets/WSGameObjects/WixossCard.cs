@@ -8,10 +8,11 @@ using System.Xml.Serialization;
 /// <summary>
 /// Wixoss Card Object
 /// </summary>
+[Serializable]
 public class WixossCard
 {
-    #region XML Variables
-    public virtual int Id { get; protected set; }
+    #region JSON Variables
+    public virtual int Id { get; set; }
     public virtual string CardName { get; set; }
     public virtual IList<CardColor> Color { get; set; }
     public virtual CardType Type { get; set; }
@@ -27,8 +28,6 @@ public class WixossCard
     public virtual Boolean LifeBurst { get; set; }
     public virtual String CardUrl { get; set; }
     public virtual String ImageUrl { get; set; }
-
-    [XmlIgnore]
     public virtual String CardEffect { get; set; }
     public virtual IList<String> CardSets { get; set; }
 
@@ -41,26 +40,26 @@ public class WixossCard
     /// <summary>
     /// The power offset, can be negative
     /// </summary>
-    [XmlIgnore]
-    public int PowerBoost { get; set; }
+    [JsonIgnore]
+    public virtual int PowerBoost { get; set; }
 
     /// <summary>
     /// What position is the card?
     /// </summary>
-    [XmlIgnore]
-    public CardState StateOfCard { get; set; }
+    [JsonIgnore]
+    public virtual CardState StateOfCard { get; set; }
 
     /// <summary>
     /// Unique id of card. This is the Set + Card Number in Set
     /// </summary>
-    [XmlIgnore]
-    public String CardId { get { return Convert.ToString(Id); } }
+    [JsonIgnore]
+    public virtual String CardId { get { return Convert.ToString(Id); } }
 
     /// <summary>
     /// Is the card face up?
     /// </summary>
-    [XmlIgnore]
-    public Boolean FaceUp { get; set; }
+    [JsonIgnore]
+    public virtual Boolean FaceUp { get; set; }
     #endregion
 
     public WixossCard()
@@ -73,18 +72,18 @@ public class WixossCard
     }
 
     #region String Versions Of Arrays
-    public String CostStr
+    public virtual String CostStr
     {
         get
         {
             String cardCostStr = "";
 
-            foreach (var cardCost in Cost)
+            foreach ( var cardCost in Cost )
             {
                 cardCostStr += "{" + cardCost.color + ": " + cardCost.numberPerColor + "} ";
             }
 
-            if (cardCostStr == "")
+            if ( cardCostStr == "" )
             {
                 cardCostStr = "No Cost";
             }
@@ -94,18 +93,18 @@ public class WixossCard
 
     }
 
-    public String ColorStr
+    public virtual String ColorStr
     {
         get
         {
             String cardColorStr = "";
 
-            foreach (var cardColor in Color)
+            foreach ( var cardColor in Color )
             {
                 cardColorStr += "{" + cardColor + "} ";
             }
 
-            if (cardColorStr == "")
+            if ( cardColorStr == "" )
             {
                 cardColorStr = "No Color";
             }
@@ -115,17 +114,17 @@ public class WixossCard
 
     }
 
-    public String TimingStr
+    public virtual String TimingStr
     {
         get
         {
             String cardCostTimingStr = "";
 
-            foreach (var cardTiming in Timing)
+            foreach ( var cardTiming in Timing )
             {
                 cardCostTimingStr += "{" + cardTiming + "} ";
             }
-            if (cardCostTimingStr == "")
+            if ( cardCostTimingStr == "" )
             {
                 cardCostTimingStr = "No Timing";
             }
@@ -134,17 +133,17 @@ public class WixossCard
 
     }
 
-    public String ClassStr
+    public virtual String ClassStr
     {
         get
         {
             String cardClassStr = "";
 
-            foreach (var cardClass in Class)
+            foreach ( var cardClass in Class )
             {
                 cardClassStr += "{" + cardClass + "} ";
             }
-            if (cardClassStr == "")
+            if ( cardClassStr == "" )
             {
                 cardClassStr = "No Class";
             }
@@ -157,16 +156,16 @@ public class WixossCard
     #region Override Methods
     public override bool Equals(object obj)
     {
-        if ((obj.GetType() != typeof(WixossCard)))
+        if ( ( obj.GetType() != typeof(WixossCard) ) )
             return false;
 
         WixossCard tempCard = (WixossCard)obj;
-        return (CardId).Equals(tempCard.CardId);
+        return ( CardId ).Equals(tempCard.CardId);
     }
 
     public override int GetHashCode()
     {
-        return (CardId).GetHashCode();
+        return ( CardId ).GetHashCode();
     }
 
     #endregion
@@ -180,10 +179,10 @@ public class WixossCard
     /// <returns>is this card null or not</returns>
     public static bool isCardNull(WixossCard card)
     {
-        if (card == null)
+        if ( card == null )
             return true;
 
-        if (card.CardName == null)
+        if ( card.CardName == null )
             return true;
 
         return false;
@@ -197,10 +196,10 @@ public class WixossCard
     /// <returns>newly deep copied card</returns>
     public static WixossCard Clone(WixossCard obj)
     {
-        using (var ms = new MemoryStream())
+        using ( var ms = new MemoryStream() )
         {
             var formatter = new BinaryFormatter();
-            formatter.Serialize(ms, obj);
+            formatter.Serialize(ms , obj);
             ms.Position = 0;
 
             return (WixossCard)formatter.Deserialize(ms);
@@ -231,6 +230,7 @@ public class WixossCard
         NoType
     }
 
+    [Serializable]
     public class CardCost
     {
         public virtual int Id { get; protected set; }
@@ -245,7 +245,7 @@ public class WixossCard
 
         }
 
-        public CardCost(CardColor color, int numberPerColor, WixossCard wixCard)
+        public CardCost(CardColor color , int numberPerColor , WixossCard wixCard)
         {
             this.color = color;
             this.numberPerColor = numberPerColor;

@@ -9,12 +9,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Wix_Studio.WixCardFiles;
+using UnityEngine;
 
 namespace Wix_Studio
 {
     public class WixCardService
     {
-        public static String databaseName = @"C:\Users\eric-\Source\Repos\WixPro\Assets\batorubase.db";
+        //public static String databaseName = @"C:\Users\eric-\Source\Repos\WixPro\Assets\batorubase.db";
+        public static String databaseName = Application.dataPath + "/batorubase.db";
+
         public static WixossCard CreateOrUpdate(WixossCard wixossCard)
         {
             if (!Exists(wixossCard.CardName))
@@ -250,10 +253,23 @@ namespace Wix_Studio
 
         private static ISessionFactory CreateSessionFactory()
         {
-            return Fluently.Configure().Database(SQLiteConfiguration.Standard.UsingFile(databaseName))
-              .Mappings(m => m.FluentMappings.AddFromAssemblyOf<WixCardService>())
-              .ExposeConfiguration(BuildSchema)
-              .BuildSessionFactory();
+            ISessionFactory factory = null;
+            var path = SQLiteConfiguration.Standard.UsingFile(databaseName);
+            String test = path.ToString();
+
+            try {
+                factory = Fluently.Configure().Database(path)
+                  .Mappings(m => m.FluentMappings.AddFromAssemblyOf<WixCardService>())
+                  .ExposeConfiguration(BuildSchema)
+                  .BuildSessionFactory();
+            }catch(Exception ex )
+            {
+                Debug.Log(databaseName + " " + new DateTime().ToString());
+                Debug.Log(ex);
+                Application.Quit();
+            }
+
+            return factory;
         }
 
         private static void BuildSchema(Configuration config)

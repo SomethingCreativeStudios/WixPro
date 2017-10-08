@@ -112,11 +112,11 @@ namespace Wix_Studio.Card_Parser
                 CardCost cost = new CardCost();
 
                 if ( i < cardCostList.Count )
-                    cost.numberPerColor = (int)cardCostList[i];
+                    cost.NumberPerColor = (int)cardCostList[i];
                 else
-                    cost.numberPerColor = 0;
+                    cost.NumberPerColor = 0;
 
-                cost.color = colorFromName(imgNodes[i].Attributes["title"].Value);
+                cost.Color = colorFromName(imgNodes[i].Attributes["title"].Value);
                 costForCard.Add(cost);
             }
             wixossCard.Cost = costForCard;

@@ -4,6 +4,7 @@ using Assets.Utils;
 using Photon;
 using System.Collections.Generic;
 using UnityEngine;
+using Wix_Studio.WixCardFiles;
 
 public class OnLoad : PunBehaviour
 {
@@ -39,9 +40,9 @@ public class OnLoad : PunBehaviour
     public void StartDuel()
     {
 
-        currentDeck = cardCollection.GetSet("WXD-16");
+        currentDeck = WixossDeck.LoadDeck("Green Food").MainDeck;
         GamePhaseCounter.currentPhase = GamePhase.FirstTurn;
-        PoolViewerScript deckViewer = GameObject.FindGameObjectWithTag("PlayerDeck").GetComponent<PoolViewerScript>();
+        PoolViewerScript deckViewer = GameObject.FindGameObjectWithTag("Deck_Zone").GetComponent<PoolViewerScript>();
         deckViewer.poolOfCards = new List<WixossCard>(currentDeck);
         cardControler.ShufflePlayerDeck();
         cardControler.RefreshDeck();

@@ -10,7 +10,7 @@ namespace Wix_Studio
 {
     public class WixossCard
     {
-        public virtual int Id { get; protected set; }
+        public virtual int Id { get; set; }
         public virtual string CardName { get; set; }
         public virtual IList<CardColor> Color { get; set; }
         public virtual CardType Type { get; set; }
@@ -21,6 +21,7 @@ namespace Wix_Studio
         public virtual int LevelLimit { get; set; }
         public virtual int Power { get; set; }
         public virtual IList<String> Class { get; set; }
+        public virtual IList<String> CardSets { get; set; }
         public virtual Boolean Guard { get; set; }
         public virtual Boolean MultiEner { get; set; }
         public virtual Boolean LifeBurst { get; set; }
@@ -29,19 +30,6 @@ namespace Wix_Studio
 
         [XmlIgnore]
         public virtual String CardEffect { get; set; }
-        [XmlElement("CardEffect")]
-        public virtual System.Xml.XmlCDataSection CardEffectCData
-        {
-            get
-            {
-                return new System.Xml.XmlDocument().CreateCDataSection(CardEffect);
-            }
-            set
-            {
-                CardEffect = value.Value;
-            }
-        }
-        public virtual IList<String> CardSets { get; set; }
 
         public virtual String CardImagePath { get { return CardCollection.setImages + "\\" + Id + ".jpg"; } }
 
@@ -66,7 +54,7 @@ namespace Wix_Studio
 
                 foreach ( var cardCost in Cost )
                 {
-                    cardCostStr += "{"+cardCost.color + ": " + cardCost.numberPerColor + "} ";
+                    cardCostStr += "{"+cardCost.Color + ": " + cardCost.NumberPerColor + "} ";
                 }
 
                 if ( cardCostStr == "" )
@@ -158,11 +146,11 @@ namespace Wix_Studio
     public class CardCost
     {
         public virtual int Id { get; protected set; }
-        public virtual CardColor color { get; set; }
-        public virtual int numberPerColor { get; set; }
+        public virtual CardColor Color { get; set; }
+        public virtual int NumberPerColor { get; set; }
 
         [JsonIgnore]
-        public virtual WixossCard wixCard { get; set; }
+        public virtual WixossCard WixCard { get; set; }
 
         public CardCost()
         {
@@ -171,9 +159,9 @@ namespace Wix_Studio
 
         public CardCost(CardColor color, int numberPerColor, WixossCard wixCard)
         {
-            this.color = color;
-            this.numberPerColor = numberPerColor;
-            this.wixCard = wixCard;
+            this.Color = color;
+            this.NumberPerColor = numberPerColor;
+            this.WixCard = wixCard;
         }
     }
 
