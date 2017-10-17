@@ -31,7 +31,7 @@ public class WixossCard
     public virtual String CardEffect { get; set; }
     public virtual IList<String> CardSets { get; set; }
 
-    public virtual String CardImagePath { get { return CardCollection.setImages + "\\" + Id + ".jpg"; } }
+    public virtual String CardImagePath { get { return CardCollection.setImages + Id + ".jpg"; } }
 
     #endregion
 

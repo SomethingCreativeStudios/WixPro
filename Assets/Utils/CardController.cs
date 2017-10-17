@@ -128,7 +128,8 @@ public class CardController : PunBehaviour
                     //Don't show cards going to hand, but show hand cards
                     if ( startingViewer.location == Location.Deck )
                     {
-                        cardComponent.FlipCard();
+                        //cant remember why i had this here --- To-Do: Remove
+                       // cardComponent.FlipCard();
 
                         if ( endingViewer.location == Location.Hand )
                             flipCardOnMove = true;

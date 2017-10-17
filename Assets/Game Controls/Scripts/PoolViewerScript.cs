@@ -126,21 +126,27 @@ public class PoolViewerScript : PunBehaviour
     /// <returns>The gameObject, it contains an WixossCardComponent. Parent is tag 'Main Field'</returns>
     public static GameObject AddWixossCard(WixossCard card, bool destoryObject)
     {
-        WWW www = null;
-        if (!card.FaceUp)
-            www = new WWW("file://" + Constants.cardBack);
-        else
-            www = new WWW("file://" + card.CardImagePath);
+        WWW cardBackImg = null;
+        WWW cardFaceImg = null;
+        cardBackImg = new WWW("file://" + Constants.cardBack);
+        cardFaceImg = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
         go.name = card.Id + "-" + card.CardName;
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();
         tempComponent.Card = card;
-        Sprite tempTexture = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
 
-
-        rend.sprite = tempTexture;
+        if (card.FaceUp)
+        {
+            rend.sprite = Sprite.Create(cardFaceImg.texture, new Rect(0, 0, cardFaceImg.texture.width, cardFaceImg.texture.height), new Vector2(0.5f, 0.5f));
+            tempComponent.tempSprite = Sprite.Create(cardBackImg.texture, new Rect(0, 0, cardBackImg.texture.width, cardBackImg.texture.height), new Vector2(0.5f, 0.5f));
+        }
+        else
+        {
+            rend.sprite = Sprite.Create(cardBackImg.texture, new Rect(0, 0, cardBackImg.texture.width, cardBackImg.texture.height), new Vector2(0.5f, 0.5f));
+            tempComponent.tempSprite = Sprite.Create(cardFaceImg.texture, new Rect(0, 0, cardFaceImg.texture.width, cardFaceImg.texture.height), new Vector2(0.5f, 0.5f));
+        }
 
         Transform trans = GameObject.FindGameObjectsWithTag("Main Field")[0].transform;
         go.transform.SetParent(trans, false);
@@ -163,21 +169,28 @@ public class PoolViewerScript : PunBehaviour
         if (parentTag == "Untagged")
             parentTag = "Main Field";
 
-        WWW www = null;
-        if (!card.FaceUp)
-            www = new WWW("file://" + Constants.cardBack);
-        else
-            www = new WWW("file://" + card.CardImagePath);
+        WWW cardBackImg = null;
+        WWW cardFaceImg = null;
+        cardBackImg = new WWW("file://" + Constants.cardBack);
+        cardFaceImg = new WWW("file://" + card.CardImagePath);
 
         GameObject go = (GameObject)Instantiate(Resources.Load("Card"));
         go.name = card.Id + "-" + card.CardName;
         Image rend = go.GetComponent<Image>();
         WixCardComponent tempComponent = go.GetComponent<WixCardComponent>();
         tempComponent.Card = card;
-        Sprite tempTexture = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f));
-        rend.sprite = tempTexture;
 
-        tempComponent.tempSprite = tempTexture;
+        if (card.FaceUp)
+        {
+            rend.sprite = Sprite.Create(cardFaceImg.texture, new Rect(0, 0, cardFaceImg.texture.width, cardFaceImg.texture.height), new Vector2(0.5f, 0.5f));
+            tempComponent.tempSprite = Sprite.Create(cardBackImg.texture, new Rect(0, 0, cardBackImg.texture.width, cardBackImg.texture.height), new Vector2(0.5f, 0.5f));
+        }
+        else
+        {
+            rend.sprite = Sprite.Create(cardBackImg.texture, new Rect(0, 0, cardBackImg.texture.width, cardBackImg.texture.height), new Vector2(0.5f, 0.5f));
+            tempComponent.tempSprite = Sprite.Create(cardFaceImg.texture, new Rect(0, 0, cardFaceImg.texture.width, cardFaceImg.texture.height), new Vector2(0.5f, 0.5f));
+        }
+
         Transform trans = GameObject.FindGameObjectsWithTag(parentTag)[0].transform;
         go.transform.SetParent(trans, false);
         go.transform.position = new Vector3(-100, -100, 0);

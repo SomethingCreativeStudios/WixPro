@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WixPro.Plugins", "WixPro.Plugins.csproj", "{218AF218-F0F1-0FE4-FA94-CBF8E361D0F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WixPro", "WixPro.csproj", "{18B2B4C9-84FD-2478-4BD2-F917EA0A7A54}"
