@@ -16,7 +16,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public DropZoneType zoneType = DropZoneType.Field;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log("OnPointerEnter");
         if (eventData.pointerDrag == null)
             return;
 
@@ -28,7 +27,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             if (zoneType == DropZoneType.Field)
             {
                 if (hasDraggableAlready())
+                {
                     return;
+                }
             }
 
             if (zoneType == DropZoneType.Field || zoneType == DropZoneType.Hand || zoneType == DropZoneType.DialogBox)
@@ -57,7 +58,11 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             if (zoneType == DropZoneType.Field)
             {
                 if (hasDraggableAlready())
+                {
+                    PlaceUnderCard(d, eventData.pointerDrag.GetComponent<WixCardComponent>().Card);
+                    DestroyObject(eventData.pointerDrag);
                     return;
+                }
             }
 
             if (zoneType == DropZoneType.Hand || zoneType == DropZoneType.Field || zoneType == DropZoneType.DialogBox)
@@ -137,5 +142,22 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     private bool hasDraggableAlready()
     {
         return (this.GetComponentsInChildren(typeof(Draggable)).Length == 0) ? false : true;
+    }
+
+    private void PlaceUnderCard(Draggable d, WixossCard card)
+    {
+        PanelDragger dragger = d.parentToReturnTo.GetComponent<PanelDragger>();
+        SIGNIController signiController = this.GetComponent<SIGNIController>();
+        PoolViewerScript oldScript = null;
+        if (dragger != null)
+        {
+            oldScript = dragger.realParent.GetComponent<PoolViewerScript>();
+        } else
+        {
+            oldScript = d.parentToReturnTo.GetComponent<PoolViewerScript>();
+        }
+
+        signiController.poolOfCards.Add(card);
+        oldScript.poolOfCards.Remove(card);
     }
 }

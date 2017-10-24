@@ -28,7 +28,7 @@ public class SIGNIController : PoolViewerScript
             GameObject poolViewer = (GameObject)Instantiate(Resources.Load("PoolViewer"));
             poolViewer.name = gameObject.GetComponent<DropZone>().zoneType.ToString() + " Viewer";
             PanelDragger dragger = poolViewer.GetComponent<PanelDragger>();
-            dragger.poolOfCards = new List<WixossCard>(poolOfCards);
+            dragger.poolOfCards = new List<WixossCard>(GetCardsUnder());
             //poolViewer.AddComponent<CanvasRenderer>();
             dragger.realParent = gameObject;
             poolViewer.transform.SetParent(parentCanvas.transform, false);
@@ -46,6 +46,18 @@ public class SIGNIController : PoolViewerScript
             contextMenu.transform.SetParent(parentCanvas, false);
             contextMenu.transform.position = Input.mousePosition;
         }
+    }
+
+    private List<WixossCard> GetCardsUnder()
+    {
+        List<WixossCard> cardsUnder = new List<WixossCard>();
+
+        if(poolOfCards.Count > 1)
+        {
+            cardsUnder = new List<WixossCard>(poolOfCards.GetRange(1, poolOfCards.Count - 1));
+        }
+
+        return cardsUnder;
     }
 
     public override void Menu_clicked(string menuName)

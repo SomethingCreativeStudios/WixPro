@@ -16,11 +16,13 @@ public class PanelDragger : MonoBehaviour, IDragHandler, IPointerEnterHandler, I
     // Use this for initialization
     void Start()
     {
-        
-        foreach (Transform child in transform.parent)
+        if (transform.parent != null)
         {
-            if (child.tag == "Viewer" && child != transform)
-                Destroy(child.gameObject);
+            foreach (Transform child in transform.parent)
+            {
+                if (child.tag == "Viewer" && child != transform)
+                    Destroy(child.gameObject);
+            }
         }
 
         foreach (WixossCard card in poolOfCards)
@@ -48,10 +50,13 @@ public class PanelDragger : MonoBehaviour, IDragHandler, IPointerEnterHandler, I
     {
         if(Input.GetMouseButtonDown(0) && !mouseOver)
         {
-            foreach (Transform child in transform.parent)
+            if (transform.parent != null)
             {
-                if (child.tag == "Viewer" && child == transform)
-                    Destroy(child.gameObject);
+                foreach (Transform child in transform.parent)
+                {
+                    if (child.tag == "Viewer" && child == transform)
+                        Destroy(child.gameObject);
+                }
             }
         }
     }
