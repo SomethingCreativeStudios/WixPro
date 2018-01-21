@@ -215,7 +215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 136, y: -178}
+  m_AnchoredPosition: {x: 136, y: -177.99998}
   m_SizeDelta: {x: 267.36, y: -19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &51797348
@@ -291,7 +291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 134.09001, y: -249.51001}
+  m_AnchoredPosition: {x: 134.09001, y: -249.51}
   m_SizeDelta: {x: 268.18, y: -28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &148898595
@@ -758,7 +758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.47326395}
   m_AnchorMax: {x: 0.51900005, y: 0.5}
-  m_AnchoredPosition: {x: 578.50055, y: -82}
+  m_AnchoredPosition: {x: 578.5005, y: -82}
   m_SizeDelta: {x: 83, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &317399199
@@ -2243,8 +2243,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 634, y: 242}
-  m_SizeDelta: {x: 160, y: 40}
+  m_AnchoredPosition: {x: 606.95, y: 238}
+  m_SizeDelta: {x: 139.52, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790511118
 MonoBehaviour:
@@ -2284,7 +2284,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 790511119}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: cea1647e2367b13458475613a7fb6335, type: 3}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &790511119
@@ -2299,7 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.16084558, g: 0.875, b: 0.7272439, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2955,7 +2966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.057000004, y: 0.5}
   m_AnchorMax: {x: 0.43978804, y: 0.55028117}
-  m_AnchoredPosition: {x: 136, y: -211}
+  m_AnchoredPosition: {x: 136, y: -210.99998}
   m_SizeDelta: {x: 267.36, y: -28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1316731945
