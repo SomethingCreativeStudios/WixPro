@@ -9,11 +9,16 @@ public class PhaseController : MonoBehaviour {
 
 	public GameObject StandPhase;
 	public GameObject DrawPhase;
-	public GameObject ClockPhase;
+    public GameObject EnerPhase;
+    public GameObject GrowPhase;
+    //public GameObject ClockPhase;
 	public GameObject MainPhase;
-	public GameObject ClimaxPhase;
+	//public GameObject ClimaxPhase;
 	public GameObject AttackPhase;
-	public GameObject EncorePhase;
+    //public GameObject EncorePhase;
+    public GameObject ARTSUseStep;
+    public GameObject SigniAttackStep;
+    public GameObject LRIGAttackStep;
 	public GameObject EndPhase;
 
 	public CardController cardController;
@@ -29,47 +34,57 @@ public class PhaseController : MonoBehaviour {
 	}
 
 	public void OnClick(int intValueGamePhase)
-	{
-		if ( !Constants.isMyTurn )
+    //Currently Pass in value of Button Clicked should change to take current phase and on end turn change button to opp turn
+    {
+        if ( !Constants.isMyTurn )
 			return;
 
-		GamePhase newGamePhase = GamePhase.AttackPhase;
+		GamePhase curGamePhase = GamePhaseCounter.currentPhase;
 		GamePhase lastGamePhase = GamePhaseCounter.lastPhase;
 
-		switch (intValueGamePhase)
+		switch (curGamePhase)
 		{
-			case 0:
-				newGamePhase = GamePhase.FirstTurn;
+			case GamePhase.FirstTurn:
+				curGamePhase = GamePhase.FirstTurn;
 				break;
-			case 1:
-				newGamePhase = GamePhase.StandPhase;
+			case GamePhase.OppPhase:
+				curGamePhase = GamePhase.StandPhase;
 				break;
-			case 2:
-				newGamePhase = GamePhase.DrawPhase;
+			case GamePhase.StandPhase:
+				curGamePhase = GamePhase.DrawPhase;
 				break;
-			case 3:
-				newGamePhase = GamePhase.ClockPhase;
+			case GamePhase.DrawPhase:
+				curGamePhase = GamePhase.EnerPhase;
 				break;
-			case 4:
-				newGamePhase = GamePhase.MainPhase;
+			case GamePhase.GrowPhase:
+				curGamePhase = GamePhase.MainPhase;
 				break;
-			case 5:
-				newGamePhase = GamePhase.ClimaxPhase;
+			case GamePhase.EnerPhase:
+				curGamePhase = GamePhase.GrowPhase;
 				break;
-			case 6:
-				newGamePhase = GamePhase.AttackPhase;
+			case GamePhase.MainPhase:
+				curGamePhase = GamePhase.AttackPhase;
 				break;
-			case 7:
-				newGamePhase = GamePhase.EncorePhase;
+			case GamePhase.ARTSUseStep:
+				curGamePhase = GamePhase.SigniAttackStep;
 				break;
-			case 8:
-				newGamePhase = GamePhase.EndPhase;
+		    case GamePhase.LRIGAttackStep:
+				curGamePhase = GamePhase.EndPhase;
 				break;
+            case GamePhase.AttackPhase:
+                curGamePhase = GamePhase.ARTSUseStep;
+                break;
+            case GamePhase.SigniAttackStep:
+                curGamePhase = GamePhase.LRIGAttackStep;
+                break;
+            case GamePhase.EndPhase:
+                curGamePhase = GamePhase.OppPhase;
+                break;
 			default:
 				break;
 		}
 
-		cardController.UpdateGamePhase(newGamePhase);
+		cardController.UpdateGamePhase(curGamePhase);
 	} 
 
 	public static void ChangePhase(GamePhase newGamePhase, GamePhase lastGamePhase)
@@ -107,20 +122,20 @@ public class PhaseController : MonoBehaviour {
 			case GamePhase.DrawPhase:
 				buttonToChange = phaseBtns.DrawPhase.GetComponent<Button>();
 				break;
-			case GamePhase.ClockPhase:
-				buttonToChange = phaseBtns.ClockPhase.GetComponent<Button>();
+			case GamePhase.EnerPhase:
+				buttonToChange = phaseBtns.EnerPhase.GetComponent<Button>();
 				break;
 			case GamePhase.MainPhase:
 				buttonToChange = phaseBtns.MainPhase.GetComponent<Button>();
 				break;
-			case GamePhase.ClimaxPhase:
-				buttonToChange = phaseBtns.ClimaxPhase.GetComponent<Button>();
+			case GamePhase.GrowPhase:
+				buttonToChange = phaseBtns.GrowPhase.GetComponent<Button>();
 				break;
 			case GamePhase.AttackPhase:
 				buttonToChange = phaseBtns.AttackPhase.GetComponent<Button>();
 				break;
-			case GamePhase.EncorePhase:
-				buttonToChange = phaseBtns.EncorePhase.GetComponent<Button>();
+			case GamePhase.LRIGAttackStep:
+				buttonToChange = phaseBtns.LRIGAttackStep.GetComponent<Button>();
 				break;
 			case GamePhase.EndPhase:
 				buttonToChange = phaseBtns.EndPhase.GetComponent<Button>();

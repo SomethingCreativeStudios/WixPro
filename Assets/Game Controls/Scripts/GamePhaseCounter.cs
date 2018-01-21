@@ -10,13 +10,15 @@ namespace Assets.Game_Controls.Scripts
         FirstTurn,
         StandPhase,
         DrawPhase,
-        ClockPhase,
+        EnerPhase,
+        GrowPhase,
         MainPhase,
-        ClimaxPhase,
         AttackPhase,
-        EncorePhase,
+        ARTSUseStep,
+        SigniAttackStep,
+        LRIGAttackStep,
         EndPhase,
-        NoPhase
+        OppPhase //Opp Turn May Be needed though Unsure
     }
     static class GamePhaseCounter //This is first set in OnLoad
     {
