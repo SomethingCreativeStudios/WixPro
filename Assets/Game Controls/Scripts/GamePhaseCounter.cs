@@ -17,6 +17,7 @@ namespace Assets.Game_Controls.Scripts
         ARTSUseStep,
         SigniAttackStep,
         LRIGAttackStep,
+        GuardStep,
         EndPhase,
         OppPhase //Opp Turn May Be needed though Unsure
     }

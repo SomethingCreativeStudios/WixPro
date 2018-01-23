@@ -68,7 +68,7 @@ public class PhaseController : MonoBehaviour {
 			case GamePhase.ARTSUseStep:
 				curGamePhase = GamePhase.SigniAttackStep;
 				break;
-		    case GamePhase.LRIGAttackStep:
+		    case GamePhase.GuardStep:
 				curGamePhase = GamePhase.EndPhase;
 				break;
             case GamePhase.AttackPhase:
@@ -76,6 +76,9 @@ public class PhaseController : MonoBehaviour {
                 break;
             case GamePhase.SigniAttackStep:
                 curGamePhase = GamePhase.LRIGAttackStep;
+                break;
+            case GamePhase.LRIGAttackStep:
+                curGamePhase = GamePhase.GuardStep;
                 break;
             case GamePhase.EndPhase:
                 curGamePhase = GamePhase.OppPhase;
