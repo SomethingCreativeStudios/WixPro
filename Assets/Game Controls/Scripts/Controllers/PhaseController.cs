@@ -20,6 +20,7 @@ public class PhaseController : MonoBehaviour {
     public GameObject SigniAttackStep;
     public GameObject LRIGAttackStep;
 	public GameObject EndPhase;
+    public GameObject GuardStep;
 
 	public CardController cardController;
 
